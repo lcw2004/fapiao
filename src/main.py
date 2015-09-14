@@ -1,6 +1,5 @@
 __author__ = 'Administrator'
 
-from invoice.log import Log as log
+import logging
 
-
-log.logger.debug("11111111111")
+logger = logging.getLogger(__name__)

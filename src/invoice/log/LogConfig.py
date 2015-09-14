@@ -3,7 +3,7 @@
 import logging
 
 # 创建一个logger
-logger = logging.getLogger('mylogger')
+logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 # 创建一个handler，用于写入日志文件
