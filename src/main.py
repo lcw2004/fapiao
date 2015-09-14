@@ -1,4 +1,5 @@
 __author__ = 'Administrator'
+# -*- coding: UTF-8 -*-
 
 import logging
 
