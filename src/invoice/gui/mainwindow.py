@@ -18,6 +18,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             filename = QtGui.QFileDialog.getOpenFileName(self, 'Excel', '../', 'Excel File (*.xls)')
             if filename:
                 util.parseExcel(filename, self.excelTableWidget)
+
         self.connect(self.selectExcelFileButton, QtCore.SIGNAL("clicked()"), showMsg)
 
 
