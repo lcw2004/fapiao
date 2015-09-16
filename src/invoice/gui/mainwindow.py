@@ -4,7 +4,7 @@ from PyQt4.QtGui import QMainWindow, QMessageBox, QTableWidgetItem
 from PyQt4 import QtCore
 from mainwindow_ui import Ui_MainWindow
 from PyQt4 import QtGui
-import util
+import Util
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -17,7 +17,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         def showMsg():
             filename = QtGui.QFileDialog.getOpenFileName(self, 'Excel', '../', 'Excel File (*.xls)')
             if filename:
-                util.parseExcel(filename, self.excelTableWidget)
+                Util.parseExcel(filename, self.excelTableWidget)
 
         self.connect(self.selectExcelFileButton, QtCore.SIGNAL("clicked()"), showMsg)
 
