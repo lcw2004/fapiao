@@ -6,14 +6,14 @@ from BaseDao import BaseDao
 zidian_db_path = "bwg.db"
 
 
-class BWGProductDao(BaseDao):
+class Dict(BaseDao):
 
     def __init__(self):
         super(self)
 
     # 根据产品名称查询
     def get(self, productName):
-        sql = 'SELECT prudoctName, canOrder, RAM, HDD, CPU, BW, Cost_Monthly, Cost_Quarterly, Cost_Half_Year, Cost_Year, AvaliableCount FROM Product WHERE prudoctName = ?'
+        sql = 'SELECT ID, label, value, type, describe, status, oindex FROM tbl_dict'
         cursor = self.connect.cursor()
         cursor.execute(sql, [productName])
 
