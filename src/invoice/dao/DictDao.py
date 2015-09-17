@@ -2,34 +2,41 @@
 
 import sqlite3
 from BaseDao import BaseDao
+from BaseDao import appendSQL as appendSQL
 
-zidian_db_path = "bwg.db"
+zidian_db_path = "data.db"
 
 
-class Dict(BaseDao):
+class DictDao(BaseDao):
 
     def __init__(self):
-        super(self)
+        self.connect = sqlite3.connect(zidian_db_path)
 
     # 根据产品名称查询
-    def get(self, productName):
-        sql = 'SELECT ID, label, value, type, describe, status, oindex FROM tbl_dict'
-        cursor = self.connect.cursor()
-        cursor.execute(sql, [productName])
+    def get(self, type=None, label=None):
+        sql = 'SELECT ID, label, value, type, describe, status, oindex FROM tbl_dict WHERE 1=1 '
+        sql += appendSQL("type", "=", type)
+        sql += appendSQL("label", "like", label)
 
-        one = cursor.fetchone()
-        product = {}
-        if one:
-            product["prudoctName"] = one[0]
-            product["canOrder"] = one[1]
-            product["RAM"] = one[2]
-            product["HDD"] = one[3]
-            product["CPU"] = one[4]
-            product["BW"] = one[5]
-            product["Cost_Monthly"] = one[6]
-            product["Cost_Quarterly"] = one[7]
-            product["Cost_Half_Year"] = one[8]
-            product["Cost_Year"] = one[9]
-            product["AvaliableCount"] = one[10]
+        cursor = self.connect.cursor()
+        cursor.execute(sql)
+
+        all = cursor.fetchall()
+        products = []
+        for one in all:
+            product = {}
+            product["ID"] = one[0]
+            product["label"] = one[1]
+            product["value"] = one[2]
+            product["type"] = one[3]
+            product["describe"] = one[4]
+            product["status"] = one[5]
+            product["oindex"] = one[6]
+            products.append(product)
         cursor.close()
-        return product
+        return products
+
+
+if __name__ == "__main__":
+    dictDao = DictDao()
+    print dictDao.get(type="EXCEL_TO_XML", label="tbl_custom")
