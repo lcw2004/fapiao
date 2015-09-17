@@ -37,6 +37,6 @@ class DictDao(BaseDao):
         return products
 
 
-if __name__ == "__main__":
-    dictDao = DictDao()
-    print dictDao.get(type="EXCEL_TO_XML", label="tbl_custom")
+# if __name__ == "__main__":
+#     dictDao = DictDao()
+#     print dictDao.get(type="EXCEL_TO_XML", label="tbl_custom")

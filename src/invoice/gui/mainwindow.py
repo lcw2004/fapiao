@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from PyQt4.QtGui import QMainWindow, QMessageBox, QTableWidgetItem
+from PyQt4.QtGui import QMainWindow
 from PyQt4 import QtCore
-from mainwindow_ui import Ui_MainWindow
 from PyQt4 import QtGui
-import Util
+
+from mainwindow_ui import Ui_MainWindow
+from ..common import util
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -17,21 +18,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         def showMsg():
             filename = QtGui.QFileDialog.getOpenFileName(self, 'Excel', '../', 'Excel File (*.xls)')
             if filename:
-                Util.parseExcel(filename, self.excelTableWidget)
+                util.parseExcel(filename, self.excelTableWidget)
 
         self.connect(self.selectExcelFileButton, QtCore.SIGNAL("clicked()"), showMsg)
-
-
-
-
-if __name__ == "__main__":
-    import sys
-    reload(sys)
-    sys.setdefaultencoding('GBK')
-
-    app = QtGui.QApplication(sys.argv)
-
-    window = MainWindow()
-    window.show()
-
-    sys.exit(app.exec_())

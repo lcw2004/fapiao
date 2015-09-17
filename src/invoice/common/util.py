@@ -2,6 +2,7 @@
 
 from PyQt4 import QtGui
 import xlrd
+from ..dao.DictDao import DictDao
 
 def parseExcel(excelPath, excelTableWidget):
     data = xlrd.open_workbook(excelPath)
