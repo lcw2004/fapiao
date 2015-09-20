@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>521</width>
+    <width>600</width>
     <height>425</height>
    </rect>
   </property>
@@ -48,16 +48,7 @@
         <property name="sizeConstraint">
          <enum>QLayout::SetMaximumSize</enum>
         </property>
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
@@ -65,16 +56,7 @@
           <property name="spacing">
            <number>1</number>
           </property>
-          <property name="leftMargin">
-           <number>1</number>
-          </property>
-          <property name="topMargin">
-           <number>1</number>
-          </property>
-          <property name="rightMargin">
-           <number>1</number>
-          </property>
-          <property name="bottomMargin">
+          <property name="margin">
            <number>1</number>
           </property>
           <item>
@@ -142,16 +124,7 @@
           <property name="spacing">
            <number>1</number>
           </property>
-          <property name="leftMargin">
-           <number>1</number>
-          </property>
-          <property name="topMargin">
-           <number>1</number>
-          </property>
-          <property name="rightMargin">
-           <number>1</number>
-          </property>
-          <property name="bottomMargin">
+          <property name="margin">
            <number>1</number>
           </property>
           <item>
@@ -192,33 +165,30 @@
            <number>2</number>
           </property>
           <property name="columnCount">
-           <number>8</number>
+           <number>5</number>
           </property>
           <row/>
           <row/>
           <column>
            <property name="text">
-            <string>测试1</string>
+            <string>1</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>测试2</string>
+            <string>2</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>新建列</string>
+            <string>3</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>测试4</string>
+            <string>4</string>
            </property>
           </column>
-          <column/>
-          <column/>
-          <column/>
           <column/>
          </widget>
         </item>
@@ -232,16 +202,7 @@
         <property name="spacing">
          <number>0</number>
         </property>
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
+        <property name="margin">
          <number>0</number>
         </property>
        </layout>
@@ -254,16 +215,7 @@
         <property name="spacing">
          <number>0</number>
         </property>
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
+        <property name="margin">
          <number>0</number>
         </property>
        </layout>
@@ -276,16 +228,7 @@
         <property name="spacing">
          <number>0</number>
         </property>
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
+        <property name="margin">
          <number>0</number>
         </property>
        </layout>
@@ -298,16 +241,7 @@
         <property name="spacing">
          <number>0</number>
         </property>
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
+        <property name="margin">
          <number>0</number>
         </property>
        </layout>
@@ -322,7 +256,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>521</width>
+     <width>600</width>
      <height>23</height>
     </rect>
    </property>

@@ -25,17 +25,14 @@ def parseExcel(excelPath, excelTableWidget):
     for i in range(nrows):
         # 插入一行
         row = excelSheet0.row_values(i)
-        # for j in range(ncols):
-        #     value = row[j]
-        #     excelTableWidget.setItem(i, j, QtGui.QTableWidgetItem(value))
 
-        tbl_custom_name = decodeCellValue(row[5])
-        tbl_invoice_invoice_num = decodeCellValue(row[4])
-        tbl_invoice_total_not_tax = decodeCellValue(row[21])
-        tbl_invoice_detail_pro_type = decodeCellValue(row[18])
-        tbl_invoice_detail_pro_name = decodeCellValue(row[17])
-        tbl_invoice_remark = decodeCellValue(row[10]) + "," + decodeCellValue(row[7]) + "," + decodeCellValue(row[8]) + "," + \
-                             decodeCellValue(row[13]) + "," + decodeCellValue(row[13]) + "," + decodeCellValue(row[15])
+        tbl_custom_name = decodeCellValue(row[4])
+        tbl_invoice_invoice_num = decodeCellValue(row[3])
+        tbl_invoice_total_not_tax = decodeCellValue(row[20])
+        tbl_invoice_detail_pro_type = decodeCellValue(row[17])
+        tbl_invoice_detail_pro_name = decodeCellValue(row[16])
+        tbl_invoice_remark = decodeCellValue(row[9]) + "," + decodeCellValue(row[6]) + "," + decodeCellValue(row[7]) + "," + \
+                             decodeCellValue(row[12]) + "," + decodeCellValue(row[11]) + "," + decodeCellValue(row[14])
 
         print tbl_custom_name
         print tbl_invoice_invoice_num
@@ -69,6 +66,7 @@ def initTableHeaders(dicts, excelTableWidget):
     setHeaderText(excelTableWidget, 5, tbl_invoice_remark_name_label)
 
 def setHeaderText(excelTableWidget, index, headerText):
+    print index, headerText
     item = excelTableWidget.horizontalHeaderItem(index)
     if item:
         item.setText(translate(headerText))
