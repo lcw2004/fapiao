@@ -5,8 +5,7 @@ from PyQt4 import QtCore
 from PyQt4 import QtGui
 
 from mainwindow_ui import Ui_MainWindow
-from ..common import util
-
+from invoice.common import util
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
@@ -15,9 +14,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         # 绑定选择Excel事件
-        def showMsg():
+        def selectExcel():
             filename = QtGui.QFileDialog.getOpenFileName(self, 'Excel', '../', 'Excel File (*.xls)')
             if filename:
                 util.parseExcel(filename, self.excelTableWidget)
 
-        self.connect(self.selectExcelFileButton, QtCore.SIGNAL("clicked()"), showMsg)
+        self.connect(self.selectExcelFileButton, QtCore.SIGNAL("clicked()"), selectExcel)
+
+        def genInvoice():
+            pass
+
+        self.connect(self.genInvoiceButton, QtCore.SIGNAL("clicked()"), genInvoice)

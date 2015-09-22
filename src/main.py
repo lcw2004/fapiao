@@ -9,18 +9,36 @@
 __author__ = 'Administrator'
 
 from PyQt4 import QtCore, QtGui
-from invoice.gui.mainwindow import MainWindow
 
+import os
+import sys
 
+# 项目基础路径
+BASE_PATH = None
+DATABASE_PATH = None
 
-# 主程序入口
-if __name__ == "__main__":
+def init():
+    # 设置项目编码
     import sys
     reload(sys)
     sys.setdefaultencoding('GBK')
 
-    app = QtGui.QApplication(sys.argv)
+    # 设置项目基础路径
+    BASE_PATH = os.path.abspath(sys.argv[0])
+    BASE_PATH = os.path.dirname(BASE_PATH) + "/"
+    print "BASE_PATH:" + BASE_PATH
 
+    # 设置数据库文件路径
+    DATABASE_PATH = BASE_PATH + "data.db"
+    print "DATABASE_PATH:" + DATABASE_PATH
+
+
+# 主程序入口
+if __name__ == "__main__":
+    init()
+
+    app = QtGui.QApplication(sys.argv)
+    from invoice.gui.mainwindow import MainWindow
     window = MainWindow()
     window.show()
 

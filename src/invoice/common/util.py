@@ -3,7 +3,7 @@
 from PyQt4 import QtGui
 from PyQt4.QtGui import QTableWidgetItem
 import xlrd
-from ..dao.DictDao import DictDao
+from invoice.dao.DictDao import DictDao
 
 
 def parseExcel(excelPath, excelTableWidget):
@@ -80,60 +80,3 @@ def decodeCellValue(uString):
     if type(uString) == float:
         output = str(uString)
     return output
-
-# id = dict["ID"]
-# label = dict["label"]
-# value = dict["value"]
-# type = dict["type"]
-# desc = dict["describe"]
-# status = dict["status"]
-# oindex = dict["oindex"]
-
-
-# tbl_custom_name
-# tbl_invoice_invoice_num
-# tbl_invoice_total_not_tax
-# tbl_invoice_detail_pro_type
-# tbl_invoice_detail_pro_name
-# tbl_invoice_remark
-# tbl_custom_code
-# tbl_custom_tax_id
-# tbl_custom_addr
-# tbl_custom_bank_account
-# tbl_invoice_start_time
-# tbl_invoice_total_tax
-# tbl_invoice_total_num
-# tbl_invoice_serial_number
-# tbl_invoice_drawer
-# tbl_invoice_beneficiary
-# tbl_invoice_reviewer
-# tbl_invoice_detail_pro_code
-# tbl_invoice_detail_pro_unit
-# tbl_invoice_detail_pro_unit_price
-# tbl_invoice_detail_pro_num
-# tbl_invoice_detail_tax_price
-# tbl_invoice_detail_tax_rate
-
-# tbl_custom.name
-# tbl_invoice.invoice_num
-# tbl_invoice.total_not_tax
-# tbl_invoice_detail.pro_type
-# tbl_invoice_detail.pro_name
-# tbl_invoice.remark
-# tbl_custom.code
-# tbl_custom.tax_id
-# tbl_custom.addr
-# tbl_custom.bank_account
-# tbl_invoice.start_time
-# tbl_invoice.total_tax
-# tbl_invoice.total_num
-# tbl_invoice.serial_number
-# tbl_invoice.drawer
-# tbl_invoice.beneficiary
-# tbl_invoice.reviewer
-# tbl_invoice_detail.pro_code
-# tbl_invoice_detail.pro_unit
-# tbl_invoice_detail.pro_unit_price
-# tbl_invoice_detail.pro_num
-# tbl_invoice_detail.tax_price
-# tbl_invoice_detail.tax_rate
