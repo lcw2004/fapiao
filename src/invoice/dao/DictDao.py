@@ -3,30 +3,12 @@
 import sqlite3
 from BaseDao import BaseDao
 from BaseDao import appendSQL as appendSQL
-import main
-
-
-
+from invoice.common import config
 
 class DictDao(BaseDao):
 
     def __init__(self):
-        # 设置项目编码
-        import sys
-        reload(sys)
-        sys.setdefaultencoding('GBK')
-
-        # 设置项目基础路径
-        import os
-        BASE_PATH = os.path.abspath(sys.argv[0])
-        BASE_PATH = os.path.dirname(BASE_PATH) + "\\"
-        print "BASE_PATH:" + BASE_PATH
-
-        # 设置数据库文件路径
-        DATABASE_PATH = BASE_PATH + "data.db"
-        print "DATABASE_PATH:" + DATABASE_PATH
-
-        self.connect = sqlite3.connect(DATABASE_PATH)
+        self.connect = sqlite3.connect(config.DATABASE_PATH)
 
     # 根据产品名称查询
     def get(self, type=None, label=None):
@@ -78,6 +60,3 @@ class DictDao(BaseDao):
         return dicts
 
 
-if __name__ == "__main__":
-    dictDao = DictDao()
-    print dictDao.get(type="EXCEL_TO_XML")
