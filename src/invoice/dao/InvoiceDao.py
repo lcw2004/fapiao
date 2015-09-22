@@ -11,8 +11,30 @@ class InvoiceDao(BaseDao):
         self.connect = sqlite3.connect(config.DATABASE_PATH)
 
 
-    def save(self):
-        pass
+    # 保存产品
+    def save(self, invoice):
+        sql = '''
+            INSERT INTO tbl_invoice
+            (invoice_num, custom_id, remark, start_time, total_not_tax, total_tax, total_num, serial_number, drawer, beneficiary, reviewer, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            '''
+
+        cursor = self.connect.cursor()
+        cursor.execute(sql, [invoice["invoice_num"],
+                             invoice["custom_id"],
+                             invoice["remark"],
+                             invoice["start_time"],
+                             invoice["total_not_tax"],
+                             invoice["total_tax"],
+                             invoice["total_num"],
+                             invoice["serial_number"],
+                             invoice["drawer"],
+                             invoice["beneficiary"],
+                             invoice["reviewer"],
+                             invoice["status"]
+                             ])
+        cursor.close()
+        self.connect.commit()
 
     # 根据产品名称查询
     def get(self):
