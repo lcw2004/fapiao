@@ -1,6 +1,6 @@
 __author__ = 'Administrator'
 
-class Invoice:
+class InvoiceDetail:
     def __init__(self):
         self.id = None
         self.pro_code = None
