@@ -5,6 +5,10 @@ from PyQt4.QtGui import QTableWidgetItem
 import xlrd
 from invoice.dao.DictDao import DictDao
 
+def importDataToDB(excelTableWidget):
+
+
+    pass
 
 def parseExcel(excelPath, excelTableWidget):
     data = xlrd.open_workbook(excelPath)
@@ -51,6 +55,7 @@ def parseExcel(excelPath, excelTableWidget):
 
 
 def initTableHeaders(dicts, excelTableWidget):
+      # self.table.setHorizontalHeaderLabels(['SUN','MON','TUE','WED','THU','FIR','SAT'])
     tbl_custom_name_label = dicts.get("tbl_custom_name")["describe"]
     tbl_invoice_invoice_num_label = dicts.get("tbl_invoice_invoice_num")["describe"]
     tbl_invoice_total_not_tax_label = dicts.get("tbl_invoice_total_not_tax")["describe"]
