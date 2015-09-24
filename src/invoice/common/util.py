@@ -5,6 +5,7 @@ from PyQt4.QtGui import QTableWidgetItem
 import xlrd
 from invoice.common import config
 from invoice.dao.DictDao import DictDao
+from invoice.common import excelparse
 
 def importDataToDB(excelTableWidget):
     pass
@@ -16,7 +17,35 @@ def parseExcelBefore(excelPath):
 if __name__ == "__main__":
     parseExcelBefore("C:\\Users\\Administrator\\Desktop\\data.xls")
 
+
 def parseExcel(excelPath, excelTableWidget):
+    dictDao = DictDao()
+    dicts = dictDao.getExcelConfig(type="EXCEL_TO_XML")
+
+    # 设置表格头部
+    initTableHeaders(dicts, excelTableWidget)
+
+
+    # 设置表格行数
+
+
+    # 解析Excel
+    invoiceDetailList = excelparse.parseExcelBefore(excelPath)
+    nrows = len(invoiceDetailList)
+    ncols = 10
+    excelTableWidget.setRowCount(nrows)
+    excelTableWidget.setColumnCount(ncols)
+    for i in range(len(invoiceDetailList)):
+        invoiceDetail = invoiceDetailList[i]
+
+        excelTableWidget.setItem(i, 0, QtGui.QTableWidgetItem(invoiceDetail.invoice.custom.name))
+        excelTableWidget.setItem(i, 1, QtGui.QTableWidgetItem(invoiceDetail.invoice.invoice_num))
+        excelTableWidget.setItem(i, 2, QtGui.QTableWidgetItem(str(invoiceDetail.invoice.total_not_tax)))
+        excelTableWidget.setItem(i, 3, QtGui.QTableWidgetItem(invoiceDetail.pro_type))
+        excelTableWidget.setItem(i, 4, QtGui.QTableWidgetItem(invoiceDetail.pro_name))
+        excelTableWidget.setItem(i, 5, QtGui.QTableWidgetItem(invoiceDetail.invoice.remark))
+
+def parseExcelOld(excelPath, excelTableWidget):
     data = xlrd.open_workbook(excelPath)
 
     dictDao = DictDao()
