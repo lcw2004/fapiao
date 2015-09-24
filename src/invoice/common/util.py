@@ -56,12 +56,12 @@ def parseExcel(excelPath, excelTableWidget):
 
 def initTableHeaders(dicts, excelTableWidget):
       # self.table.setHorizontalHeaderLabels(['SUN','MON','TUE','WED','THU','FIR','SAT'])
-    tbl_custom_name_label = dicts.get("tbl_custom_name")["describe"]
-    tbl_invoice_invoice_num_label = dicts.get("tbl_invoice_invoice_num")["describe"]
-    tbl_invoice_total_not_tax_label = dicts.get("tbl_invoice_total_not_tax")["describe"]
-    tbl_invoice_detail_pro_type_label = dicts.get("tbl_invoice_detail_pro_type")["describe"]
-    tbl_invoice_detail_pro_name_label = dicts.get("tbl_invoice_detail_pro_name")["describe"]
-    tbl_invoice_remark_name_label = dicts.get("tbl_invoice_remark")["describe"]
+    tbl_custom_name_label = dicts.get("tbl_custom_name").describe
+    tbl_invoice_invoice_num_label = dicts.get("tbl_invoice_invoice_num").describe
+    tbl_invoice_total_not_tax_label = dicts.get("tbl_invoice_total_not_tax").describe
+    tbl_invoice_detail_pro_type_label = dicts.get("tbl_invoice_detail_pro_type").describe
+    tbl_invoice_detail_pro_name_label = dicts.get("tbl_invoice_detail_pro_name").describe
+    tbl_invoice_remark_name_label = dicts.get("tbl_invoice_remark").describe
 
     setHeaderText(excelTableWidget, 0, tbl_custom_name_label)
     setHeaderText(excelTableWidget, 1, tbl_invoice_invoice_num_label)
