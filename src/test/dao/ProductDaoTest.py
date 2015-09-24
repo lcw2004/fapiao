@@ -20,7 +20,9 @@ def testSave():
     product.col4 = "col4"
 
     productDao = ProductDao()
-    productDao.save(product)
+    product.id = productDao.save(product)
+
+    print "ID:", product.id
 
 def testGet():
     productDao = ProductDao()
