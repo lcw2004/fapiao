@@ -73,5 +73,6 @@ if __name__ == "__main__":
         print invoiceDetail.invoice.invoice_num
         print invoiceDetail.invoice.total_not_tax
         print invoiceDetail.invoice.remark
-        print invoiceDetail.invoice.custom.name
+        print invoiceDetail.pro_type
+        print invoiceDetail.pro_name
         print "--------------------------------------"
