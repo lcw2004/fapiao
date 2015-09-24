@@ -4,7 +4,7 @@ from invoice.bean.DictBean import Dict
 
 def testGet():
     dictDao = DictDao()
-    list = dictDao.get(type="EXCEL_TO_XML")
+    list = dictDao.list(type="EXCEL_TO_XML")
     for dict in list:
         print "------------------------"
         print dict.id

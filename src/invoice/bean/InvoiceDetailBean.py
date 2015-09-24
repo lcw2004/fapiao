@@ -1,4 +1,4 @@
-__author__ = 'Administrator'
+# -*- coding: UTF-8 -*-
 
 class InvoiceDetail:
     def __init__(self):
@@ -13,3 +13,6 @@ class InvoiceDetail:
         self.tax_rate = None
         self.tax = None
         self.invoice_Id = None
+
+        # invoice对象
+        self.invoice = None

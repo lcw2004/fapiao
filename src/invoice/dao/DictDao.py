@@ -12,7 +12,7 @@ class DictDao(BaseDao):
         self.connect = sqlite3.connect(config.DATABASE_PATH)
 
     # 根据产品名称查询
-    def get(self, type=None, label=None):
+    def list(self, type=None, label=None):
         sql = 'SELECT id, label, value, type, describe, status, oindex FROM tbl_dict WHERE 1=1 '
         sql += appendSQL("type", "=", type)
         sql += appendSQL("label", "=", label)
@@ -34,6 +34,12 @@ class DictDao(BaseDao):
             dicts.append(dict)
         cursor.close()
         return dicts
+
+    def one(self, type=None, label=None):
+        dicts = self.list(type, label)
+        if dicts:
+            one = dicts[0]
+        return one
 
     def getExcelConfig(self, type=None, label=None):
         sql = 'SELECT ID, label, value, type, describe, status, oindex FROM tbl_dict WHERE 1=1 and value is not NULL '

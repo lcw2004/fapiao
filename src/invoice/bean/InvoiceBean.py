@@ -1,4 +1,4 @@
-__author__ = 'Administrator'
+# -*- coding: UTF-8 -*-
 
 class Invoice:
     def __init__(self):
@@ -15,6 +15,9 @@ class Invoice:
         self.beneficiary = None
         self.reviewer = None
         self.status = 0
+
+        # 客户对象
+        self.custom = None
 
     def toString(self):
         print "invoice_num : ", self.invoice_num, \
