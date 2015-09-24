@@ -12,7 +12,6 @@ class CustomDao(BaseDao):
     def __init__(self):
         self.connect = sqlite3.connect(config.DATABASE_PATH)
 
-    # 保存产品
     def save(self, custom):
         sql = '''
             INSERT INTO tbl_custom
@@ -31,8 +30,10 @@ class CustomDao(BaseDao):
             custom.erp_id,
             custom.summary_title
         ])
+        data_id = cursor.lastrowid
         cursor.close()
         self.connect.commit()
+        return data_id
 
     def get(self):
         sql = 'SELECT id, code, name, tax_id, addr, bank_account, business_tax_di, erp_id, summary_title FROM tbl_custom WHERE 1=1 '

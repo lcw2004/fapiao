@@ -19,6 +19,10 @@ def testSave():
     customDao = CustomDao()
     customDao.save(custom)
 
+def testSaveNull():
+    custom = Custom()
+    customDao = CustomDao()
+    customDao.save(custom)
 
 def testGet():
     customDao = CustomDao()
@@ -37,5 +41,5 @@ def testGet():
 
 
 if __name__ == "__main__":
-    testSave()
+    testSaveNull()
     testGet()
