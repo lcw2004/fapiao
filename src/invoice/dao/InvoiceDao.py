@@ -43,7 +43,7 @@ class InvoiceDao(BaseDao):
         cursor.execute(sql)
 
         all = cursor.fetchall()
-        invoiceList = []
+        list = []
         for one in all:
             invoice = Invoice()
             invoice.id = one[0]
@@ -59,6 +59,6 @@ class InvoiceDao(BaseDao):
             invoice.beneficiary = one[10]
             invoice.reviewer = one[11]
             invoice.reviewer = one[12]
-            invoiceList.append(invoice)
+            list.append(invoice)
         cursor.close()
-        return invoiceList
+        return list

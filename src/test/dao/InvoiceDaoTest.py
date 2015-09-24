@@ -25,4 +25,4 @@ def testGet():
     print invoiceDao.get()
 
 if __name__ == "__main__":
-    testSave()
+    testGet()

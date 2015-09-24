@@ -36,4 +36,5 @@ def testGet():
         print invoiceDetail.invoice_Id
 
 if __name__ == "__main__":
+    testSave()
     testGet()

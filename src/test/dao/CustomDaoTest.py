@@ -4,6 +4,7 @@ from invoice.dao.InvoiceDetailDao import InvoiceDetailDao
 from invoice.bean.CustomBean import Custom
 from invoice.dao.CustomDao import CustomDao
 
+
 def testSave():
     custom = Custom()
     custom.code = "code"
@@ -13,27 +14,28 @@ def testSave():
     custom.bank_account = "bank_account"
     custom.business_tax_di = "business_tax_di"
     custom.erp_id = "erp_id"
-    custom.summary_title  = "summary_title"
+    custom.summary_title = "summary_title"
 
     customDao = CustomDao()
     customDao.save(custom)
 
+
 def testGet():
-    invoiceDetailDao = InvoiceDetailDao()
-    invoiceDetailList = invoiceDetailDao.get()
-    for invoiceDetail in invoiceDetailList:
+    customDao = CustomDao()
+    list = customDao.get()
+    for custom in list:
         print "------------------------"
-        print invoiceDetail.id
-        print invoiceDetail.pro_code
-        print invoiceDetail.pro_name
-        print invoiceDetail.pro_type
-        print invoiceDetail.pro_unit
-        print invoiceDetail.pro_unit_price
-        print invoiceDetail.pro_num
-        print invoiceDetail.tax_price
-        print invoiceDetail.tax_rate
-        print invoiceDetail.tax
-        print invoiceDetail.invoice_Id
+        print custom.id
+        print custom.code
+        print custom.name
+        print custom.tax_id
+        print custom.addr
+        print custom.bank_account
+        print custom.business_tax_di
+        print custom.erp_id
+        print custom.summary_title
+
 
 if __name__ == "__main__":
     testSave()
+    testGet()
