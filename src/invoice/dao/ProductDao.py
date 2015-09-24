@@ -33,8 +33,10 @@ class ProductDao(BaseDao):
             product.col3,
             product.col4
         ])
+        data_id = cursor.lastrowid
         cursor.close()
         self.connect.commit()
+        return data_id
 
     def get(self):
         sql = 'SELECT id, name, code, type, unit_price, tax_price, tax, business_tax_num, erp_id, col1, col2, col3, col4 FROM tbl_product WHERE 1=1 '

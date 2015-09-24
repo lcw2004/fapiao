@@ -33,8 +33,10 @@ class InvoiceDetailDao(BaseDao):
             invoiceDetail.tax,
             invoiceDetail.invoice_Id
         ])
+        data_id = cursor.lastrowid
         cursor.close()
         self.connect.commit()
+        return data_id
 
 
     # 根据产品名称查询

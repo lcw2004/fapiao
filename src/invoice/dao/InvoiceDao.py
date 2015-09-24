@@ -32,8 +32,10 @@ class InvoiceDao(BaseDao):
                              invoice.beneficiary,
                              invoice.reviewer,
                              invoice.status])
+        data_id = cursor.lastrowid
         cursor.close()
         self.connect.commit()
+        return data_id
 
     # 根据产品名称查询
     def get(self):
