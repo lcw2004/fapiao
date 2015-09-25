@@ -19,13 +19,13 @@ def parseExcelBefore(excelPath):
     for i in range(nrows):
         row = excelSheet0.row_values(i)
 
-        tbl_custom_name = commonUtil.to_string(row[4])
-        tbl_invoice_invoice_num = commonUtil.to_string(row[3])
-        tbl_invoice_total_not_tax = commonUtil.to_string(row[20])
-        tbl_invoice_detail_pro_type = commonUtil.to_string(row[17])
-        tbl_invoice_detail_pro_name = commonUtil.to_string(row[16])
-        tbl_invoice_remark = commonUtil.to_string(row[9]) + "," + commonUtil.to_string(row[6]) + "," + commonUtil.to_string(row[7]) + "," + \
-                             commonUtil.to_string(row[12]) + "," + commonUtil.to_string(row[11]) + "," + commonUtil.to_string(row[14])
+        tbl_custom_name = commonUtil.to_string_trim(row[4])
+        tbl_invoice_invoice_num = commonUtil.float_to_string(row[3])
+        tbl_invoice_total_not_tax = commonUtil.to_string_trim(row[20])
+        tbl_invoice_detail_pro_type = commonUtil.to_string_trim(row[17])
+        tbl_invoice_detail_pro_name = commonUtil.to_string_trim(row[16])
+        tbl_invoice_remark = commonUtil.to_string_trim(row[9]) + "," + commonUtil.to_string_trim(row[6]) + "," + commonUtil.to_string_trim(row[7]) + "," + \
+                             commonUtil.to_string_trim(row[12]) + "," + commonUtil.to_string_trim(row[11]) + "," + commonUtil.to_string_trim(row[14])
 
         # 客户对象
         custom = Custom()
@@ -55,19 +55,20 @@ def parseExcelBefore(excelPath):
         invoiceDetailList.append(invoiceDetail)
 
         print "--------------------------------------"
-        print tbl_custom_name
-        print tbl_invoice_invoice_num
-        print tbl_invoice_total_not_tax
-        print tbl_invoice_detail_pro_type
-        print tbl_invoice_detail_pro_name
-        print tbl_invoice_remark
+        print invoiceDetail.invoice.custom.name
+        print invoiceDetail.invoice.invoice_num
+        print invoiceDetail.invoice.total_not_tax
+        print invoiceDetail.invoice.remark
+        print invoiceDetail.pro_type
+        print invoiceDetail.pro_name
         print "--------------------------------------"
     return invoiceDetailList
 
 
 if __name__ == "__main__":
     invoiceDetailList = parseExcelBefore("C:\\Users\\Administrator\\Desktop\\data.xls")
-    for invoiceDetail in invoiceDetailList:
+    for i in range(len(invoiceDetailList)):
+        invoiceDetail = invoiceDetailList[i]
         print "--------------------------------------"
         print invoiceDetail.invoice.custom.name
         print invoiceDetail.invoice.invoice_num

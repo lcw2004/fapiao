@@ -1,12 +1,18 @@
 # -*- coding: UTF-8 -*-
 
-# 将其他类型转为字符串
 import re
 
-def to_string(uString):
+# 将其他类型转为字符串
+
+def to_string_trim(uString):
+    return uString
+
+# 如果是浮点型，转为int类型再转字符串
+def float_to_string(uString):
     output = uString
     if type(uString) == float:
-        output = str(uString)
+        outputInt = int(uString)
+        output = str(outputInt)
     return output
 
 # 判断是否是空字符串
@@ -25,3 +31,8 @@ def has_chinese_charactar(content):
     if match:
         res = True
     return res
+
+if __name__ == "__main__":
+    s = "  \t a string example\t  "
+    s = s.strip()
+    print to_string_trim(s)
