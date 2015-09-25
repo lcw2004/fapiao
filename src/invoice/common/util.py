@@ -1,21 +1,9 @@
 # -*- coding: UTF-8 -*-
 
 from PyQt4 import QtGui
-from PyQt4.QtGui import QTableWidgetItem
-import xlrd
-from invoice.common import config
+
 from invoice.dao.DictDao import DictDao
 from invoice.common import excelparse
-
-def importDataToDB(excelTableWidget):
-    pass
-
-
-def parseExcelBefore(excelPath):
-    pass
-
-if __name__ == "__main__":
-    parseExcelBefore("C:\\Users\\Administrator\\Desktop\\data.xls")
 
 
 def parseExcel(excelPath, excelTableWidget):

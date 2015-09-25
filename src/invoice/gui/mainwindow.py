@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from PyQt4.QtGui import QMainWindow
+from PyQt4.QtGui import QMainWindow, QMessageBox
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 
@@ -27,15 +27,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # 绑定选择Excel事件
         def selectExcel():
+            # TODO 判断是否选择文件
             filename = QtGui.QFileDialog.getOpenFileName(self, 'Excel', '../', 'Excel File (*.xls)')
             if filename:
                 util.parseExcel(filename, self.excelTableWidget)
-
         self.connect(self.selectExcelFileButton, QtCore.SIGNAL("clicked()"), selectExcel)
 
-        def genInvoice():
-            util.importDataToDB(self.excelTableWidget)
 
+        def genInvoice():
+           # TODO 判断表格中是否有数据
 
             excelTableWidget = self.excelTableWidget
             rowCount = excelTableWidget.rowCount()
@@ -48,13 +48,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 tbl_invoice_detail_pro_type = qStringToString(excelTableWidget.item(i, 3).text())
                 tbl_invoice_detail_pro_name = qStringToString(excelTableWidget.item(i, 4).text())
                 tbl_invoice_remark = qStringToString(excelTableWidget.item(i, 5).text())
-
-                print type(tbl_custom_name)
-                print tbl_invoice_invoice_num
-                print tbl_invoice_total_not_tax
-                print tbl_invoice_detail_pro_type
-                print tbl_invoice_detail_pro_name
-                print tbl_invoice_remark
 
                 # 保存用户信息
                 custom = Custom()
@@ -80,9 +73,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
                 invoiceDetailDao = InvoiceDetailDao()
                 invoiceDetailDao.save(invoiceDetail)
+
+                print type(tbl_custom_name)
+                print tbl_invoice_invoice_num
+                print tbl_invoice_total_not_tax
+                print tbl_invoice_detail_pro_type
+                print tbl_invoice_detail_pro_name
+                print tbl_invoice_remark
                 print "-------------------------------"
-
-            pass
-
         self.connect(self.genInvoiceButton, QtCore.SIGNAL("clicked()"), genInvoice)
 
