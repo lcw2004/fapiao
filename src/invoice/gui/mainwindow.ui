@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>425</height>
+    <width>728</width>
+    <height>418</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -166,34 +166,11 @@
         <item>
          <widget class="QTableWidget" name="excelTableWidget">
           <property name="rowCount">
-           <number>2</number>
+           <number>0</number>
           </property>
           <property name="columnCount">
-           <number>5</number>
+           <number>0</number>
           </property>
-          <row/>
-          <row/>
-          <column>
-           <property name="text">
-            <string>1</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>2</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>3</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>4</string>
-           </property>
-          </column>
-          <column/>
          </widget>
         </item>
        </layout>
@@ -260,7 +237,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>600</width>
+     <width>728</width>
      <height>23</height>
     </rect>
    </property>

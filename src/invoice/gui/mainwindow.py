@@ -35,11 +35,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
         def genInvoice():
-           # TODO 判断表格中是否有数据
-
             excelTableWidget = self.excelTableWidget
             rowCount = excelTableWidget.rowCount()
             colCount = excelTableWidget.columnCount()
+
+            # TODO 判断表格中是否有数据
+            if rowCount <= 1:
+                QMessageBox.information(self, "Information", u'请先导入发票数据！')
+                return
+
+            invoiceDao = InvoiceDao()
+            invoiceDetailDao = InvoiceDetailDao()
+            cuntomDao = CustomDao()
 
             for i in range(rowCount):
                 tbl_custom_name = qStringToString(excelTableWidget.item(i, 0).text())
@@ -52,7 +59,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 # 保存用户信息
                 custom = Custom()
                 custom.name = tbl_custom_name
-                cuntomDao = CustomDao()
                 cuntomDao.id = cuntomDao.save(custom)
 
                 # 保存发票
@@ -61,8 +67,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 invoice.remark = tbl_invoice_remark
                 invoice.total_not_tax = tbl_invoice_total_not_tax
                 invoice.custom_id = custom.id
-
-                invoiceDao = InvoiceDao()
                 invoice.id = invoiceDao.save(invoice)
 
                 # 保存发票详细信息
@@ -70,8 +74,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 invoiceDetail.pro_type = tbl_invoice_detail_pro_type
                 invoiceDetail.pro_name = tbl_invoice_detail_pro_name
                 invoiceDetail.invoice_Id = invoice.id
-
-                invoiceDetailDao = InvoiceDetailDao()
                 invoiceDetailDao.save(invoiceDetail)
 
                 print type(tbl_custom_name)
@@ -81,5 +83,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 print tbl_invoice_detail_pro_name
                 print tbl_invoice_remark
                 print "-------------------------------"
+
+            QMessageBox.information(self, "Information", u'数据已经报存到临时数据区！')
         self.connect(self.genInvoiceButton, QtCore.SIGNAL("clicked()"), genInvoice)
 
