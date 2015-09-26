@@ -23,6 +23,18 @@ def testSaveNull():
     custom = Custom()
     customDao = CustomDao()
     customDao.save(custom)
+    list = customDao.get()
+    for custom in list:
+        print "------------------------"
+        print custom.id
+        print custom.code
+        print custom.name
+        print custom.tax_id
+        print custom.addr
+        print custom.bank_account
+        print custom.business_tax_di
+        print custom.erp_id
+        print custom.summary_title
 
 def testGet():
     customDao = CustomDao()
@@ -42,4 +54,4 @@ def testGet():
 
 if __name__ == "__main__":
     testSaveNull()
-    testGet()
+    # testGet()
