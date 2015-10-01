@@ -33,7 +33,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 util.parseExcel(filename, self.excelTableWidget)
         self.connect(self.selectExcelFileButton, QtCore.SIGNAL("clicked()"), selectExcel)
 
-
+        # 数据导入 - 生成发票
         def genInvoice():
             excelTableWidget = self.excelTableWidget
             rowCount = excelTableWidget.rowCount()
@@ -86,4 +86,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             QMessageBox.information(self, "Information", u'数据已经报存到临时数据区！')
         self.connect(self.genInvoiceButton, QtCore.SIGNAL("clicked()"), genInvoice)
+
+
+        # 临时待处理数据 - 表格加载
+
 
