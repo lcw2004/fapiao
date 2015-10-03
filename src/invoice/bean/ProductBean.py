@@ -23,3 +23,6 @@ class Product:
         self.col1 = None
         self.col2 = None
         self.col4 = None
+
+        # ¸¸ID
+        self.p_id = None

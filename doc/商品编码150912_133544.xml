@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="GB2312"?>
+<Data TYPE="SPBIANMA">
+    <FENLEI>
+        <Row BM="100" PID="0" MC="一般货物" OLD_BM="100" OLD_PID="0"/>
+        <Row BM="101" PID="0" MC="简易征收" OLD_BM="101" OLD_PID="0"/>
+        <Row BM="102" PID="0" MC="一般商品13%" OLD_BM="102" OLD_PID="0"/>
+        <Row BM="103" PID="0" MC="代码转换" OLD_BM="103" OLD_PID="0"/>
+        <Row BM="104" PID="0" MC="劳务" OLD_BM="104" OLD_PID="0"/>
+    </FENLEI>
+    <SPXX>
+        <Row BM="10000001" PID="100" MC="美达24X CD-ROM" JM="MD24XCDROM" SPSM="000002" SL="0.17" GGXH="24倍速" JLDW="台"
+             DJ="560" HSBZ="0" OLD_BM="10000001" OLD_PID="100"/>
+        <Row BM="10000002" PID="100" MC="资料" JM="ZL" SPSM="000002" SL="0.17" GGXH="PACK" JLDW="箱" DJ="110" HSBZ="0"
+             OLD_BM="10000002" OLD_PID="100"/>
+        <Row BM="10000003" PID="100" MC="配件" JM="PJ" SPSM="000002" SL="0.17" GGXH="NOVELL" JLDW="套" DJ="350" HSBZ="0"
+             OLD_BM="10000003" OLD_PID="100"/>
+        <Row BM="10000004" PID="100" MC="网络设备" JM="WLSB" SPSM="000002" SL="0.17" GGXH="" JLDW="台" DJ="11000" HSBZ="0"
+             OLD_BM="10000004" OLD_PID="100"/>
+        <Row BM="10000005" PID="100" MC="复印机" JM="FYJ" SPSM="000002" SL="0.17" GGXH="" JLDW="台" DJ="500" HSBZ="0"
+             OLD_BM="10000005" OLD_PID="100"/>
+        <Row BM="10000006" PID="100" MC="打印机" JM="DYJ" SPSM="000002" SL="0.17" GGXH="" JLDW="台" DJ="117" HSBZ="0"
+             OLD_BM="10000006" OLD_PID="100"/>
+        <Row BM="10100001" PID="101" MC="信息费6%" JM="XXF6" SPSM="000005" SL="0.06" GGXH="" JLDW="" DJ="0" HSBZ="0"
+             OLD_BM="10100001" OLD_PID="101"/>
+        <Row BM="10100002" PID="101" MC="服务费6%" JM="FWF6" SPSM="000005" SL="0.06" GGXH="" JLDW="" DJ="0" HSBZ="0"
+             OLD_BM="10100002" OLD_PID="101"/>
+        <Row BM="10100003" PID="101" MC="其它业务费4%" JM="QTYWF4" SPSM="000006" SL="0.04" GGXH="" JLDW="" DJ="0" HSBZ="0"
+             OLD_BM="10100003" OLD_PID="101"/>
+        <Row BM="10200001" PID="102" MC="实用植物油（13%）" JM="SYZWY13" SPSM="000003" SL="0.13" GGXH="" JLDW="" DJ="0"
+             HSBZ="0" OLD_BM="10200001" OLD_PID="102"/>
+        <Row BM="10300001" PID="103" MC="啤酒（更新税目产品）" JM="PJGXSMCP" SPSM="000002" SL="0.17" GGXH="" JLDW="" DJ="0"
+             HSBZ="0" OLD_BM="10300001" OLD_PID="103"/>
+        <Row BM="10400001" PID="104" MC="应税劳务" JM="YSLW" SPSM="000002" SL="0.17" GGXH="" JLDW="" DJ="0" HSBZ="0"
+             OLD_BM="10400001" OLD_PID="104"/>
+        <Row BM="10400002" PID="104" MC="视同销售" JM="STXS" SPSM="000002" SL="0.17" GGXH="" JLDW="" DJ="0" HSBZ="0"
+             OLD_BM="10400002" OLD_PID="104"/>
+        <Row BM="10300002" PID="103" MC="电话" JM="DH" SPSM="000001" SL="0.03" GGXH="" JLDW="" DJ="0" HSBZ="0"
+             OLD_BM="10300002" OLD_PID="103"/>
+    </SPXX>
+</Data>
