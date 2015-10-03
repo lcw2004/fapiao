@@ -19,6 +19,18 @@ def qStringToString(input_str):
         output_str = unicode(input_str)
     return output_str
 
+
+
+def setHeaderText(excelTableWidget, index, headerText):
+    print index, headerText
+    item = excelTableWidget.horizontalHeaderItem(index)
+    if item:
+        item.setText(translate(headerText))
+
+def translate(text):
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    return QtGui.QApplication.translate(None, text, None, _encoding)
+
 class MainWindow(QMainWindow, Ui_MainWindow):
 
     def __init__(self, parent=None):
@@ -89,5 +101,42 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
         # 临时待处理数据 - 表格加载
+        def queryInvoice():
+            QMessageBox.information(self, "Information", u'查询发票数据！')
 
+            invoiceTableWidget = self.invoiceTableWidget
 
+            # 查询数据
+            invoiceDao = InvoiceDao()
+            invoiceList = invoiceDao.get()
+
+            # 将数据填充到表格中
+            invoiceCount = len(invoiceList)
+            self.invoiceTableWidget.setRowCount(invoiceCount)
+            for i in range(invoiceCount):
+                invoice = invoiceList[i]
+                setTableItemValue(invoiceTableWidget, i, 0, invoice.invoice_num)
+                if invoice.custom:
+                    setTableItemValue(invoiceTableWidget, i, 1, invoice.custom.name)
+                    setTableItemValue(invoiceTableWidget, i, 6, invoice.custom.code)
+                    setTableItemValue(invoiceTableWidget, i, 7, invoice.custom.tax_id)
+                    setTableItemValue(invoiceTableWidget, i, 8, invoice.custom.addr)
+                    setTableItemValue(invoiceTableWidget, i, 9, invoice.custom.bank_account)
+
+                setTableItemValue(invoiceTableWidget, i, 2, invoice.total_not_tax)
+                setTableItemValue(invoiceTableWidget, i, 3, invoice.total_tax)
+                setTableItemValue(invoiceTableWidget, i, 4, invoice.total_num)
+                setTableItemValue(invoiceTableWidget, i, 5, invoice.serial_number)
+
+                setTableItemValue(invoiceTableWidget, i, 10, invoice.remark)
+                setTableItemValue(invoiceTableWidget, i, 11, invoice.drawer)
+                setTableItemValue(invoiceTableWidget, i, 12, invoice.beneficiary)
+                setTableItemValue(invoiceTableWidget, i, 13, invoice.reviewer)
+        self.connect(self.invoice_filter_Button, QtCore.SIGNAL("clicked()"), queryInvoice)
+
+# 往表格里面填值，如果是其他类型，将其转换为str
+def setTableItemValue(tableWidget, rowNum, colNum, value):
+    valueStr = str(value)
+
+    if value:
+        tableWidget.setItem(rowNum, colNum, QtGui.QTableWidgetItem(valueStr))

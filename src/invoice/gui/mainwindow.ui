@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>image/main_logo.ico</normaloff>image/main_logo.ico</iconset>
+    <normaloff>C:/Users/Administrator/.designer/backup/image/main_logo.ico</normaloff>C:/Users/Administrator/.designer/backup/image/main_logo.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="contextMenuPolicy">
@@ -36,7 +36,7 @@
        </property>
        <attribute name="icon">
         <iconset>
-         <normaloff>image/tab_import.ico</normaloff>image/tab_import.ico</iconset>
+         <normaloff>C:/Users/Administrator/.designer/backup/image/tab_import.ico</normaloff>C:/Users/Administrator/.designer/backup/image/tab_import.ico</iconset>
        </attribute>
        <attribute name="title">
         <string>数据导入</string>
@@ -69,7 +69,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>image/op_select_all.png</normaloff>image/op_select_all.png</iconset>
+              <normaloff>C:/Users/Administrator/.designer/backup/image/op_select_all.png</normaloff>C:/Users/Administrator/.designer/backup/image/op_select_all.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -89,7 +89,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>image/op_filter.png</normaloff>image/op_filter.png</iconset>
+              <normaloff>C:/Users/Administrator/.designer/backup/image/op_filter.png</normaloff>C:/Users/Administrator/.designer/backup/image/op_filter.png</iconset>
             </property>
            </widget>
           </item>
@@ -100,7 +100,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>image/op_gen_invoince.png</normaloff>image/op_gen_invoince.png</iconset>
+              <normaloff>C:/Users/Administrator/.designer/backup/image/op_gen_invoince.png</normaloff>C:/Users/Administrator/.designer/backup/image/op_gen_invoince.png</iconset>
             </property>
            </widget>
           </item>
@@ -144,7 +144,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>image/excel.ico</normaloff>image/excel.ico</iconset>
+              <normaloff>C:/Users/Administrator/.designer/backup/image/excel.ico</normaloff>C:/Users/Administrator/.designer/backup/image/excel.ico</iconset>
             </property>
            </widget>
           </item>
@@ -195,7 +195,7 @@
            <number>3</number>
           </property>
           <item>
-           <widget class="QPushButton" name="pushButton_6">
+           <widget class="QPushButton" name="invoice_filter_Button">
             <property name="text">
              <string>筛选</string>
             </property>
@@ -252,7 +252,69 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="invoiceTableWidget"/>
+         <widget class="QTableWidget" name="invoiceTableWidget">
+          <property name="rowCount">
+           <number>0</number>
+          </property>
+          <property name="columnCount">
+           <number>11</number>
+          </property>
+          <column>
+           <property name="text">
+            <string>发票号码</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>客户名称</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>总不含税金额</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>总金额</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>价税合计</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>系统流水号</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>客户代码</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>客户税号</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>客户地址</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>客户开户行账号</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>备注</string>
+           </property>
+          </column>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -441,9 +503,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <tabstops>
-  <tabstop>tabWidget</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>
