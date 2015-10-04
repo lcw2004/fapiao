@@ -96,7 +96,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 print tbl_invoice_remark
                 print "-------------------------------"
 
-            QMessageBox.information(self, "Information", u'数据已经报存到临时数据区！')
+            QMessageBox.information(self, "Information", u'数据已经保存到临时数据区！')
         self.connect(self.genInvoiceButton, QtCore.SIGNAL("clicked()"), genInvoice)
 
 
