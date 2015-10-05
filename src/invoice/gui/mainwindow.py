@@ -102,13 +102,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # 临时待处理数据 - 表格加载
         def queryInvoice():
-            QMessageBox.information(self, "Information", u'查询发票数据！')
-
             invoiceTableWidget = self.invoiceTableWidget
 
             # 查询数据
             invoiceDao = InvoiceDao()
-            invoiceList = invoiceDao.get()
+            invoiceList = invoiceDao.get(0)
 
             # 将数据填充到表格中
             invoiceCount = len(invoiceList)
@@ -154,7 +152,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     invoince_id = qStringToString(invoiceTableWidget.item(rowCount, 0).text())
                     if invoince_id:
                         idList.append(int(invoince_id))
-                print idList
 
                 # 删除数据库中的数据
                 invoiceDao = InvoiceDao()

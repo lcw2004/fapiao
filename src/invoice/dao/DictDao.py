@@ -2,9 +2,9 @@
 
 import sqlite3
 from BaseDao import BaseDao
-from BaseDao import appendSQL as appendSQL
 from invoice.common import config
 from invoice.bean.DictBean import Dict
+from invoice.dao import SQLParams
 
 class DictDao(BaseDao):
 
@@ -14,8 +14,8 @@ class DictDao(BaseDao):
     # 根据产品名称查询
     def list(self, type=None, label=None):
         sql = 'SELECT id, label, value, type, describe, status, oindex FROM tbl_dict WHERE 1=1 '
-        sql += appendSQL("type", "=", type)
-        sql += appendSQL("label", "=", label)
+        sql += SQLParams.buildParamSQL("type", SQLParams.APPEND_EQULE, type)
+        sql += SQLParams.buildParamSQL("label", SQLParams.APPEND_EQULE, label)
 
         cursor = self.connect.cursor()
         cursor.execute(sql)
@@ -43,8 +43,8 @@ class DictDao(BaseDao):
 
     def getExcelConfig(self, type=None, label=None):
         sql = 'SELECT ID, label, value, type, describe, status, oindex FROM tbl_dict WHERE 1=1 and value is not NULL '
-        sql += appendSQL("type", "=", type)
-        sql += appendSQL("label", "=", label)
+        sql += SQLParams.buildParamSQL("type", SQLParams.APPEND_EQULE, type)
+        sql += SQLParams.buildParamSQL("label", SQLParams.APPEND_EQULE, label)
 
         cursor = self.connect.cursor()
         cursor.execute(sql)

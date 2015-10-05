@@ -71,7 +71,11 @@ def getSelectedRows(tableView):
     return rows
 
 def idListToString(idList):
-    if idList and len(idList) > 0:
-        return str(tuple(idList))
-    else:
+    if not idList:
         return "()"
+
+    idStr = ""
+    for id in idList:
+        idStr += str(id) + ","
+    idStr = "(" + idStr[0: -1] + ")"
+    return idStr

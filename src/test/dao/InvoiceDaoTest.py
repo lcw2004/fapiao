@@ -22,7 +22,7 @@ def testSave():
 
 def testGet():
     invoiceDao = InvoiceDao()
-    print invoiceDao.get()
+    print invoiceDao.get(0)
 
 def testDelete():
     ids = {1, 2, 3}
@@ -31,4 +31,4 @@ def testDelete():
     invoiceDao.updateStatus(ids, 0)
 
 if __name__ == "__main__":
-    testDelete()
+    testGet()

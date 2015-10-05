@@ -2,7 +2,7 @@
 
 import sqlite3
 from BaseDao import BaseDao
-from BaseDao import appendSQL as appendSQL
+from invoice.dao import SQLParams
 from invoice.common import config
 from invoice.bean.InvoiceBean import Invoice
 from invoice.common import util
@@ -39,8 +39,9 @@ class InvoiceDao(BaseDao):
         return data_id
 
     # 根据产品名称查询
-    def get(self):
+    def get(self, status):
         sql = 'SELECT id, invoice_num, custom_id, remark, start_time, total_not_tax, total_tax, total_num, serial_number, drawer, beneficiary, reviewer, status FROM tbl_invoice WHERE 1=1 '
+        sql += SQLParams.buildParamSQL("status", SQLParams.APPEND_EQULE, status)
 
         cursor = self.connect.cursor()
         cursor.execute(sql)

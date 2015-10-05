@@ -2,7 +2,6 @@
 
 import sqlite3
 from BaseDao import BaseDao
-from BaseDao import appendSQL as appendSQL
 from invoice.common import config
 from invoice.bean.InvoiceDetailBean import InvoiceDetail
 from invoice.bean.CustomBean import Custom
