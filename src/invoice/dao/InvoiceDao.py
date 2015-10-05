@@ -5,6 +5,7 @@ from BaseDao import BaseDao
 from BaseDao import appendSQL as appendSQL
 from invoice.common import config
 from invoice.bean.InvoiceBean import Invoice
+from invoice.common import util
 
 class InvoiceDao(BaseDao):
 
@@ -64,3 +65,12 @@ class InvoiceDao(BaseDao):
             list.append(invoice)
         cursor.close()
         return list
+
+    def updateStatus(self, ids, newStatus):
+        sql = '''UPDATE tbl_invoice SET status = ? WHERE id IN ''' + util.idListToString(ids)
+
+        cursor = self.connect.cursor()
+        cursor.execute(sql, [newStatus])
+        cursor.close()
+        self.connect.commit()
+

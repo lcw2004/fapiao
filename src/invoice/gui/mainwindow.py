@@ -115,24 +115,54 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.invoiceTableWidget.setRowCount(invoiceCount)
             for i in range(invoiceCount):
                 invoice = invoiceList[i]
-                setTableItemValue(invoiceTableWidget, i, 0, invoice.invoice_num)
+                setTableItemValue(invoiceTableWidget, i, 0, invoice.id)
+                setTableItemValue(invoiceTableWidget, i, 1, invoice.invoice_num)
                 if invoice.custom:
-                    setTableItemValue(invoiceTableWidget, i, 1, invoice.custom.name)
-                    setTableItemValue(invoiceTableWidget, i, 6, invoice.custom.code)
-                    setTableItemValue(invoiceTableWidget, i, 7, invoice.custom.tax_id)
-                    setTableItemValue(invoiceTableWidget, i, 8, invoice.custom.addr)
-                    setTableItemValue(invoiceTableWidget, i, 9, invoice.custom.bank_account)
+                    setTableItemValue(invoiceTableWidget, i, 2, invoice.custom.name)
+                    setTableItemValue(invoiceTableWidget, i, 7, invoice.custom.code)
+                    setTableItemValue(invoiceTableWidget, i, 8, invoice.custom.tax_id)
+                    setTableItemValue(invoiceTableWidget, i, 9, invoice.custom.addr)
+                    setTableItemValue(invoiceTableWidget, i, 10, invoice.custom.bank_account)
 
-                setTableItemValue(invoiceTableWidget, i, 2, invoice.total_not_tax)
-                setTableItemValue(invoiceTableWidget, i, 3, invoice.total_tax)
-                setTableItemValue(invoiceTableWidget, i, 4, invoice.total_num)
-                setTableItemValue(invoiceTableWidget, i, 5, invoice.serial_number)
+                setTableItemValue(invoiceTableWidget, i, 3, invoice.total_not_tax)
+                setTableItemValue(invoiceTableWidget, i, 4, invoice.total_tax)
+                setTableItemValue(invoiceTableWidget, i, 5, invoice.total_num)
+                setTableItemValue(invoiceTableWidget, i, 6, invoice.serial_number)
 
-                setTableItemValue(invoiceTableWidget, i, 10, invoice.remark)
-                setTableItemValue(invoiceTableWidget, i, 11, invoice.drawer)
-                setTableItemValue(invoiceTableWidget, i, 12, invoice.beneficiary)
-                setTableItemValue(invoiceTableWidget, i, 13, invoice.reviewer)
+                setTableItemValue(invoiceTableWidget, i, 11, invoice.remark)
+                setTableItemValue(invoiceTableWidget, i, 12, invoice.drawer)
+                setTableItemValue(invoiceTableWidget, i, 13, invoice.beneficiary)
+                setTableItemValue(invoiceTableWidget, i, 14, invoice.reviewer)
         self.connect(self.invoice_filter_Button, QtCore.SIGNAL("clicked()"), queryInvoice)
+
+
+        # 临时待处理数据 - 修改
+        def updateInvoince():
+            pass
+        self.connect(self.invoince_update_btn, QtCore.SIGNAL("clicked()"), queryInvoice)
+
+        # 临时待处理数据 - 删除
+        def on_action_Delete_Invoice():
+            reply = QMessageBox.question(self,u'提示',u'确定要删除所选记录吗？',QMessageBox.Yes|QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                invoiceTableWidget = self.invoiceTableWidget
+
+                # 获取所有需要删除的行的ID
+                idList = []
+                remove_rows = util.getSelectedRows(invoiceTableWidget)
+                for rowCount in remove_rows:
+                    invoince_id = qStringToString(invoiceTableWidget.item(rowCount, 0).text())
+                    if invoince_id:
+                        idList.append(int(invoince_id))
+                print idList
+
+                # 删除数据库中的数据
+                invoiceDao = InvoiceDao()
+                invoiceDao.updateStatus(idList, -1)
+
+                # 重新加载表格
+                queryInvoice()
+        self.connect(self.invoince_delete_btn, QtCore.SIGNAL("clicked()"), on_action_Delete_Invoice)
 
 # 往表格里面填值，如果是其他类型，将其转换为str
 def setTableItemValue(tableWidget, rowNum, colNum, value):

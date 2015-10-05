@@ -24,5 +24,11 @@ def testGet():
     invoiceDao = InvoiceDao()
     print invoiceDao.get()
 
+def testDelete():
+    ids = {1, 2, 3}
+
+    invoiceDao = InvoiceDao()
+    invoiceDao.updateStatus(ids, 0)
+
 if __name__ == "__main__":
-    testGet()
+    testDelete()

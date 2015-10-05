@@ -26,7 +26,7 @@ class Invoice:
         self.beneficiary = None
         # 复核人
         self.reviewer = None
-        # 发票产生标志
+        # 发票产生标志， 0 - 未开票， 1 - 已开票， -1 - 已删除
         self.status = 0
 
         # 客户对象

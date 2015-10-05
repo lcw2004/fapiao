@@ -257,8 +257,13 @@
            <number>0</number>
           </property>
           <property name="columnCount">
-           <number>13</number>
+           <number>14</number>
           </property>
+          <column>
+           <property name="text">
+            <string>ID</string>
+           </property>
+          </column>
           <column>
            <property name="text">
             <string>发票号码</string>

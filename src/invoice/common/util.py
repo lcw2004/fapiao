@@ -62,3 +62,16 @@ def decodeCellValue(uString):
     if type(uString) == float:
         output = str(uString)
     return output
+
+def getSelectedRows(tableView):
+    rows = []
+    for index in tableView.selectedIndexes():
+        if index.column() == 0:
+            rows.append(index.row())
+    return rows
+
+def idListToString(idList):
+    if idList and len(idList) > 0:
+        return str(tuple(idList))
+    else:
+        return "()"
