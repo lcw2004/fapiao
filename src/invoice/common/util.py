@@ -79,3 +79,12 @@ def idListToString(idList):
         idStr += str(id) + ","
     idStr = "(" + idStr[0: -1] + ")"
     return idStr
+
+def saveAsTemp(content, path):
+    f = open(path, 'w')
+    f.write(content)
+    f.close()
+
+def readFromFile(path):
+    f = open(path, 'r')
+    return f.read()

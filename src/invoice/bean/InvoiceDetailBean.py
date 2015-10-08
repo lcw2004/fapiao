@@ -13,13 +13,13 @@ class InvoiceDetail:
         # 产品单位
         self.pro_unit = None
         # 产品单价
-        self.pro_unit_price = None
+        self.pro_unit_price = 0
         # 产品数量
-        self.pro_num = None
+        self.pro_num = 0
         # 含税单价
-        self.tax_price = None
+        self.tax_price = 0
         # 税率
-        self.tax_rate = None
+        self.tax_rate = 0.17
         # 税额
         self.tax = None
         # 发票ID

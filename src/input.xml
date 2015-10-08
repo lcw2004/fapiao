@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Kp>
     <Fpxx>
-        <Zsl>1</Zsl>
+        <Zsl>${len(invoinceList)}</Zsl>
 
         % for invoince in invoinceList:
         <Fpsj>
             <Fp>
                 <Djh>${invoince.invoice_num}</Djh>
-                <Gfmc>${}</Gfmc>
-                <Gfsh>430602722587712</Gfsh>
-                <Gfyhzh>dddd</Gfyhzh>
-                <Gfdzdh>11111</Gfdzdh>
+                <Gfmc>${invoince.custom.name}</Gfmc>
+                <Gfsh>${invoince.custom.tax_id}</Gfsh>
+                <Gfyhzh>${invoince.custom.bank_account}</Gfyhzh>
+                <Gfdzdh>${invoince.custom.addr}</Gfdzdh>
                 <Bz>${invoince.remark}</Bz>
                 <Fhr>${invoince.reviewer}</Fhr>
                 <Skr>${invoince.beneficiary}</Skr>
                 <Spxx>
+
+                     % for invoinceDetail in invoince.invoiceDetailList:
                     <Sph>
-                        <Xh>1</Xh>
-                        <Spmc>DD</Spmc>
-                        <Ggxh>g</Ggxh>
-                        <Jldw>g</Jldw>
-                        <Dj>100</Dj>
-                        <Sl>10</Sl>
-                        <Je>1000.00</Je>
-                        <Slv>0.03</Slv>
+                        <Xh>${invoinceDetail.id}</Xh>
+                        <Spmc>${invoinceDetail.pro_name}</Spmc>
+                        <Ggxh>${invoinceDetail.pro_type}</Ggxh>
+                        <Jldw>${invoinceDetail.pro_unit}</Jldw>
+                        <Dj>${invoinceDetail.pro_unit_price}</Dj>
+                        <Sl>${invoinceDetail.pro_num}</Sl>
+                        <Je>{invoinceDetail.pro_num * invoinceDetail.pro_unit_price}</Je>
+                        <Slv>${invoinceDetail.tax_rate}</Slv>
                     </Sph>
+                     % endfor
                 </Spxx>
             </Fp>
         </Fpsj>

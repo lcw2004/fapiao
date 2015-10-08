@@ -13,11 +13,11 @@ class Invoice:
         # 开票日期
         self.start_time = None
         # 总不含税金额
-        self.total_not_tax = None
+        self.total_not_tax = 0
         # 总税额
-        self.total_tax = None
+        self.total_tax = 0
         # 价税合计
-        self.total_num = None
+        self.total_num = 0
         # 系统流水号
         self.serial_number = None
         # 开票人

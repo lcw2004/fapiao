@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 from invoice.dao.InvoiceDao import InvoiceDao
 from invoice.sys import ExportAsXML
+from invoice.common import util
 
 def testGet():
     invoiceDao = InvoiceDao()
     invoinceList = invoiceDao.getAllData(0)
-
-
-    for invoice in invoinceList:
-        print "invoice:", invoice.id
-
-
-    # print ExportAsXML.getMailHtml(invoinceList)
+    content =  ExportAsXML.getMailHtml(invoinceList)
+    util.saveAsTemp(content, "D:\\1.xml")
 
 if __name__ == "__main__":
     testGet()
