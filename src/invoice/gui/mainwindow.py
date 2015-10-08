@@ -3,6 +3,7 @@
 from PyQt4.QtGui import QMainWindow, QMessageBox
 from PyQt4 import QtCore
 from PyQt4 import QtGui
+from invoice.sys import ExportAsXML
 
 from mainwindow_ui import Ui_MainWindow
 from invoice.common import util
@@ -162,9 +163,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.invoince_delete_btn, QtCore.SIGNAL("clicked()"), on_action_Delete_Invoice)
 
         # 临时待处理数据 - 导入到开票系统
-        def updateInvoince():
-            pass
-        self.connect(self.invoince_update_btn, QtCore.SIGNAL("clicked()"), queryInvoice)
+        def exportInvoinceAsXml():
+            invoiceDao = InvoiceDao()
+            invoinceList = invoiceDao.getAllData(0)
+            isSuccess =  ExportAsXML.exportAsFile(invoinceList, "1.xml")
+            if isSuccess:
+                QMessageBox.information(self, "Information", u'导入成功！')
+            else:
+                QMessageBox.information(self, "Information", u'导入失败，请重试！')
+        self.connect(self.invoince_import_xml_btn, QtCore.SIGNAL("clicked()"), exportInvoinceAsXml)
 
 # 往表格里面填值，如果是其他类型，将其转换为str
 def setTableItemValue(tableWidget, rowNum, colNum, value):

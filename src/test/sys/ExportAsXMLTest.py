@@ -6,7 +6,7 @@ from invoice.common import util
 def testGet():
     invoiceDao = InvoiceDao()
     invoinceList = invoiceDao.getAllData(0)
-    content =  ExportAsXML.getMailHtml(invoinceList)
+    content =  ExportAsXML.exportAsStr(invoinceList)
     util.saveAsTemp(content, "D:\\1.xml")
 
 if __name__ == "__main__":

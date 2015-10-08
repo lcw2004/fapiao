@@ -4,7 +4,7 @@ from PyQt4 import QtGui
 
 from invoice.dao.DictDao import DictDao
 from invoice.common import excelparse
-
+import os
 
 def parseExcel(excelPath, excelTableWidget):
     dictDao = DictDao()
@@ -88,3 +88,6 @@ def saveAsTemp(content, path):
 def readFromFile(path):
     f = open(path, 'r')
     return f.read()
+
+def isFileExists(path):
+    return os.path.exists(path)
