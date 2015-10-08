@@ -161,6 +161,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 queryInvoice()
         self.connect(self.invoince_delete_btn, QtCore.SIGNAL("clicked()"), on_action_Delete_Invoice)
 
+        # 临时待处理数据 - 导入到开票系统
+        def updateInvoince():
+            pass
+        self.connect(self.invoince_update_btn, QtCore.SIGNAL("clicked()"), queryInvoice)
+
 # 往表格里面填值，如果是其他类型，将其转换为str
 def setTableItemValue(tableWidget, rowNum, colNum, value):
     valueStr = str(value)

@@ -32,6 +32,9 @@ class Invoice:
         # 客户对象
         self.custom = None
 
+        # 详细信息列表
+        self.invoiceDetailList = None
+
     def toString(self):
         print "invoice_num : ", self.invoice_num, \
             ", custom_id: ", self.custom_id, \
