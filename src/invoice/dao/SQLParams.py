@@ -5,6 +5,8 @@ APPEND_LIKE = "like"
 
 def buildParamSQL(paramName, equleType, paramValue):
     sql = ""
+    if paramValue is None:
+        return sql
 
     if equleType == APPEND_EQULE:
         sql = " and {} {} '{}' ".format(paramName, equleType, paramValue)
