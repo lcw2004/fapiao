@@ -6,7 +6,8 @@ from PyQt4 import QtGui
 from invoice.sys import ExportAsXML
 
 from mainwindow_ui import Ui_MainWindow
-from invoice.common import util
+from invoice.common import excelparse
+from invoice.common import tableUtil
 from invoice.bean.InvoiceBean import Invoice
 from invoice.bean.InvoiceDetailBean import InvoiceDetail
 from invoice.bean.CustomBean import Custom
@@ -43,7 +44,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # TODO 判断是否选择文件
             filename = QtGui.QFileDialog.getOpenFileName(self, 'Excel', '../', 'Excel File (*.xls)')
             if filename:
-                util.parseExcel(filename, self.excelTableWidget)
+                excelparse.parseExcel(filename, self.excelTableWidget)
         self.connect(self.selectExcelFileButton, QtCore.SIGNAL("clicked()"), selectExcel)
 
         # 数据导入 - 生成发票
@@ -148,7 +149,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
                 # 获取所有需要删除的行的ID
                 idList = []
-                remove_rows = util.getSelectedRows(invoiceTableWidget)
+                remove_rows = tableUtil.getSelectedRows(invoiceTableWidget)
                 for rowCount in remove_rows:
                     invoince_id = qStringToString(invoiceTableWidget.item(rowCount, 0).text())
                     if invoince_id:

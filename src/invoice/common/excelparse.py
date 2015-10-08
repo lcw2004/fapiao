@@ -1,12 +1,16 @@
 # -*- coding: UTF-8 -*-
+from PyQt4.uic.uiparser import QtGui
 
 import xlrd
 import commonUtil
 from invoice.bean.CustomBean import Custom
 from invoice.bean.InvoiceBean import Invoice
 from invoice.bean.InvoiceDetailBean import InvoiceDetail
+from invoice.common import tableUtil
+from invoice.dao.DictDao import DictDao
 
-def parseExcelBefore(excelPath):
+
+def parseExcelToInvoiceList(excelPath):
     invoiceDetailList = []
 
     data = xlrd.open_workbook(excelPath)
@@ -63,3 +67,28 @@ def parseExcelBefore(excelPath):
         print invoiceDetail.pro_name
         print "--------------------------------------"
     return invoiceDetailList
+
+def parseExcel(excelPath, excelTableWidget):
+    dictDao = DictDao()
+    dicts = dictDao.getExcelConfig(type="EXCEL_TO_XML")
+
+    # 设置表格头部
+    tableUtil.initTableHeaders(dicts, excelTableWidget)
+
+    # 解析Excel
+    invoiceDetailList = parseExcelToInvoiceList(excelPath)
+
+    # 设置表格行数
+    nrows = len(invoiceDetailList)
+    ncols = 10
+    excelTableWidget.setRowCount(nrows)
+    excelTableWidget.setColumnCount(ncols)
+    for i in range(nrows):
+        invoiceDetail = invoiceDetailList[i]
+
+        excelTableWidget.setItem(i, 0, QtGui.QTableWidgetItem(invoiceDetail.invoice.custom.name))
+        excelTableWidget.setItem(i, 1, QtGui.QTableWidgetItem(invoiceDetail.invoice.invoice_num))
+        excelTableWidget.setItem(i, 2, QtGui.QTableWidgetItem(str(invoiceDetail.invoice.total_not_tax)))
+        excelTableWidget.setItem(i, 3, QtGui.QTableWidgetItem(invoiceDetail.pro_type))
+        excelTableWidget.setItem(i, 4, QtGui.QTableWidgetItem(invoiceDetail.pro_name))
+        excelTableWidget.setItem(i, 5, QtGui.QTableWidgetItem(invoiceDetail.invoice.remark))
