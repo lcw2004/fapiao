@@ -16,23 +16,18 @@ class InvoiceDetailDao(BaseDao):
     def save(self, invoiceDetail):
         sql = '''
             INSERT INTO tbl_invoice_detail
-            (id, pro_code, pro_name, pro_type, pro_unit, pro_unit_price, pro_num, tax_price, tax_rate, tax, invoice_Id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (pro_num, not_tax_price, tax_price, contain_tax_price, invoice_Id, product_id)
+            VALUES (?, ?, ?, ?, ?, ?)
             '''
 
         cursor = self.connect.cursor()
         cursor.execute(sql, [
-            invoiceDetail.id,
-            invoiceDetail.pro_code,
-            invoiceDetail.pro_name,
-            invoiceDetail.pro_type,
-            invoiceDetail.pro_unit,
-            invoiceDetail.pro_unit_price,
             invoiceDetail.pro_num,
+            invoiceDetail.not_tax_price,
             invoiceDetail.tax_price,
-            invoiceDetail.tax_rate,
-            invoiceDetail.tax,
-            invoiceDetail.invoice_Id
+            invoiceDetail.contain_tax_price,
+            invoiceDetail.invoice_Id,
+            invoiceDetail.product_id
         ])
         data_id = cursor.lastrowid
         cursor.close()
@@ -41,9 +36,10 @@ class InvoiceDetailDao(BaseDao):
 
 
     # 根据产品名称查询
-    def get(self, invoiceId):
-        sql = 'SELECT id, pro_code, pro_name, pro_type, pro_unit, pro_unit_price, pro_num, tax_price, tax_rate, tax, invoice_Id FROM tbl_invoice_detail WHERE 1=1 '
+    def get(self, invoiceId=None, productId=None):
+        sql = 'SELECT id, pro_num, not_tax_price, tax_price, contain_tax_price, invoice_Id, product_id FROM tbl_invoice_detail WHERE 1=1 '
         sql += SQLParams.buildParamSQL("invoice_Id", SQLParams.APPEND_EQULE, invoiceId)
+        sql += SQLParams.buildParamSQL("product_id", SQLParams.APPEND_EQULE, productId)
 
         cursor = self.connect.cursor()
         cursor.execute(sql)
@@ -53,16 +49,12 @@ class InvoiceDetailDao(BaseDao):
         for row in all:
             invoiceDetail = InvoiceDetail()
             invoiceDetail.id = row[0]
-            invoiceDetail.pro_code = row[1]
-            invoiceDetail.pro_name = row[2]
-            invoiceDetail.pro_type = row[3]
-            invoiceDetail.pro_unit = row[4]
-            invoiceDetail.pro_unit_price = row[5]
-            invoiceDetail.pro_num = row[6]
-            invoiceDetail.tax_price = row[7]
-            invoiceDetail.tax_rate = row[8]
-            invoiceDetail.tax = row[9]
-            invoiceDetail.invoice_Id = row[10]
+            invoiceDetail.pro_num = row[1]
+            invoiceDetail.not_tax_price = row[2]
+            invoiceDetail.tax_price = row[3]
+            invoiceDetail.contain_tax_price = row[4]
+            invoiceDetail.invoice_Id = row[5]
+            invoiceDetail.product_id = row[6]
             list.append(invoiceDetail)
         cursor.close()
         return list

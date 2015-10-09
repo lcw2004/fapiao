@@ -4,15 +4,13 @@ from invoice.dao.InvoiceDetailDao import InvoiceDetailDao
 
 def testSave():
     invoiceDetail = InvoiceDetail()
-    invoiceDetail.pro_code = "pro_code"
-    invoiceDetail.pro_name = "pro_name"
-    invoiceDetail.pro_type = "pro_type"
-    invoiceDetail.pro_unit = "pro_unit"
-    invoiceDetail.pro_unit_price = "pro_unit_price"
-    invoiceDetail.pro_num = "pro_num"
-    invoiceDetail.tax_price = "tax_price"
-    invoiceDetail.tax_rate = "tax_rate"
-    invoiceDetail.tax = "tax"
+    invoiceDetail.id = None
+    invoiceDetail.pro_num = 1
+    invoiceDetail.not_tax_price = 2
+    invoiceDetail.tax_price = 3
+    invoiceDetail.contain_tax_price = 4
+
+    invoiceDetail.product_id = 100
     invoiceDetail.invoice_Id = 1
 
     invoiceDetailDao = InvoiceDetailDao()
@@ -24,16 +22,12 @@ def testGet():
     for invoiceDetail in invoiceDetailList:
         print "------------------------"
         print invoiceDetail.id
-        print invoiceDetail.pro_code
-        print invoiceDetail.pro_name
-        print invoiceDetail.pro_type
-        print invoiceDetail.pro_unit
-        print invoiceDetail.pro_unit_price
         print invoiceDetail.pro_num
+        print invoiceDetail.not_tax_price
         print invoiceDetail.tax_price
-        print invoiceDetail.tax_rate
-        print invoiceDetail.tax
+        print invoiceDetail.contain_tax_price
         print invoiceDetail.invoice_Id
+        print invoiceDetail.product_id
 
 if __name__ == "__main__":
     testSave()

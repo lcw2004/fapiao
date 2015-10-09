@@ -45,32 +45,21 @@ primary key (id)
 
 create table tbl_invoice (
 id                   INTEGER                        not null,
+custom_id            INTEGER,
 invoice_num          TEXT,
-custom_id            TEXT,
 remark               TEXT,
 start_time           TEXT,
-total_not_tax        TEXT,
-total_tax            TEXT,
-total_num            TEXT,
+total_not_tax        INTEGER,
+total_tax            INTEGER,
+total_num            INTEGER,
 serial_number        TEXT,
 drawer               TEXT,
 beneficiary          TEXT,
 reviewer             TEXT,
 status               INTEGER,
-primary key (id)
-);
-
-create table tbl_invoice_detail (
-id                   INTEGER                        not null,
-pro_num              INTEGER,
-not_tax_price        INTEGER,
-tax_price            INTEGER,
-contain_tax_price    INTEGER,
-invoice_Id           INTEGER,
-product_id           INTEGER,
 primary key (id),
-foreign key (invoice_Id)
-      references tbl_invoice (id)
+foreign key (custom_id)
+      references tbl_custom (id)
 );
 
 create table tbl_product (
@@ -90,5 +79,20 @@ col3                 TEXT,
 col4                 TEXT,
 p_id                 INTEGER,
 primary key (id)
+);
+
+create table tbl_invoice_detail (
+id                   INTEGER                        not null,
+pro_num              INTEGER,
+not_tax_price        INTEGER,
+tax_price            INTEGER,
+contain_tax_price    INTEGER,
+invoice_Id           INTEGER,
+product_id           INTEGER,
+primary key (id),
+foreign key (invoice_Id)
+      references tbl_invoice (id),
+foreign key (product_id)
+      references tbl_product (id)
 );
 
