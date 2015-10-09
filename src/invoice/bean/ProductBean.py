@@ -1,30 +1,32 @@
+# -*- coding: utf-8 -*-
+
 __author__ = 'Administrator'
 
 class Product:
     def __init__(self):
         # ID
         self.id = None
-        # ²úÆ·´úÂë
+        # äº§å“ä»£ç 
         self.code = None
-        # ²úÆ·Ãû³Æ
+        # äº§å“åç§°
         self.name = None
-        # ²úÆ·ĞÍºÅ
+        # äº§å“å‹å·
         self.type = None
-        # ²úÆ·µ¥Î»
+        # äº§å“å•ä½
         self.unit = None
-        # ²úÆ·µ¥¼Û
+        # äº§å“å•ä»·
         self.unit_price = None
-        # º¬Ë°µ¥¼Û£¨²úÆ·µ¥¼Û + ²úÆ·µ¥¼Û * Ë°ÂÊ£©
+        # å«ç¨å•ä»·ï¼ˆäº§å“å•ä»· + äº§å“å•ä»· * ç¨ç‡ï¼‰
         self.tax_price = None
-        # Ë°ÂÊ
+        # ç¨ç‡
         self.tax = None
-        # ÆóÒµË°ºÅ
+        # ä¼ä¸šç¨å·
         self.business_tax_num = None
-        # ERA¶ÔÕÕÖµ
+        # ERAå¯¹ç…§å€¼
         self.erp_id = None
         self.col1 = None
         self.col2 = None
         self.col4 = None
 
-        # ¸¸ID
+        # çˆ¶ID
         self.p_id = None

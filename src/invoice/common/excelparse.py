@@ -1,14 +1,14 @@
 # -*- coding: UTF-8 -*-
 
 import xlrd
+
 import commonUtil
 from invoice.bean.CustomBean import Custom
 from invoice.bean.InvoiceBean import Invoice
 from invoice.bean.InvoiceDetailBean import InvoiceDetail
+from invoice.bean.ProductBean import Product
 from invoice.common import tableUtil
 from invoice.dao.DictDao import DictDao
-
-from PyQt4 import QtGui
 
 def parseExcelToInvoiceList(excelPath):
     invoiceDetailList = []
@@ -43,17 +43,21 @@ def parseExcelToInvoiceList(excelPath):
         custom = Custom()
         custom.name = tbl_custom_name
 
-        # 保存发票
+        # 发票对象
         invoice = Invoice()
         invoice.invoice_num = tbl_invoice_invoice_num
         invoice.remark = tbl_invoice_remark
         invoice.total_not_tax = tbl_invoice_total_not_tax
         invoice.custom = custom
 
+        # 产品对象
+        product = Product()
+        product.type = tbl_invoice_detail_pro_type
+        product.name = tbl_invoice_detail_pro_name
+
         # 保存发票详细信息
         invoiceDetail = InvoiceDetail()
-        invoiceDetail.pro_type = tbl_invoice_detail_pro_type
-        invoiceDetail.pro_name = tbl_invoice_detail_pro_name
+        invoiceDetail.product = product
         invoiceDetail.invoice = invoice
 
         invoiceDetailList.append(invoiceDetail)
@@ -63,8 +67,8 @@ def parseExcelToInvoiceList(excelPath):
         print invoiceDetail.invoice.invoice_num
         print invoiceDetail.invoice.total_not_tax
         print invoiceDetail.invoice.remark
-        print invoiceDetail.pro_type
-        print invoiceDetail.pro_name
+        print invoiceDetail.product.type
+        print invoiceDetail.product.name
         print "--------------------------------------"
     return invoiceDetailList
 
@@ -89,6 +93,6 @@ def parseExcel(excelPath, excelTableWidget):
         tableUtil.setTableItemValue(excelTableWidget, i, 0, invoiceDetail.invoice.custom.name)
         tableUtil.setTableItemValue(excelTableWidget, i, 1, invoiceDetail.invoice.invoice_num)
         tableUtil.setTableItemValue(excelTableWidget, i, 2, str(invoiceDetail.invoice.total_not_tax))
-        tableUtil.setTableItemValue(excelTableWidget, i, 3, invoiceDetail.pro_type)
-        tableUtil.setTableItemValue(excelTableWidget, i, 4, invoiceDetail.pro_name)
+        tableUtil.setTableItemValue(excelTableWidget, i, 3, invoiceDetail.product.type)
+        tableUtil.setTableItemValue(excelTableWidget, i, 4, invoiceDetail.product.name)
         tableUtil.setTableItemValue(excelTableWidget, i, 5, invoiceDetail.invoice.remark)
