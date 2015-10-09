@@ -70,7 +70,7 @@ class InvoiceDao(BaseDao):
         return list
 
 
-# 根据产品名称查询
+    # 根据产品名称查询
     def getAllData(self, status):
         sql = 'SELECT id, invoice_num, custom_id, remark, start_time, total_not_tax, total_tax, total_num, serial_number, drawer, beneficiary, reviewer, status FROM tbl_invoice WHERE 1=1 '
         sql += SQLParams.buildParamSQL("status", SQLParams.APPEND_EQULE, status)
@@ -102,8 +102,8 @@ class InvoiceDao(BaseDao):
         for invoice in invoiceList:
             invoiceId = invoice.id
             customId = invoice.custom_id
-            custom = getCustomById(self.connect, customId)
-            invoiceDetailList = getInvoinceDetailListById(self.connect, invoiceId)
+            custom = self.getCustomById(customId)
+            invoiceDetailList = self.getInvoinceDetailListById(invoiceId)
 
             invoice.invoiceDetailList = invoiceDetailList
             invoice.custom = custom
@@ -113,7 +113,7 @@ class InvoiceDao(BaseDao):
 
 
     def updateStatus(self, ids, newStatus):
-        sql = '''UPDATE tbl_invoice SET status = ? WHERE id IN ''' + util.idListToString(ids)
+        sql = '''UPDATE tbl_invoice SET status = ? WHERE id IN ''' + SQLParams.idListToString(ids)
 
         cursor = self.connect.cursor()
         cursor.execute(sql, [newStatus])
@@ -122,54 +122,81 @@ class InvoiceDao(BaseDao):
 
 
 
-def getInvoinceDetailListById(connect, invoiceId):
-    sql = 'SELECT id, pro_code, pro_name, pro_type, pro_unit, pro_unit_price, pro_num, tax_price, tax_rate, tax, invoice_Id FROM tbl_invoice_detail WHERE invoice_Id = ?'
+    def getInvoinceDetailListById(self, invoiceId):
+        sql = 'SELECT id, pro_code, pro_name, pro_type, pro_unit, pro_unit_price, pro_num, tax_price, tax_rate, tax, invoice_Id FROM tbl_invoice_detail WHERE invoice_Id = ?'
 
-    cursor = connect.cursor()
-    cursor.execute(sql, [invoiceId])
+        cursor = self.connect.cursor()
+        cursor.execute(sql, [invoiceId])
 
-    one = cursor.fetchall()
-    invoiceDetailList = []
-    for row in one:
-        invoiceDetail = InvoiceDetail()
-        invoiceDetail.id = row[0]
-        invoiceDetail.pro_code = row[1]
-        invoiceDetail.pro_name = row[2]
-        invoiceDetail.pro_type = row[3]
-        invoiceDetail.pro_unit = row[4]
-        invoiceDetail.pro_unit_price = row[5]
-        invoiceDetail.pro_num = row[6]
-        invoiceDetail.tax_price = row[7]
-        invoiceDetail.tax_rate = row[8]
-        invoiceDetail.tax = row[9]
-        invoiceDetail.invoice_Id = row[10]
-        invoiceDetailList.append(invoiceDetail)
+        one = cursor.fetchall()
+        invoiceDetailList = []
+        for row in one:
+            invoiceDetail = InvoiceDetail()
+            invoiceDetail.id = row[0]
+            invoiceDetail.pro_code = row[1]
+            invoiceDetail.pro_name = row[2]
+            invoiceDetail.pro_type = row[3]
+            invoiceDetail.pro_unit = row[4]
+            invoiceDetail.pro_unit_price = row[5]
+            invoiceDetail.pro_num = row[6]
+            invoiceDetail.tax_price = row[7]
+            invoiceDetail.tax_rate = row[8]
+            invoiceDetail.tax = row[9]
+            invoiceDetail.invoice_Id = row[10]
+            invoiceDetailList.append(invoiceDetail)
 
-    cursor.close()
+        cursor.close()
 
-    return invoiceDetailList
+        return invoiceDetailList
+
+    def mergeInvoinceDetail(self, mainInvoiceId, invoiceIdList):
+        sql = 'UPDATE tbl_invoice_detail SET invoice_Id = ? WHERE invoice_Id IN ' + SQLParams.idListToString(invoiceIdList)
+
+        cursor = self.connect.cursor()
+        cursor.execute(sql, [mainInvoiceId])
+
+        one = cursor.fetchall()
+        invoiceDetailList = []
+        for row in one:
+            invoiceDetail = InvoiceDetail()
+            invoiceDetail.id = row[0]
+            invoiceDetail.pro_code = row[1]
+            invoiceDetail.pro_name = row[2]
+            invoiceDetail.pro_type = row[3]
+            invoiceDetail.pro_unit = row[4]
+            invoiceDetail.pro_unit_price = row[5]
+            invoiceDetail.pro_num = row[6]
+            invoiceDetail.tax_price = row[7]
+            invoiceDetail.tax_rate = row[8]
+            invoiceDetail.tax = row[9]
+            invoiceDetail.invoice_Id = row[10]
+            invoiceDetailList.append(invoiceDetail)
+
+        cursor.close()
+
+        return invoiceDetailList
 
 
-def getCustomById(connect, customId):
-    sql = 'SELECT id, code, name, tax_id, addr, bank_account, business_tax_di, erp_id, summary_title FROM tbl_custom WHERE id = ? '
+    def getCustomById(self, customId):
+        sql = 'SELECT id, code, name, tax_id, addr, bank_account, business_tax_di, erp_id, summary_title FROM tbl_custom WHERE id = ? '
 
-    cursor = connect.cursor()
-    cursor.execute(sql, [customId])
-    one = cursor.fetchone()
+        cursor = self.connect.cursor()
+        cursor.execute(sql, [customId])
+        one = cursor.fetchone()
 
-    custom = None
-    if one:
-        custom = Custom()
-        custom.id = one[0]
-        custom.code = one[1]
-        custom.name = one[2]
-        custom.tax_id = one[3]
-        custom.addr = one[4]
-        custom.bank_account = one[5]
-        custom.business_tax_di = one[6]
-        custom.erp_id = one[7]
-        custom.summary_title = one[8]
+        custom = None
+        if one:
+            custom = Custom()
+            custom.id = one[0]
+            custom.code = one[1]
+            custom.name = one[2]
+            custom.tax_id = one[3]
+            custom.addr = one[4]
+            custom.bank_account = one[5]
+            custom.business_tax_di = one[6]
+            custom.erp_id = one[7]
+            custom.summary_title = one[8]
 
-    cursor.close()
+        cursor.close()
 
-    return custom
+        return custom

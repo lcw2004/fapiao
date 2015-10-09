@@ -42,6 +42,50 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 临时待处理数据 - 导入到开票系统
         self.connect(self.invoince_import_xml_btn, QtCore.SIGNAL("clicked()"), self.exportInvoinceAsXml)
 
+        # 临时待处理数据 - 合并选中项
+        self.connect(self.invoince_merge_btn, QtCore.SIGNAL("clicked()"), self.mergeInvoice)
+
+        # 临时待处理数据 - 拆分
+        self.connect(self.invoince_chaifeng_btn, QtCore.SIGNAL("clicked()"), self.chaifenInvoice)
+
+
+    def mergeInvoice(self):
+        invoiceTableWidget = self.invoiceTableWidget
+
+        # 判断选择的合并的发票数量
+        selected_rows = tableUtil.getSelectedRows(invoiceTableWidget)
+        if len(selected_rows) <= 1:
+            QMessageBox.information(self, "Information", u'请选择至少两个需要合并的发票！')
+            return
+
+        # 获取所有需要合并的行的ID
+        idList = []
+        customNameList = []
+        for row_num in selected_rows:
+            invoince_id = tableUtil.qStringToString(invoiceTableWidget.item(row_num, 0).text())
+            invoince_custom_name = tableUtil.qStringToString(invoiceTableWidget.item(row_num, 2).text())
+            if invoince_id:
+                idList.append(int(invoince_id))
+                customNameList.append(invoince_custom_name)
+
+        # 判断是否
+        customNameSet = set(customNameList)
+        if len(customNameSet) > 1:
+            QMessageBox.information(self, "Information", u'所选发票中存在两个不同客户的发票！')
+            return
+
+        # 将所选发票的详细信息合并到第一个中，并删除其他发票
+        mainInvoiceId = idList[0]
+        invoiceDao = InvoiceDao()
+        invoiceDao.mergeInvoinceDetail(mainInvoiceId, idList)
+        invoiceDao.updateStatus(idList[1:], 9)
+
+        # 合并成功并刷新表格
+        QMessageBox.information(self, "Information", u'合并成功！')
+        self.queryInvoice()
+
+    def chaifenInvoice(self):
+        pass
 
     def selectExcel(self):
         # TODO 判断是否选择文件
@@ -116,7 +160,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # 查询数据
         invoiceDao = InvoiceDao()
-        invoiceList = invoiceDao.get(0)
+        invoiceList = invoiceDao.getAllData(0)
 
         # 将数据填充到表格中
         invoiceCount = len(invoiceList)
