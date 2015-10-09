@@ -3,6 +3,8 @@
 from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView
 from PyQt4 import QtCore
 from PyQt4 import QtGui
+from invoice.bean.ProductBean import Product
+from invoice.dao.ProductDao import ProductDao
 from mainwindow_ui import Ui_MainWindow
 
 from invoice.sys import ExportAsXML
@@ -106,6 +108,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoiceDao = InvoiceDao()
         invoiceDetailDao = InvoiceDetailDao()
         cuntomDao = CustomDao()
+        productDao = ProductDao()
 
         for i in range(rowCount):
             tbl_custom_name = tableUtil.qStringToString(excelTableWidget.item(i, 0).text())
@@ -117,13 +120,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             # 保存用户信息
             custom = cuntomDao.getOne(name=tbl_custom_name)
-
             if custom:
                 print u"客户已经存在，ID为：", custom.id
             else:
                 custom = Custom()
                 custom.name = tbl_custom_name
                 custom.id = cuntomDao.save(custom)
+
+            # 保存商品信息
+            product = productDao.getOne(name=tbl_invoice_detail_pro_name)
+            if product:
+                print u"商品已经存在，ID为：", product.id
+            else:
+                product = Product()
+                product.name = tbl_invoice_detail_pro_name
+                product.type = tbl_invoice_detail_pro_type
+                product.id = productDao.save(product)
+
             # 保存发票
             invoice = Invoice()
             invoice.invoice_num = tbl_invoice_invoice_num
@@ -137,9 +150,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             invoiceDetail.pro_type = tbl_invoice_detail_pro_type
             invoiceDetail.pro_name = tbl_invoice_detail_pro_name
             invoiceDetail.invoice_Id = invoice.id
+            invoiceDetail.product_id = product.id
             invoiceDetailDao.save(invoiceDetail)
 
-            print type(tbl_custom_name)
             print tbl_invoice_invoice_num
             print tbl_invoice_total_not_tax
             print tbl_invoice_detail_pro_type

@@ -4,6 +4,8 @@ import sqlite3
 from BaseDao import BaseDao
 from invoice.common import config
 from invoice.bean.ProductBean import Product
+from invoice.dao import SQLParams
+
 
 class ProductDao(BaseDao):
 
@@ -11,7 +13,8 @@ class ProductDao(BaseDao):
         self.connect = sqlite3.connect(config.DATABASE_PATH)
 
     # 保存产品
-    def save(self, product):
+    def \
+            save(self, product):
         sql = '''
             INSERT INTO tbl_product
             (name, code, type, unit_price, tax_price, tax, business_tax_num, erp_id, col1, col2, col3, col4)
@@ -64,3 +67,33 @@ class ProductDao(BaseDao):
             list.append(product)
         cursor.close()
         return list
+
+    def getOne(self, name, code=None, id=None):
+        sql = 'SELECT id, name, code, type, unit_price, tax_price, tax, business_tax_num, erp_id, col1, col2, col3, col4 FROM tbl_product WHERE 1=1 '
+        sql += SQLParams.buildParamSQL("code", SQLParams.APPEND_EQULE, code)
+        sql += SQLParams.buildParamSQL("id", SQLParams.APPEND_EQULE, id)
+        sql += " and name = ?"
+
+        cursor = self.connect.cursor()
+        cursor.execute(sql, [name])
+
+        one = cursor.fetchone()
+        product = None
+        if one:
+            product = Product()
+            product.id = one[0]
+            product.name = one[1]
+            product.code = one[2]
+            product.type = one[3]
+            product.unit_price = one[4]
+            product.tax_price = one[5]
+            product.tax = one[6]
+            product.business_tax_num = one[7]
+            product.erp_id = one[8]
+            product.col1 = one[9]
+            product.col2 = one[10]
+            product.col3 = one[11]
+            product.col4 = one[12]
+
+        cursor.close()
+        return product

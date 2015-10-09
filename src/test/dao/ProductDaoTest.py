@@ -29,21 +29,27 @@ def testGet():
     list = productDao.get()
     for product in list:
         print "------------------------"
-        print product.id
-        print product.name
-        print product.code
-        print product.type
-        print product.unit_price
-        print product.tax_price
-        print product.tax
-        print product.business_tax_num
-        print product.erp_id
-        print product.col1
-        print product.col2
-        print product.col3
-        print product.col4
+        printObj(product)
 
+def testGetOne():
+    productDao = ProductDao()
+    product = productDao.getOne(u"一般货物")
+    printObj(product)
+
+def printObj(product):
+    print product.id
+    print product.name
+    print product.code
+    print product.type
+    print product.unit_price
+    print product.tax_price
+    print product.tax
+    print product.business_tax_num
+    print product.erp_id
+    print product.col1
+    print product.col2
+    print product.col3
+    print product.col4
 
 if __name__ == "__main__":
-    testSave()
-    testGet()
+    testGetOne()

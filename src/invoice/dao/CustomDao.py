@@ -83,5 +83,6 @@ class CustomDao(BaseDao):
             custom.erp_id = row[7]
             custom.summary_title = row[8]
 
-            return custom
+        cursor.close()
+        return custom
 
