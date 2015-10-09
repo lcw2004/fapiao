@@ -82,6 +82,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoiceDao.mergeInvoinceDetail(mainInvoiceId, idList)
         invoiceDao.updateStatus(idList[1:], 9)
 
+        # 重新统计税额
+        invoiceDao.proofreadInvoince(mainInvoiceId)
+
         # 合并成功并刷新表格
         QMessageBox.information(self, "Information", u'合并成功！')
         self.queryInvoice()
