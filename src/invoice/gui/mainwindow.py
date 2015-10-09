@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from PyQt4.QtGui import QMainWindow, QMessageBox
+from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from invoice.sys import ExportAsXML
@@ -106,6 +106,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         def queryInvoice():
             invoiceTableWidget = self.invoiceTableWidget
 
+            # 设置整行选中
+            invoiceTableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
+            # 设置不可编辑
+            invoiceTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+
             # 查询数据
             invoiceDao = InvoiceDao()
             invoiceList = invoiceDao.get(0)
@@ -135,6 +140,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 setTableItemValue(invoiceTableWidget, i, 14, invoice.reviewer)
         self.connect(self.invoice_filter_Button, QtCore.SIGNAL("clicked()"), queryInvoice)
 
+        # 绑定元素选择事件
+        self.connect(self.invoiceTableWidget, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'), self.invoinceItem_Clicked)
 
         # 临时待处理数据 - 修改
         def updateInvoince():
@@ -173,6 +180,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             else:
                 QMessageBox.information(self, "Information", u'导入失败，请重试！')
         self.connect(self.invoince_import_xml_btn, QtCore.SIGNAL("clicked()"), exportInvoinceAsXml)
+
+    def invoinceItem_Clicked(self, item):
+        invoiceId =  self.invoiceTableWidget.item(item.row(), 0).text()
+        print invoiceId
+
 
 # 往表格里面填值，如果是其他类型，将其转换为str
 def setTableItemValue(tableWidget, rowNum, colNum, value):
