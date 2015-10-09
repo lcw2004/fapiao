@@ -30,5 +30,9 @@ def testDelete():
     invoiceDao = InvoiceDao()
     invoiceDao.updateStatus(ids, 0)
 
+def testProofread():
+    invoiceDao = InvoiceDao()
+    invoiceDao.proofreadInvoince()
+
 if __name__ == "__main__":
-    testGet()
+    testProofread()

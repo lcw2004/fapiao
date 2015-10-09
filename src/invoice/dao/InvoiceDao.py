@@ -194,3 +194,18 @@ class InvoiceDao(BaseDao):
         cursor.close()
 
         return custom
+
+    def proofreadInvoince(self, invoiceId=None):
+        sql = '''
+            UPDATE tbl_invoice set
+                total_not_tax = (SELECT sum(not_tax_price) FROM tbl_invoice_detail where tbl_invoice_detail.invoice_Id = tbl_invoice.id),
+                total_tax = (SELECT sum(tax_price) FROM tbl_invoice_detail where tbl_invoice_detail.invoice_Id = tbl_invoice.id),
+                total_num = (SELECT sum(contain_tax_price) FROM tbl_invoice_detail where tbl_invoice_detail.invoice_Id = tbl_invoice.id)
+            where 1 = 1
+        '''
+        sql += SQLParams.buildParamSQL("id", SQLParams.APPEND_EQULE, invoiceId)
+
+        cursor = self.connect.cursor()
+        cursor.execute(sql)
+        cursor.close()
+        self.connect.commit()
