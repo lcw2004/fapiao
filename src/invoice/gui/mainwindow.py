@@ -226,7 +226,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 invoiceDao.updateStatus(idList, -1)
 
                 # 重新加载表格
-                self.queryInvoice(self)
+                self.queryInvoice()
 
     def exportInvoinceAsXml(self):
         invoiceDao = InvoiceDao()

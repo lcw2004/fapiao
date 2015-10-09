@@ -281,7 +281,7 @@
           </column>
           <column>
            <property name="text">
-            <string>总金额</string>
+            <string>总税额</string>
            </property>
           </column>
           <column>

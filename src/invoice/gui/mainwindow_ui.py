@@ -314,7 +314,7 @@ class Ui_MainWindow(object):
         item = self.invoiceTableWidget.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "总不含税金额", None))
         item = self.invoiceTableWidget.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "总金额", None))
+        item.setText(_translate("MainWindow", "总税额", None))
         item = self.invoiceTableWidget.horizontalHeaderItem(5)
         item.setText(_translate("MainWindow", "价税合计", None))
         item = self.invoiceTableWidget.horizontalHeaderItem(6)
