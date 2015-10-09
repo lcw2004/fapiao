@@ -2,6 +2,7 @@
 
 import sqlite3
 from BaseDao import BaseDao
+from invoice.bean.ProductBean import Product
 from invoice.common import config
 from invoice.bean.InvoiceDetailBean import InvoiceDetail
 from invoice.dao import SQLParams
@@ -57,4 +58,40 @@ class InvoiceDetailDao(BaseDao):
             invoiceDetail.product_id = row[6]
             list.append(invoiceDetail)
         cursor.close()
+
+        # 获取客户信息
+        for invoiceDetail in list:
+            invoiceId = invoiceDetail.id
+            productId = invoiceDetail.product_id
+            product = self.getProductById(productId)
+
+            invoiceDetail.product = product
         return list
+
+    def getProductById(self, id):
+        sql = 'SELECT id, name, code, type, unit_price, tax_price, tax, business_tax_num, erp_id, col1, col2, col3, col4 FROM tbl_product WHERE 1=1 '
+        sql += " and id = ?"
+
+        cursor = self.connect.cursor()
+        cursor.execute(sql, [id])
+
+        one = cursor.fetchone()
+        product = None
+        if one:
+            product = Product()
+            product.id = one[0]
+            product.name = one[1]
+            product.code = one[2]
+            product.type = one[3]
+            product.unit_price = one[4]
+            product.tax_price = one[5]
+            product.tax = one[6]
+            product.business_tax_num = one[7]
+            product.erp_id = one[8]
+            product.col1 = one[9]
+            product.col2 = one[10]
+            product.col3 = one[11]
+            product.col4 = one[12]
+
+        cursor.close()
+        return product

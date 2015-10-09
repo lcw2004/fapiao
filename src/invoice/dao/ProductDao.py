@@ -13,8 +13,7 @@ class ProductDao(BaseDao):
         self.connect = sqlite3.connect(config.DATABASE_PATH)
 
     # 保存产品
-    def \
-            save(self, product):
+    def save(self, product):
         sql = '''
             INSERT INTO tbl_product
             (name, code, type, unit_price, tax_price, tax, business_tax_num, erp_id, col1, col2, col3, col4)

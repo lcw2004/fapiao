@@ -149,6 +149,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             invoiceDetail = InvoiceDetail()
             invoiceDetail.pro_type = tbl_invoice_detail_pro_type
             invoiceDetail.pro_name = tbl_invoice_detail_pro_name
+            invoiceDetail.not_tax_price = tbl_invoice_total_not_tax
             invoiceDetail.invoice_Id = invoice.id
             invoiceDetail.product_id = product.id
             invoiceDetailDao.save(invoiceDetail)
@@ -198,7 +199,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             tableUtil.setTableItemValue(invoiceTableWidget, i, 13, invoice.beneficiary)
             tableUtil.setTableItemValue(invoiceTableWidget, i, 14, invoice.reviewer)
 
-
     def updateInvoince(self):
         pass
 
@@ -246,16 +246,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for i in range(invoiceDetailCount):
             invoiceDetail = invoiceDetailList[i]
 
+            # 计算税额等
+            invoiceDetail.caculate()
+
             tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 0, invoiceDetail.id)
-            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 1, invoiceDetail.pro_code)
-            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 2, invoiceDetail.pro_name)
-            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 3, invoiceDetail.pro_type)
-            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 4, invoiceDetail.pro_unit)
-            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 5, invoiceDetail.pro_unit_price)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 1, invoiceDetail.product.code)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 2, invoiceDetail.product.name)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 3, invoiceDetail.product.type)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 4, invoiceDetail.product.unit)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 5, invoiceDetail.product.unit_price)
             tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 6, invoiceDetail.pro_num)
-            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 7, invoiceDetail.tax_price)
-            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 8, invoiceDetail.tax_rate)
-            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 9, invoiceDetail.tax)
-
-
-
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 7, invoiceDetail.product.tax_price)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 8, invoiceDetail.not_tax_price)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 9, invoiceDetail.product.tax)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 10, invoiceDetail.tax_price)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 11, invoiceDetail.contain_tax_price)

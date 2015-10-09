@@ -120,10 +120,8 @@ class InvoiceDao(BaseDao):
         cursor.close()
         self.connect.commit()
 
-
-
     def getInvoinceDetailListById(self, invoiceId):
-        sql = 'SELECT id, pro_code, pro_name, pro_type, pro_unit, pro_unit_price, pro_num, tax_price, tax_rate, tax, invoice_Id FROM tbl_invoice_detail WHERE invoice_Id = ?'
+        sql = 'SELECT id, pro_num, not_tax_price, tax_price, contain_tax_price, invoice_Id, product_id FROM tbl_invoice_detail WHERE invoice_Id = ?'
 
         cursor = self.connect.cursor()
         cursor.execute(sql, [invoiceId])
@@ -133,16 +131,12 @@ class InvoiceDao(BaseDao):
         for row in one:
             invoiceDetail = InvoiceDetail()
             invoiceDetail.id = row[0]
-            invoiceDetail.pro_code = row[1]
-            invoiceDetail.pro_name = row[2]
-            invoiceDetail.pro_type = row[3]
-            invoiceDetail.pro_unit = row[4]
-            invoiceDetail.pro_unit_price = row[5]
-            invoiceDetail.pro_num = row[6]
-            invoiceDetail.tax_price = row[7]
-            invoiceDetail.tax_rate = row[8]
-            invoiceDetail.tax = row[9]
-            invoiceDetail.invoice_Id = row[10]
+            invoiceDetail.pro_num = row[1]
+            invoiceDetail.not_tax_price = row[2]
+            invoiceDetail.tax_price = row[3]
+            invoiceDetail.contain_tax_price = row[4]
+            invoiceDetail.invoice_Id = row[5]
+            invoiceDetail.product_id = row[6]
             invoiceDetailList.append(invoiceDetail)
 
         cursor.close()

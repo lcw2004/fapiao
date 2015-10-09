@@ -23,3 +23,7 @@ class InvoiceDetail:
         self.invoice = None
         # 产品对象
         self.product = None
+
+    def caculate(self):
+        self.tax_price = float(self.not_tax_price) * float(self.product.tax)
+        self.contain_tax_price = float(self.not_tax_price) + self.tax_price
