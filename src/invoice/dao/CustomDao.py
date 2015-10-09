@@ -61,17 +61,13 @@ class CustomDao(BaseDao):
         cursor.close()
         return list
 
-    def getOne(self, code=None, name=None):
+    def getOne(self, name, code=None):
         sql = 'SELECT id, code, name, tax_id, addr, bank_account, business_tax_di, erp_id, summary_title FROM tbl_custom WHERE 1=1 '
         sql += SQLParams.buildParamSQL("code", SQLParams.APPEND_EQULE, code)
-        sql += SQLParams.buildParamSQL("name", SQLParams.APPEND_EQULE, name)
-
-        print type(sql)
+        sql += " and name = ?"
 
         cursor = self.connect.cursor()
-        cursor.execute(sql)
-
-        print sql
+        cursor.execute(sql, [name])
 
         row = cursor.fetchone()
         custom = None

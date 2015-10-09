@@ -116,15 +116,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             tbl_invoice_remark = tableUtil.qStringToString(excelTableWidget.item(i, 5).text())
 
             # 保存用户信息
-            custom = cuntomDao.getOne(name=str(tbl_custom_name))
+            custom = cuntomDao.getOne(name=tbl_custom_name)
 
-            # TODO 报错之前判断是否客户存在
-            print custom.id
-            if custom is None:
+            if custom:
+                print u"客户已经存在，ID为：", custom.id
+            else:
                 custom = Custom()
                 custom.name = tbl_custom_name
                 custom.id = cuntomDao.save(custom)
-
             # 保存发票
             invoice = Invoice()
             invoice.invoice_num = tbl_invoice_invoice_num
