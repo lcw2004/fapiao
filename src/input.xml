@@ -15,7 +15,6 @@
                 <Fhr>${invoince.reviewer}</Fhr>
                 <Skr>${invoince.beneficiary}</Skr>
                 <Spxx>
-
                      % for invoinceDetail in invoince.invoiceDetailList:
                     <Sph>
                         <Xh>${invoinceDetail.id}</Xh>
