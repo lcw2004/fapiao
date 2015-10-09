@@ -186,6 +186,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoinceDetailTableWidget.setRowCount(invoiceDetailCount)
         for i in range(invoiceDetailCount):
             invoiceDetail = invoiceDetailList[i]
+
             tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 0, invoiceDetail.id)
             tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 1, invoiceDetail.pro_code)
             tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 2, invoiceDetail.pro_name)
@@ -196,5 +197,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 7, invoiceDetail.tax_price)
             tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 8, invoiceDetail.tax_rate)
             tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 9, invoiceDetail.tax)
+
 
 

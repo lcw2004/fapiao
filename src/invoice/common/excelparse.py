@@ -93,9 +93,10 @@ def parseExcel(excelPath, excelTableWidget):
         print invoiceDetail.pro_name
         print invoiceDetail.invoice.remark
 
-        excelTableWidget.setItem(i, 0, QtGui.QTableWidgetItem(invoiceDetail.invoice.custom.name))
-        excelTableWidget.setItem(i, 1, QtGui.QTableWidgetItem(invoiceDetail.invoice.invoice_num))
-        excelTableWidget.setItem(i, 2, QtGui.QTableWidgetItem(str(invoiceDetail.invoice.total_not_tax)))
-        excelTableWidget.setItem(i, 3, QtGui.QTableWidgetItem(invoiceDetail.pro_type))
-        excelTableWidget.setItem(i, 4, QtGui.QTableWidgetItem(invoiceDetail.pro_name))
-        excelTableWidget.setItem(i, 5, QtGui.QTableWidgetItem(invoiceDetail.invoice.remark))
+
+        tableUtil.setTableItemValue(excelTableWidget, i, 0, invoiceDetail.invoice.custom.name)
+        tableUtil.setTableItemValue(excelTableWidget, i, 1, invoiceDetail.invoice.invoice_num)
+        tableUtil.setTableItemValue(excelTableWidget, i, 2, str(invoiceDetail.invoice.total_not_tax))
+        tableUtil.setTableItemValue(excelTableWidget, i, 3, invoiceDetail.pro_type)
+        tableUtil.setTableItemValue(excelTableWidget, i, 4, invoiceDetail.pro_name)
+        tableUtil.setTableItemValue(excelTableWidget, i, 5, invoiceDetail.invoice.remark)

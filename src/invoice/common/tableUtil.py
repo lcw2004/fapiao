@@ -48,7 +48,11 @@ def getSelectedRows(tableView):
 
 # 往表格里面填值，如果是其他类型，将其转换为str
 def setTableItemValue(tableWidget, rowNum, colNum, value):
-    valueStr = str(value)
+    valueStr = ""
+    if isinstance(value, unicode):
+        valueStr = value
+    else:
+        valueStr = str(value)
 
     if value:
         tableWidget.setItem(rowNum, colNum, QtGui.QTableWidgetItem(valueStr))
