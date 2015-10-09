@@ -86,14 +86,6 @@ def parseExcel(excelPath, excelTableWidget):
     for i in range(nrows):
         invoiceDetail = invoiceDetailList[i]
 
-        print invoiceDetail.invoice.custom.name
-        print invoiceDetail.invoice.invoice_num
-        print str(invoiceDetail.invoice.total_not_tax)
-        print invoiceDetail.pro_type
-        print invoiceDetail.pro_name
-        print invoiceDetail.invoice.remark
-
-
         tableUtil.setTableItemValue(excelTableWidget, i, 0, invoiceDetail.invoice.custom.name)
         tableUtil.setTableItemValue(excelTableWidget, i, 1, invoiceDetail.invoice.invoice_num)
         tableUtil.setTableItemValue(excelTableWidget, i, 2, str(invoiceDetail.invoice.total_not_tax))

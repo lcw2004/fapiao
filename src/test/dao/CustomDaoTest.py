@@ -38,7 +38,7 @@ def testSaveNull():
 
 def testGet():
     customDao = CustomDao()
-    list = customDao.get()
+    list = customDao.get("")
     for custom in list:
         print "------------------------"
         print custom.id
@@ -51,7 +51,11 @@ def testGet():
         print custom.erp_id
         print custom.summary_title
 
+def testGetOne():
+     customDao = CustomDao()
+     custom = customDao.getOne(name="上海瑞弘物流有限公司")
+     print custom.id
 
 if __name__ == "__main__":
-    testSaveNull()
-    # testGet()
+    # testSaveNull()
+    testGetOne()

@@ -15,8 +15,6 @@ from invoice.dao.InvoiceDao import InvoiceDao
 from invoice.dao.InvoiceDetailDao import InvoiceDetailDao
 from invoice.dao.CustomDao import CustomDao
 
-
-
 class MainWindow(QMainWindow, Ui_MainWindow):
 
     def __init__(self, parent=None):
@@ -74,9 +72,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             tbl_invoice_remark = tableUtil.qStringToString(excelTableWidget.item(i, 5).text())
 
             # 保存用户信息
-            custom = Custom()
-            custom.name = tbl_custom_name
-            cuntomDao.id = cuntomDao.save(custom)
+            custom = cuntomDao.getOne(name=str(tbl_custom_name))
+
+            # TODO 报错之前判断是否客户存在
+            print custom.id
+            if custom is None:
+                custom = Custom()
+                custom.name = tbl_custom_name
+                custom.id = cuntomDao.save(custom)
 
             # 保存发票
             invoice = Invoice()
