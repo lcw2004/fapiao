@@ -4,6 +4,8 @@ import sqlite3
 from BaseDao import BaseDao
 from invoice.common import config
 from invoice.bean.InvoiceDetailBean import InvoiceDetail
+from invoice.dao import SQLParams
+
 
 class InvoiceDetailDao(BaseDao):
 
@@ -39,8 +41,9 @@ class InvoiceDetailDao(BaseDao):
 
 
     # 根据产品名称查询
-    def get(self):
+    def get(self, invoiceId):
         sql = 'SELECT id, pro_code, pro_name, pro_type, pro_unit, pro_unit_price, pro_num, tax_price, tax_rate, tax, invoice_Id FROM tbl_invoice_detail WHERE 1=1 '
+        sql += SQLParams.buildParamSQL("invoice_Id", SQLParams.APPEND_EQULE, invoiceId)
 
         cursor = self.connect.cursor()
         cursor.execute(sql)

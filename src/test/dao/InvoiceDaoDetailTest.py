@@ -20,7 +20,7 @@ def testSave():
 
 def testGet():
     invoiceDetailDao = InvoiceDetailDao()
-    invoiceDetailList = invoiceDetailDao.get()
+    invoiceDetailList = invoiceDetailDao.get(1)
     for invoiceDetail in invoiceDetailList:
         print "------------------------"
         print invoiceDetail.id

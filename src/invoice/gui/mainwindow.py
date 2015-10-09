@@ -182,9 +182,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.invoince_import_xml_btn, QtCore.SIGNAL("clicked()"), exportInvoinceAsXml)
 
     def invoinceItem_Clicked(self, item):
+        # 获取选中行的ID
         invoiceId =  self.invoiceTableWidget.item(item.row(), 0).text()
-        print invoiceId
 
+        # 根据ID查询明细
+        invoiceDetailDao = InvoiceDetailDao()
+        invoiceDetailList = invoiceDetailDao.get(invoiceId)
+        invoiceDetailCount = len(invoiceDetailList)
+
+        # 将数据加载到表格中
+        invoinceDetailTableWidget = self.invoinceDetailTableWidget
+        invoinceDetailTableWidget.setRowCount(invoiceDetailCount)
+        for i in range(invoiceDetailCount):
+            invoiceDetail = invoiceDetailList[i]
+            setTableItemValue(invoinceDetailTableWidget, i, 0, invoiceDetail.id)
+            setTableItemValue(invoinceDetailTableWidget, i, 1, invoiceDetail.pro_code)
+            setTableItemValue(invoinceDetailTableWidget, i, 2, invoiceDetail.pro_name)
+            setTableItemValue(invoinceDetailTableWidget, i, 3, invoiceDetail.pro_type)
+            setTableItemValue(invoinceDetailTableWidget, i, 4, invoiceDetail.pro_unit)
+            setTableItemValue(invoinceDetailTableWidget, i, 5, invoiceDetail.pro_unit_price)
+            setTableItemValue(invoinceDetailTableWidget, i, 6, invoiceDetail.pro_num)
+            setTableItemValue(invoinceDetailTableWidget, i, 7, invoiceDetail.tax_price)
+            setTableItemValue(invoinceDetailTableWidget, i, 8, invoiceDetail.tax_rate)
+            setTableItemValue(invoinceDetailTableWidget, i, 9, invoiceDetail.tax)
 
 # 往表格里面填值，如果是其他类型，将其转换为str
 def setTableItemValue(tableWidget, rowNum, colNum, value):
