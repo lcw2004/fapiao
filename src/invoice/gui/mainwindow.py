@@ -152,6 +152,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             invoiceDetail.not_tax_price = tbl_invoice_total_not_tax
             invoiceDetail.invoice_Id = invoice.id
             invoiceDetail.product_id = product.id
+
+            # 计算税额
+            # invoiceDetail.caculate()
+
             invoiceDetailDao.save(invoiceDetail)
 
             print tbl_invoice_invoice_num
@@ -232,6 +236,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.information(self, "Information", u'导入失败，请重试！')
 
     def invoinceItem_Clicked(self, item):
+        invoinceDetailTableWidget = self.invoinceDetailTableWidget
+        # 设置整行选中
+        invoinceDetailTableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
+        # 设置不可编辑
+        invoinceDetailTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+
         # 获取选中行的ID
         invoiceId =  self.invoiceTableWidget.item(item.row(), 0).text()
 
@@ -241,7 +251,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoiceDetailCount = len(invoiceDetailList)
 
         # 将数据加载到表格中
-        invoinceDetailTableWidget = self.invoinceDetailTableWidget
         invoinceDetailTableWidget.setRowCount(invoiceDetailCount)
         for i in range(invoiceDetailCount):
             invoiceDetail = invoiceDetailList[i]
