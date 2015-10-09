@@ -60,43 +60,9 @@
            <number>3</number>
           </property>
           <item>
-           <widget class="QPushButton" name="selectAllButton">
-            <property name="inputMethodHints">
-             <set>Qt::ImhNone</set>
-            </property>
-            <property name="text">
-             <string>全选</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>C:/Users/Administrator/.designer/backup/image/op_select_all.png</normaloff>C:/Users/Administrator/.designer/backup/image/op_select_all.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>16</width>
-              <height>16</height>
-             </size>
-            </property>
-            <property name="autoRepeat">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="filterButton">
-            <property name="text">
-             <string>筛选</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>C:/Users/Administrator/.designer/backup/image/op_filter.png</normaloff>C:/Users/Administrator/.designer/backup/image/op_filter.png</iconset>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="genInvoiceButton">
             <property name="text">
-             <string>生成发票</string>
+             <string>保存到临时数据区</string>
             </property>
             <property name="icon">
              <iconset>
@@ -225,14 +191,21 @@
           <item>
            <widget class="QPushButton" name="invoince_merge_btn">
             <property name="text">
-             <string>合并</string>
+             <string>合并选中项</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="invoince_merge_product_btn">
+            <property name="text">
+             <string>合并相同产品</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="invoince_chaifeng_btn">
             <property name="text">
-             <string>拆分</string>
+             <string>拆分选中项</string>
             </property>
            </widget>
           </item>

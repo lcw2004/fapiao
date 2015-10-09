@@ -4,6 +4,7 @@ from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from invoice.bean.ProductBean import Product
+from invoice.dao.DictDao import DictDao
 from invoice.dao.ProductDao import ProductDao
 from mainwindow_ui import Ui_MainWindow
 
@@ -47,9 +48,42 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 临时待处理数据 - 合并选中项
         self.connect(self.invoince_merge_btn, QtCore.SIGNAL("clicked()"), self.mergeInvoice)
 
-        # 临时待处理数据 - 拆分
+       # 临时待处理数据 - 合并发票相同的产品
+        self.connect(self.invoince_merge_product_btn, QtCore.SIGNAL("clicked()"), self.mergeInvoiceDetail)
+
+        # 临时待处理数据 - 拆分(按最大限额)
         self.connect(self.invoince_chaifeng_btn, QtCore.SIGNAL("clicked()"), self.chaifenInvoice)
 
+    def mergeInvoiceDetail(self):
+        invoiceTableWidget = self.invoiceTableWidget
+
+        rowCount = invoiceTableWidget.rowCount()
+
+
+        # 获取所有需要合并的行的ID
+        idList = []
+        for row_num in range(rowCount):
+            invoince_id = tableUtil.qStringToString(invoiceTableWidget.item(row_num, 0).text())
+            if invoince_id:
+                invoiceDetailDao = InvoiceDetailDao()
+                invoiceDetailList = invoiceDetailDao.queryChongFu(invoince_id)
+                for invoiceDetail in invoiceDetailList:
+                    print "------------------------"
+                    print invoiceDetail.id
+                    print invoiceDetail.pro_num
+                    print invoiceDetail.not_tax_price
+                    print invoiceDetail.tax_price
+                    print invoiceDetail.contain_tax_price
+                    print invoiceDetail.invoice_Id
+                    print invoiceDetail.product_id
+
+
+        # 重新统计税额
+        # invoiceDao.proofreadInvoince(mainInvoiceId)
+
+        # 合并成功并刷新表格
+        QMessageBox.information(self, "Information", u'合并成功！')
+        self.queryInvoice()
 
     def mergeInvoice(self):
         invoiceTableWidget = self.invoiceTableWidget
@@ -89,7 +123,39 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         QMessageBox.information(self, "Information", u'合并成功！')
         self.queryInvoice()
 
+
     def chaifenInvoice(self):
+        invoinceDetailTableWidget = self.invoinceDetailTableWidget
+
+        # 判断选择的合并的发票数量
+        selected_rows = tableUtil.getSelectedRows(invoinceDetailTableWidget)
+        if len(selected_rows) <= 1:
+            QMessageBox.information(self, "Information", u'请选择至少一个需要拆分的发票明细！')
+            return
+
+        # 获取所有需要合并的行的ID
+        idList = []
+        for row_num in selected_rows:
+            invoince_id = tableUtil.qStringToString(invoinceDetailTableWidget.item(row_num, 0).text())
+            if invoince_id:
+                idList.append(int(invoince_id))
+
+        # 获取发票ID
+        invoiceDetailDao = InvoiceDetailDao()
+        invoiceDao = InvoiceDao()
+        if idList:
+            invoiceDetail = invoiceDetailDao.getById(idList[0])
+            oldInvoiceId = invoiceDetail.invoice_Id
+            invoice = invoiceDao.getById(oldInvoiceId)
+            newInvoiceId = invoiceDao.save(invoice)
+            invoiceDetailDao.updateInvoiceId(idList, newInvoiceId)
+
+            # 重新统计税额
+            invoiceDao.proofreadInvoince(newInvoiceId)
+            invoiceDao.proofreadInvoince(oldInvoiceId)
+            QMessageBox.information(self, "Information", u'拆分成功！')
+            self.queryInvoice()
+
         pass
 
     def selectExcel(self):

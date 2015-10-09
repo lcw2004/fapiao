@@ -68,6 +68,50 @@ class InvoiceDetailDao(BaseDao):
             invoiceDetail.product = product
         return list
 
+    # 根据产品名称查询
+    def getById(self, invoiceDetailId):
+        sql = 'SELECT id, pro_num, not_tax_price, tax_price, contain_tax_price, invoice_Id, product_id FROM tbl_invoice_detail WHERE 1=1 '
+        sql += SQLParams.buildParamSQL("id", SQLParams.APPEND_EQULE, invoiceDetailId)
+
+        cursor = self.connect.cursor()
+        cursor.execute(sql)
+
+        one = cursor.fetchone()
+        list = []
+        invoiceDetail = None
+        if one:
+            invoiceDetail = InvoiceDetail()
+            invoiceDetail.id = one[0]
+            invoiceDetail.pro_num = one[1]
+            invoiceDetail.not_tax_price = one[2]
+            invoiceDetail.tax_price = one[3]
+            invoiceDetail.contain_tax_price = one[4]
+            invoiceDetail.invoice_Id = one[5]
+            invoiceDetail.product_id = one[6]
+            list.append(invoiceDetail)
+        cursor.close()
+        return invoiceDetail
+
+        # 获取客户信息
+        for invoiceDetail in list:
+            invoiceId = invoiceDetail.id
+            productId = invoiceDetail.product_id
+            product = self.getProductById(productId)
+
+            invoiceDetail.product = product
+        return list
+
+    def updateInvoiceId(self, ids, newInvoiceId):
+        sql = '''UPDATE tbl_invoice_detail SET invoice_Id = ? WHERE id IN ''' + SQLParams.idListToString(ids)
+
+        cursor = self.connect.cursor()
+        cursor.execute(sql, [newInvoiceId])
+        cursor.close()
+        self.connect.commit()
+
+
+        pass
+
     def getProductById(self, id):
         sql = 'SELECT id, name, code, type, unit_price, tax_price, tax, business_tax_num, erp_id, col1, col2, col3, col4 FROM tbl_product WHERE 1=1 '
         sql += " and id = ?"
@@ -95,3 +139,29 @@ class InvoiceDetailDao(BaseDao):
 
         cursor.close()
         return product
+
+    def queryChongFu(self, invoiceId):
+        sql = '''
+            SELECT * FROM tbl_invoice_detail WHERE product_id in (
+                SELECT product_id FROM tbl_invoice_detail WHERE invoice_Id = ? GROUP BY product_id HAVING count(product_id) > 1
+            )
+        '''
+
+        cursor = self.connect.cursor()
+        cursor.execute(sql, [invoiceId])
+
+        all = cursor.fetchall()
+        list = []
+        for row in all:
+            invoiceDetail = InvoiceDetail()
+            invoiceDetail.id = row[0]
+            invoiceDetail.pro_num = row[1]
+            invoiceDetail.not_tax_price = row[2]
+            invoiceDetail.tax_price = row[3]
+            invoiceDetail.contain_tax_price = row[4]
+            invoiceDetail.invoice_Id = row[5]
+            invoiceDetail.product_id = row[6]
+            list.append(invoiceDetail)
+        cursor.close()
+
+        return list

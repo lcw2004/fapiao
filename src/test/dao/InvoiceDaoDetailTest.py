@@ -18,7 +18,7 @@ def testSave():
 
 def testGet():
     invoiceDetailDao = InvoiceDetailDao()
-    invoiceDetailList = invoiceDetailDao.get(1)
+    invoiceDetailList = invoiceDetailDao.queryChongFu(1)
     for invoiceDetail in invoiceDetailList:
         print "------------------------"
         print invoiceDetail.id
@@ -30,5 +30,5 @@ def testGet():
         print invoiceDetail.product_id
 
 if __name__ == "__main__":
-    testSave()
+    # testSave()
     testGet()

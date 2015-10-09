@@ -41,6 +41,34 @@ class InvoiceDao(BaseDao):
         self.connect.commit()
         return data_id
 
+     # 根据产品名称查询
+    def getById(self, id):
+        sql = 'SELECT id, invoice_num, custom_id, remark, start_time, total_not_tax, total_tax, total_num, serial_number, drawer, beneficiary, reviewer, status FROM tbl_invoice WHERE 1=1 '
+        sql += SQLParams.buildParamSQL("id", SQLParams.APPEND_EQULE, id)
+
+        cursor = self.connect.cursor()
+        cursor.execute(sql)
+
+        one = cursor.fetchone()
+        invoice = None
+        if one:
+            invoice = Invoice()
+            invoice.id = one[0]
+            invoice.invoice_num = one[1]
+            invoice.custom_id = one[2]
+            invoice.remark = one[3]
+            invoice.start_time = one[4]
+            invoice.total_not_tax = one[5]
+            invoice.total_tax = one[6]
+            invoice.total_num = one[7]
+            invoice.serial_number = one[8]
+            invoice.drawer = one[9]
+            invoice.beneficiary = one[10]
+            invoice.reviewer = one[11]
+            invoice.reviewer = one[12]
+        cursor.close()
+        return invoice
+
     # 根据产品名称查询
     def get(self, status):
         sql = 'SELECT id, invoice_num, custom_id, remark, start_time, total_not_tax, total_tax, total_num, serial_number, drawer, beneficiary, reviewer, status FROM tbl_invoice WHERE 1=1 '
@@ -225,3 +253,4 @@ class InvoiceDao(BaseDao):
         cursor.execute(sql)
         cursor.close()
         self.connect.commit()
+
