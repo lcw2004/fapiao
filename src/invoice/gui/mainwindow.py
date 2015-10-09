@@ -152,9 +152,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             invoiceDetail.not_tax_price = tbl_invoice_total_not_tax
             invoiceDetail.invoice_Id = invoice.id
             invoiceDetail.product_id = product.id
+            invoiceDetail.invoice = invoice
+            invoiceDetail.product = product
 
             # 计算税额
-            # invoiceDetail.caculate()
+            invoiceDetail.caculate()
 
             invoiceDetailDao.save(invoiceDetail)
 
@@ -254,9 +256,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoinceDetailTableWidget.setRowCount(invoiceDetailCount)
         for i in range(invoiceDetailCount):
             invoiceDetail = invoiceDetailList[i]
-
-            # 计算税额等
-            invoiceDetail.caculate()
 
             tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 0, invoiceDetail.id)
             tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 1, invoiceDetail.product.code)
