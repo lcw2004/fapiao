@@ -4,6 +4,7 @@ import sqlite3
 from BaseDao import BaseDao
 from invoice.bean.CustomBean import Custom
 from invoice.bean.InvoiceDetailBean import InvoiceDetail
+from invoice.bean.ProductBean import Product
 from invoice.dao import SQLParams
 from invoice.common import config
 from invoice.bean.InvoiceBean import Invoice
@@ -121,7 +122,11 @@ class InvoiceDao(BaseDao):
         self.connect.commit()
 
     def getInvoinceDetailListById(self, invoiceId):
-        sql = 'SELECT id, pro_num, not_tax_price, tax_price, contain_tax_price, invoice_Id, product_id FROM tbl_invoice_detail WHERE invoice_Id = ?'
+        sql = '''
+                  SELECT d.id, pro_num, d.not_tax_price, d.tax_price, d.contain_tax_price, d.invoice_Id, d.product_id,
+                  p.code, p.name, p.type, p.unit, p.unit_price, p.tax_price, p.tax
+                  FROM tbl_invoice_detail d, tbl_product p WHERE p.id = d.product_id and invoice_Id =  ?
+              '''
 
         cursor = self.connect.cursor()
         cursor.execute(sql, [invoiceId])
@@ -137,6 +142,17 @@ class InvoiceDao(BaseDao):
             invoiceDetail.contain_tax_price = row[4]
             invoiceDetail.invoice_Id = row[5]
             invoiceDetail.product_id = row[6]
+
+            product = Product()
+            product.id = row[6]
+            product.code = row[7]
+            product.name = row[8]
+            product.type = row[9]
+            product.unit = row[10]
+            product.unit_price = row[11]
+            product.tax_price = row[12]
+            product.tax = row[13]
+            invoiceDetail.product = product
             invoiceDetailList.append(invoiceDetail)
 
         cursor.close()
