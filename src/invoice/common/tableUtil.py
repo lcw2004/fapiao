@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 # 设置表头
+from PyQt4 import QtGui
+
 def initTableHeaders(dicts, excelTableWidget):
       # self.table.setHorizontalHeaderLabels(['SUN','MON','TUE','WED','THU','FIR','SAT'])
     tbl_custom_name_label = dicts["tbl_custom_name"].describe
@@ -28,6 +30,13 @@ def translate(text):
     _encoding = QtGui.QApplication.UnicodeUTF8
     return QtGui.QApplication.translate(None, text, None, _encoding)
 
+def qStringToString(input_str):
+    output_str = ""
+    if input_str:
+        output_str = unicode(input_str)
+    return output_str
+
+
 # 获取表格中选取的行的序号
 def getSelectedRows(tableView):
     rows = []
@@ -35,3 +44,11 @@ def getSelectedRows(tableView):
         if index.column() == 0:
             rows.append(index.row())
     return rows
+
+
+# 往表格里面填值，如果是其他类型，将其转换为str
+def setTableItemValue(tableWidget, rowNum, colNum, value):
+    valueStr = str(value)
+
+    if value:
+        tableWidget.setItem(rowNum, colNum, QtGui.QTableWidgetItem(valueStr))

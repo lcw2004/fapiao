@@ -3,9 +3,9 @@
 from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView
 from PyQt4 import QtCore
 from PyQt4 import QtGui
-from invoice.sys import ExportAsXML
-
 from mainwindow_ui import Ui_MainWindow
+
+from invoice.sys import ExportAsXML
 from invoice.common import excelparse
 from invoice.common import tableUtil
 from invoice.bean.InvoiceBean import Invoice
@@ -15,21 +15,7 @@ from invoice.dao.InvoiceDao import InvoiceDao
 from invoice.dao.InvoiceDetailDao import InvoiceDetailDao
 from invoice.dao.CustomDao import CustomDao
 
-def qStringToString(input_str):
-    output_str = ""
-    if input_str:
-        output_str = unicode(input_str)
-    return output_str
 
-def setHeaderText(excelTableWidget, index, headerText):
-    print index, headerText
-    item = excelTableWidget.horizontalHeaderItem(index)
-    if item:
-        item.setText(translate(headerText))
-
-def translate(text):
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    return QtGui.QApplication.translate(None, text, None, _encoding)
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
@@ -80,12 +66,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         cuntomDao = CustomDao()
 
         for i in range(rowCount):
-            tbl_custom_name = qStringToString(excelTableWidget.item(i, 0).text())
-            tbl_invoice_invoice_num = qStringToString(excelTableWidget.item(i, 1).text())
-            tbl_invoice_total_not_tax = qStringToString(excelTableWidget.item(i, 2).text())
-            tbl_invoice_detail_pro_type = qStringToString(excelTableWidget.item(i, 3).text())
-            tbl_invoice_detail_pro_name = qStringToString(excelTableWidget.item(i, 4).text())
-            tbl_invoice_remark = qStringToString(excelTableWidget.item(i, 5).text())
+            tbl_custom_name = tableUtil.qStringToString(excelTableWidget.item(i, 0).text())
+            tbl_invoice_invoice_num = tableUtil.qStringToString(excelTableWidget.item(i, 1).text())
+            tbl_invoice_total_not_tax = tableUtil.qStringToString(excelTableWidget.item(i, 2).text())
+            tbl_invoice_detail_pro_type = tableUtil.qStringToString(excelTableWidget.item(i, 3).text())
+            tbl_invoice_detail_pro_name = tableUtil.qStringToString(excelTableWidget.item(i, 4).text())
+            tbl_invoice_remark = tableUtil.qStringToString(excelTableWidget.item(i, 5).text())
 
             # 保存用户信息
             custom = Custom()
@@ -134,24 +120,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.invoiceTableWidget.setRowCount(invoiceCount)
         for i in range(invoiceCount):
             invoice = invoiceList[i]
-            setTableItemValue(invoiceTableWidget, i, 0, invoice.id)
-            setTableItemValue(invoiceTableWidget, i, 1, invoice.invoice_num)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 0, invoice.id)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 1, invoice.invoice_num)
             if invoice.custom:
-                setTableItemValue(invoiceTableWidget, i, 2, invoice.custom.name)
-                setTableItemValue(invoiceTableWidget, i, 7, invoice.custom.code)
-                setTableItemValue(invoiceTableWidget, i, 8, invoice.custom.tax_id)
-                setTableItemValue(invoiceTableWidget, i, 9, invoice.custom.addr)
-                setTableItemValue(invoiceTableWidget, i, 10, invoice.custom.bank_account)
+                tableUtil.setTableItemValue(invoiceTableWidget, i, 2, invoice.custom.name)
+                tableUtil.setTableItemValue(invoiceTableWidget, i, 7, invoice.custom.code)
+                tableUtil.setTableItemValue(invoiceTableWidget, i, 8, invoice.custom.tax_id)
+                tableUtil.setTableItemValue(invoiceTableWidget, i, 9, invoice.custom.addr)
+                tableUtil.setTableItemValue(invoiceTableWidget, i, 10, invoice.custom.bank_account)
 
-            setTableItemValue(invoiceTableWidget, i, 3, invoice.total_not_tax)
-            setTableItemValue(invoiceTableWidget, i, 4, invoice.total_tax)
-            setTableItemValue(invoiceTableWidget, i, 5, invoice.total_num)
-            setTableItemValue(invoiceTableWidget, i, 6, invoice.serial_number)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 3, invoice.total_not_tax)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 4, invoice.total_tax)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 5, invoice.total_num)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 6, invoice.serial_number)
 
-            setTableItemValue(invoiceTableWidget, i, 11, invoice.remark)
-            setTableItemValue(invoiceTableWidget, i, 12, invoice.drawer)
-            setTableItemValue(invoiceTableWidget, i, 13, invoice.beneficiary)
-            setTableItemValue(invoiceTableWidget, i, 14, invoice.reviewer)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 11, invoice.remark)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 12, invoice.drawer)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 13, invoice.beneficiary)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 14, invoice.reviewer)
 
 
     def updateInvoince(self):
@@ -166,7 +152,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 idList = []
                 remove_rows = tableUtil.getSelectedRows(invoiceTableWidget)
                 for rowCount in remove_rows:
-                    invoince_id = qStringToString(invoiceTableWidget.item(rowCount, 0).text())
+                    invoince_id = tableUtil.qStringToString(invoiceTableWidget.item(rowCount, 0).text())
                     if invoince_id:
                         idList.append(int(invoince_id))
 
@@ -200,20 +186,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoinceDetailTableWidget.setRowCount(invoiceDetailCount)
         for i in range(invoiceDetailCount):
             invoiceDetail = invoiceDetailList[i]
-            setTableItemValue(invoinceDetailTableWidget, i, 0, invoiceDetail.id)
-            setTableItemValue(invoinceDetailTableWidget, i, 1, invoiceDetail.pro_code)
-            setTableItemValue(invoinceDetailTableWidget, i, 2, invoiceDetail.pro_name)
-            setTableItemValue(invoinceDetailTableWidget, i, 3, invoiceDetail.pro_type)
-            setTableItemValue(invoinceDetailTableWidget, i, 4, invoiceDetail.pro_unit)
-            setTableItemValue(invoinceDetailTableWidget, i, 5, invoiceDetail.pro_unit_price)
-            setTableItemValue(invoinceDetailTableWidget, i, 6, invoiceDetail.pro_num)
-            setTableItemValue(invoinceDetailTableWidget, i, 7, invoiceDetail.tax_price)
-            setTableItemValue(invoinceDetailTableWidget, i, 8, invoiceDetail.tax_rate)
-            setTableItemValue(invoinceDetailTableWidget, i, 9, invoiceDetail.tax)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 0, invoiceDetail.id)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 1, invoiceDetail.pro_code)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 2, invoiceDetail.pro_name)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 3, invoiceDetail.pro_type)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 4, invoiceDetail.pro_unit)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 5, invoiceDetail.pro_unit_price)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 6, invoiceDetail.pro_num)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 7, invoiceDetail.tax_price)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 8, invoiceDetail.tax_rate)
+            tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 9, invoiceDetail.tax)
 
-# 往表格里面填值，如果是其他类型，将其转换为str
-def setTableItemValue(tableWidget, rowNum, colNum, value):
-    valueStr = str(value)
 
-    if value:
-        tableWidget.setItem(rowNum, colNum, QtGui.QTableWidgetItem(valueStr))
