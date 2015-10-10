@@ -48,7 +48,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 临时待处理数据 - 合并选中项
         self.connect(self.invoince_merge_btn, QtCore.SIGNAL("clicked()"), self.mergeInvoice)
 
-       # 临时待处理数据 - 合并发票相同的产品
+        # 临时待处理数据 - 合并发票相同的产品
         self.connect(self.invoince_merge_product_btn, QtCore.SIGNAL("clicked()"), self.mergeInvoiceDetail)
 
         # 临时待处理数据 - 拆分(按最大限额)
@@ -228,6 +228,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             invoiceDetail.caculate()
 
             invoiceDetailDao.save(invoiceDetail)
+            invoiceDao.proofreadInvoince(invoice.id)
 
             print tbl_invoice_invoice_num
             print tbl_invoice_total_not_tax
