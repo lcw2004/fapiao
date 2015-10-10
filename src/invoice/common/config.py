@@ -1,13 +1,6 @@
 __author__ = 'Administrator'
 
-
-import os
-
-print os.getcwd()
-print os.path.abspath(os.curdir)
-print os.path.abspath('.')
-# BASE_PATH = "E:\\OpenSource\\GitHub\\fapiao\src\\"
-BASE_PATH = "D:\\GitHub\\fapiao\\src\\"
+BASE_PATH = ""
 DATABASE_PATH = BASE_PATH + "data.db"
 INPUT_PATH = "D:\\invoince\\Input\\"
 OUTPUT_PATH = "D:\\invoince\\Output\\"
