@@ -129,7 +129,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # 判断选择的合并的发票数量
         selected_rows = tableUtil.getSelectedRows(invoinceDetailTableWidget)
-        if len(selected_rows) <= 1:
+        if len(selected_rows) < 1:
             QMessageBox.information(self, "Information", u'请选择至少一个需要拆分的发票明细！')
             return
 
