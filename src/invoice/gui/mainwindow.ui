@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>577</width>
+    <width>584</width>
     <height>489</height>
    </rect>
   </property>
@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>C:/Users/Administrator/.designer/backup/image/main_logo.ico</normaloff>C:/Users/Administrator/.designer/backup/image/main_logo.ico</iconset>
+    <normaloff>image/main_logo.ico</normaloff>image/main_logo.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="contextMenuPolicy">
@@ -66,7 +66,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>C:/Users/Administrator/.designer/backup/image/op_gen_invoince.png</normaloff>C:/Users/Administrator/.designer/backup/image/op_gen_invoince.png</iconset>
+              <normaloff>image/op_gen_invoince.png</normaloff>image/op_gen_invoince.png</iconset>
             </property>
            </widget>
           </item>
@@ -110,7 +110,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>C:/Users/Administrator/.designer/backup/image/excel.ico</normaloff>C:/Users/Administrator/.designer/backup/image/excel.ico</iconset>
+              <normaloff>image/excel.ico</normaloff>image/excel.ico</iconset>
             </property>
            </widget>
           </item>
@@ -165,12 +165,20 @@
             <property name="text">
              <string>查询</string>
             </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>image/032.png</normaloff>image/032.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="invoince_update_btn">
             <property name="text">
              <string>修改</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>image/014.png</normaloff>image/014.png</iconset>
             </property>
            </widget>
           </item>
@@ -179,12 +187,20 @@
             <property name="text">
              <string>删除</string>
             </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>image/delete.png</normaloff>image/delete.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="invoince_import_xml_btn">
             <property name="text">
              <string>导入到开票系统</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>image/005.png</normaloff>image/005.png</iconset>
             </property>
            </widget>
           </item>
@@ -193,6 +209,10 @@
             <property name="text">
              <string>合并选中项</string>
             </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>image/008.png</normaloff>image/008.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
@@ -200,12 +220,20 @@
             <property name="text">
              <string>合并相同产品</string>
             </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>image/008.png</normaloff>image/008.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="invoince_chaifeng_btn">
             <property name="text">
              <string>拆分选中项</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>image/012.png</normaloff>image/012.png</iconset>
             </property>
            </widget>
           </item>
@@ -513,7 +541,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>577</width>
+     <width>584</width>
      <height>23</height>
     </rect>
    </property>
