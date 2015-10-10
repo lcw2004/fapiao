@@ -5,6 +5,7 @@
 
 # 弹出框
 # C:\Python27\Lib\site-packages\PyQt4\examples\dialogs
+from invoice.common import config
 
 __author__ = 'Administrator'
 
@@ -24,13 +25,19 @@ def init():
     sys.setdefaultencoding('GBK')
 
     # 设置项目基础路径
-    BASE_PATH = os.path.abspath(sys.argv[0])
-    BASE_PATH = os.path.dirname(BASE_PATH) + "/"
-    print "BASE_PATH:" + BASE_PATH
+    BASE_PATH = os.getcwd() + "/"
+    config.BASE_PATH = BASE_PATH
 
     # 设置数据库文件路径
-    DATABASE_PATH = BASE_PATH + "data.db"
-    print "DATABASE_PATH:" + DATABASE_PATH
+    config.DATABASE_PATH = BASE_PATH + "data.db"
+    config.XML_PATH = BASE_PATH + "input.xml"
+
+    print "BASE_PATH:" + config.BASE_PATH
+    print "DATABASE_PATH:" + config.DATABASE_PATH
+    print "INPUT_PATH:" + config.INPUT_PATH
+    print "OUTPUT_PATH:" + config.OUTPUT_PATH
+    print "TEMP_PATH:" + config.TEMP_PATH
+    print "XML_PATH:" + config.XML_PATH
 
 
 # 主程序入口
