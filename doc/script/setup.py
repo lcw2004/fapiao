@@ -11,6 +11,6 @@ setup(
         "py2exe":
             {
                 "includes": ["sip"],
-                "packages": []
+                "packages": ["sqlalchemy"]
             }
     })

@@ -1,6 +1,6 @@
 __author__ = 'Administrator'
 
-BASE_PATH = ""
+BASE_PATH = "D:\\GitHub\\fapiao\\src\\"
 DATABASE_PATH = BASE_PATH + "data.db"
 INPUT_PATH = "D:\\invoince\\Input\\"
 OUTPUT_PATH = "D:\\invoince\\Output\\"
