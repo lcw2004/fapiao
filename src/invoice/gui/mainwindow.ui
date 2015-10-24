@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>584</width>
+    <width>650</width>
     <height>489</height>
    </rect>
   </property>
@@ -196,7 +196,7 @@
           <item>
            <widget class="QPushButton" name="invoince_import_xml_btn">
             <property name="text">
-             <string>导入到开票系统</string>
+             <string>开票</string>
             </property>
             <property name="icon">
              <iconset>
@@ -541,7 +541,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>584</width>
+     <width>650</width>
      <height>23</height>
     </rect>
    </property>

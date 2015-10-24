@@ -25,7 +25,7 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(584, 489)
+        MainWindow.resize(650, 489)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8("image/main_logo.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -272,7 +272,7 @@ class Ui_MainWindow(object):
         self.statusBar.setObjectName(_fromUtf8("statusBar"))
         MainWindow.setStatusBar(self.statusBar)
         self.menuBar = QtGui.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 584, 23))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 650, 23))
         self.menuBar.setObjectName(_fromUtf8("menuBar"))
         self.menu_file = QtGui.QMenu(self.menuBar)
         self.menu_file.setObjectName(_fromUtf8("menu_file"))
@@ -307,7 +307,7 @@ class Ui_MainWindow(object):
         self.invoice_filter_Button.setText(_translate("MainWindow", "查询", None))
         self.invoince_update_btn.setText(_translate("MainWindow", "修改", None))
         self.invoince_delete_btn.setText(_translate("MainWindow", "删除", None))
-        self.invoince_import_xml_btn.setText(_translate("MainWindow", "导入到开票系统", None))
+        self.invoince_import_xml_btn.setText(_translate("MainWindow", "开票", None))
         self.invoince_merge_btn.setText(_translate("MainWindow", "合并选中项", None))
         self.invoince_merge_product_btn.setText(_translate("MainWindow", "合并相同产品", None))
         self.invoince_chaifeng_btn.setText(_translate("MainWindow", "拆分选中项", None))
