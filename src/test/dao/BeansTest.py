@@ -13,7 +13,7 @@ def testProduct():
         printObject(product)
 
 def testDict():
-    for dict in Dict.select():
+    for dict in Dict.select().where(Dict.type=="EXCEL_TO_XML"):
         printObject(dict)
 
 def testInvoice():
@@ -30,7 +30,7 @@ def testInvoiceDetail():
         printObject(invoiceDetail.product)
 
 if __name__ == "__main__":
-    testProduct()
+    testDict()
     # testInvoiceDetail()
 
 

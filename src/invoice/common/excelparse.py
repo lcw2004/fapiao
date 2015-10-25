@@ -3,12 +3,9 @@
 import xlrd
 
 import commonUtil
-from invoice.bean.CustomBean import Custom
-from invoice.bean.InvoiceBean import Invoice
-from invoice.bean.InvoiceDetailBean import InvoiceDetail
-from invoice.bean.ProductBean import Product
 from invoice.common import tableUtil
 from invoice.dao.DictDao import DictDao
+from invoice.bean.Beans import *
 
 def parseExcelToInvoiceList(excelPath):
     invoiceDetailList = []
@@ -73,11 +70,8 @@ def parseExcelToInvoiceList(excelPath):
     return invoiceDetailList
 
 def parseExcel(excelPath, excelTableWidget):
-    dictDao = DictDao()
-    dicts = dictDao.getExcelConfig(type="EXCEL_TO_XML")
-
     # 设置表格头部
-    tableUtil.initTableHeaders(dicts, excelTableWidget)
+    tableUtil.initTableHeaders(excelTableWidget)
 
     # 解析Excel
     invoiceDetailList = parseExcelToInvoiceList(excelPath)

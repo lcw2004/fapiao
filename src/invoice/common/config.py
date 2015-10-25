@@ -1,5 +1,7 @@
 __author__ = 'Administrator'
 
+
+
 BASE_PATH = "D:\\GitHub\\fapiao\\src\\"
 DATABASE_PATH = BASE_PATH + "data.db"
 INPUT_PATH = "D:\\invoince\\Input\\"
@@ -7,10 +9,9 @@ OUTPUT_PATH = "D:\\invoince\\Output\\"
 TEMP_PATH = "D:\\invoince\\TEMP\\"
 XML_PATH = BASE_PATH + "input.xml"
 
-def getConfigInDB(label, type=None):
-    from invoice.dao.DictDao import DictDao
-    dictDao = DictDao()
-    dict = dictDao.one(type, label)
+def getConfigInDB(label):
+    from invoice.bean.Beans import Dict
+    dict = Dict.get(Dict.label == label)
     return dict
 
 if __name__ == "__main__":

@@ -3,14 +3,18 @@
 # 设置表头
 from PyQt4 import QtGui
 
-def initTableHeaders(dicts, excelTableWidget):
+from invoice.common.config import getConfigInDB as getConfigInDB
+
+def initTableHeaders(excelTableWidget):
       # self.table.setHorizontalHeaderLabels(['SUN','MON','TUE','WED','THU','FIR','SAT'])
-    tbl_custom_name_label = dicts["tbl_custom_name"].describe
-    tbl_invoice_invoice_num_label = dicts["tbl_invoice_invoice_num"].describe
-    tbl_invoice_total_not_tax_label = dicts["tbl_invoice_total_not_tax"].describe
-    tbl_invoice_detail_pro_type_label = dicts["tbl_invoice_detail_pro_type"].describe
-    tbl_invoice_detail_pro_name_label = dicts["tbl_invoice_detail_pro_name"].describe
-    tbl_invoice_remark_name_label = dicts["tbl_invoice_remark"].describe
+
+
+    tbl_custom_name_label = getConfigInDB("tbl_custom_name").describe
+    tbl_invoice_invoice_num_label =  getConfigInDB("tbl_invoice_invoice_num").describe
+    tbl_invoice_total_not_tax_label =  getConfigInDB("tbl_invoice_total_not_tax").describe
+    tbl_invoice_detail_pro_type_label =  getConfigInDB("tbl_invoice_detail_pro_type").describe
+    tbl_invoice_detail_pro_name_label =  getConfigInDB("tbl_invoice_detail_pro_name").describe
+    tbl_invoice_remark_name_label =  getConfigInDB("tbl_invoice_remark").describe
 
     setHeaderText(excelTableWidget, 0, tbl_custom_name_label)
     setHeaderText(excelTableWidget, 1, tbl_invoice_invoice_num_label)
