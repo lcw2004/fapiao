@@ -3,15 +3,11 @@
 from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView
 from PyQt4 import QtCore
 from PyQt4 import QtGui
-from invoice.dao.ProductDao import ProductDao
 from mainwindow_ui import Ui_MainWindow
 
 from invoice.sys import ExportAsXML
 from invoice.common import excelparse
 from invoice.common import tableUtil
-from invoice.dao.InvoiceDao import InvoiceDao
-from invoice.dao.InvoiceDetailDao import InvoiceDetailDao
-from invoice.dao.CustomDao import CustomDao
 
 from invoice.bean.Beans import *
 
@@ -236,30 +232,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoiceTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         # 查询数据
-        invoiceList = Invoice.select().where(Invoice.status==0)
+        invoiceList = list(Invoice.select().where(Invoice.status==0))
 
-        for invoice in invoiceList:
-            currentLen = self.invoiceTableWidget.rowCount()
-            self.invoiceTableWidget.setRowCount(currentLen+1)
 
-            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 0, invoice.id)
-            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 1, invoice.invoice_num)
+        rowCount = len(invoiceList)
+        self.invoiceTableWidget.setRowCount(rowCount)
+
+        # 将数据加载到表格中
+        for i in range(rowCount):
+            invoice = invoiceList[i]
+
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 0, invoice.id)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 1, invoice.invoice_num)
             if invoice.custom:
-                tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 2, invoice.custom.name)
-                tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 7, invoice.custom.code)
-                tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 8, invoice.custom.tax_id)
-                tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 9, invoice.custom.addr)
-                tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 10, invoice.custom.bank_account)
+                tableUtil.setTableItemValue(invoiceTableWidget, i, 2, invoice.custom.name)
+                tableUtil.setTableItemValue(invoiceTableWidget, i, 7, invoice.custom.code)
+                tableUtil.setTableItemValue(invoiceTableWidget, i, 8, invoice.custom.tax_id)
+                tableUtil.setTableItemValue(invoiceTableWidget, i, 9, invoice.custom.addr)
+                tableUtil.setTableItemValue(invoiceTableWidget, i, 10, invoice.custom.bank_account)
 
-            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 3, invoice.total_not_tax)
-            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 4, invoice.total_tax)
-            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 5, invoice.total_num)
-            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 6, invoice.serial_number)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 3, invoice.total_not_tax)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 4, invoice.total_tax)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 5, invoice.total_num)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 6, invoice.serial_number)
 
-            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 11, invoice.remark)
-            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 12, invoice.drawer)
-            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 13, invoice.beneficiary)
-            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 14, invoice.reviewer)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 11, invoice.remark)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 12, invoice.drawer)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 13, invoice.beneficiary)
+            tableUtil.setTableItemValue(invoiceTableWidget, i, 14, invoice.reviewer)
 
     def updateInvoince(self):
         pass
@@ -282,9 +282,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.queryInvoice()
 
     def exportInvoinceAsXml(self):
-        invoiceDao = InvoiceDao()
-        invoinceList = invoiceDao.getAllData(0)
-        isSuccess =  ExportAsXML.exportAsFile(invoinceList, "1.xml")
+        invoinceList = list(Invoice.select(Invoice.status == 0))
+        isSuccess = ExportAsXML.exportAsFile(invoinceList, "1.xml")
         if isSuccess:
             QMessageBox.information(self, "Information", u'导入成功！')
         else:
@@ -292,8 +291,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def invoinceItem_Clicked(self, item):
         invoinceDetailTableWidget = self.invoinceDetailTableWidget
+
         # 设置整行选中
         invoinceDetailTableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
+
         # 设置不可编辑
         invoinceDetailTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
@@ -301,13 +302,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoiceId =  self.invoiceTableWidget.item(item.row(), 0).text()
 
         # 根据ID查询明细
-        invoiceDetailDao = InvoiceDetailDao()
-        invoiceDetailList = invoiceDetailDao.get(invoiceId)
-        invoiceDetailCount = len(invoiceDetailList)
+        invoiceDetailList = list(Invoice.get(id=invoiceId).invoiceDetails)
+
+        rowCount = len(invoiceDetailList)
+        self.invoinceDetailTableWidget.setRowCount(rowCount)
 
         # 将数据加载到表格中
-        invoinceDetailTableWidget.setRowCount(invoiceDetailCount)
-        for i in range(invoiceDetailCount):
+        for i in range(rowCount):
             invoiceDetail = invoiceDetailList[i]
 
             tableUtil.setTableItemValue(invoinceDetailTableWidget, i, 0, invoiceDetail.id)

@@ -134,6 +134,6 @@ class InvoiceDetail(BaseModel):
     contain_tax_price = IntegerField(default=0)
 
     # invoice对象
-    invoice = ForeignKeyField(Invoice, db_column='invoice_Id')
+    invoice = ForeignKeyField(Invoice, db_column='invoice_Id', related_name='invoiceDetails')
     # 产品对象
     product = ForeignKeyField(Product, db_column='product_id')

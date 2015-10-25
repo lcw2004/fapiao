@@ -3,7 +3,6 @@
 from invoice.common import config
 from invoice.common import util
 
-
 from mako.template import Template
 
 def exportAsStr(invoinceList):
