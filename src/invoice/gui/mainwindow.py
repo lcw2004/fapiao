@@ -3,20 +3,17 @@
 from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView
 from PyQt4 import QtCore
 from PyQt4 import QtGui
-from invoice.bean.ProductBean import Product
-from invoice.dao.DictDao import DictDao
 from invoice.dao.ProductDao import ProductDao
 from mainwindow_ui import Ui_MainWindow
 
 from invoice.sys import ExportAsXML
 from invoice.common import excelparse
 from invoice.common import tableUtil
-from invoice.bean.InvoiceBean import Invoice
-from invoice.bean.InvoiceDetailBean import InvoiceDetail
-from invoice.bean.CustomBean import Custom
 from invoice.dao.InvoiceDao import InvoiceDao
 from invoice.dao.InvoiceDetailDao import InvoiceDetailDao
 from invoice.dao.CustomDao import CustomDao
+
+from invoice.bean.Beans import *
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
@@ -174,11 +171,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.information(self, "Information", u'请先导入发票数据！')
             return
 
-        invoiceDao = InvoiceDao()
-        invoiceDetailDao = InvoiceDetailDao()
-        cuntomDao = CustomDao()
-        productDao = ProductDao()
-
         for i in range(rowCount):
             tbl_custom_name = tableUtil.qStringToString(excelTableWidget.item(i, 0).text())
             tbl_invoice_invoice_num = tableUtil.qStringToString(excelTableWidget.item(i, 1).text())
@@ -188,47 +180,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             tbl_invoice_remark = tableUtil.qStringToString(excelTableWidget.item(i, 5).text())
 
             # 保存用户信息
-            custom = cuntomDao.getOne(name=tbl_custom_name)
+            custom = Custom.get(name=tbl_custom_name)
             if custom:
                 print u"客户已经存在，ID为：", custom.id
             else:
-                custom = Custom()
-                custom.name = tbl_custom_name
-                custom.id = cuntomDao.save(custom)
+                custom = Custom.create(name=tbl_custom_name)
+                custom.save()
 
             # 保存商品信息
-            product = productDao.getOne(name=tbl_invoice_detail_pro_name)
+            product = Product.get(name=tbl_invoice_detail_pro_name)
             if product:
                 print u"商品已经存在，ID为：", product.id
             else:
-                product = Product()
-                product.name = tbl_invoice_detail_pro_name
-                product.type = tbl_invoice_detail_pro_type
-                product.id = productDao.save(product)
+                product = Product.create(name=tbl_invoice_detail_pro_name, type=tbl_invoice_detail_pro_type)
+                product.save()
 
             # 保存发票
-            invoice = Invoice()
-            invoice.invoice_num = tbl_invoice_invoice_num
-            invoice.remark = tbl_invoice_remark
-            invoice.total_not_tax = tbl_invoice_total_not_tax
-            invoice.custom_id = custom.id
-            invoice.id = invoiceDao.save(invoice)
+            invoice = Invoice.create(invoice_num=tbl_invoice_invoice_num,
+                                     remark=tbl_invoice_remark,
+                                     total_not_tax=tbl_invoice_total_not_tax)
+            invoice.save()
 
             # 保存发票详细信息
-            invoiceDetail = InvoiceDetail()
-            invoiceDetail.pro_type = tbl_invoice_detail_pro_type
-            invoiceDetail.pro_name = tbl_invoice_detail_pro_name
-            invoiceDetail.not_tax_price = tbl_invoice_total_not_tax
-            invoiceDetail.invoice_Id = invoice.id
-            invoiceDetail.product_id = product.id
-            invoiceDetail.invoice = invoice
-            invoiceDetail.product = product
+            invoiceDetail = InvoiceDetail.create(
+                pro_type=tbl_invoice_detail_pro_type,
+                pro_name=tbl_invoice_detail_pro_name,
+                not_tax_price=tbl_invoice_total_not_tax,
+                invoice_Id=invoice.id,
+                product_id=product.id,
+                invoice=invoice,
+                product=product
+            )
+            invoiceDetail.save()
+
 
             # 计算税额
             invoiceDetail.caculate()
-
-            invoiceDetailDao.save(invoiceDetail)
-            invoiceDao.proofreadInvoince(invoice.id)
+            # invoiceDao.proofreadInvoince(invoice.id)
 
             print tbl_invoice_invoice_num
             print tbl_invoice_total_not_tax
@@ -248,32 +236,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoiceTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         # 查询数据
-        invoiceDao = InvoiceDao()
-        invoiceList = invoiceDao.getAllData(0)
+        invoiceList = Invoice.select().where(Invoice.status==0)
 
-        # 将数据填充到表格中
-        invoiceCount = len(invoiceList)
-        self.invoiceTableWidget.setRowCount(invoiceCount)
-        for i in range(invoiceCount):
-            invoice = invoiceList[i]
-            tableUtil.setTableItemValue(invoiceTableWidget, i, 0, invoice.id)
-            tableUtil.setTableItemValue(invoiceTableWidget, i, 1, invoice.invoice_num)
+        for invoice in invoiceList:
+            currentLen = self.invoiceTableWidget.rowCount()
+            self.invoiceTableWidget.setRowCount(currentLen+1)
+
+            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 0, invoice.id)
+            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 1, invoice.invoice_num)
             if invoice.custom:
-                tableUtil.setTableItemValue(invoiceTableWidget, i, 2, invoice.custom.name)
-                tableUtil.setTableItemValue(invoiceTableWidget, i, 7, invoice.custom.code)
-                tableUtil.setTableItemValue(invoiceTableWidget, i, 8, invoice.custom.tax_id)
-                tableUtil.setTableItemValue(invoiceTableWidget, i, 9, invoice.custom.addr)
-                tableUtil.setTableItemValue(invoiceTableWidget, i, 10, invoice.custom.bank_account)
+                tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 2, invoice.custom.name)
+                tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 7, invoice.custom.code)
+                tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 8, invoice.custom.tax_id)
+                tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 9, invoice.custom.addr)
+                tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 10, invoice.custom.bank_account)
 
-            tableUtil.setTableItemValue(invoiceTableWidget, i, 3, invoice.total_not_tax)
-            tableUtil.setTableItemValue(invoiceTableWidget, i, 4, invoice.total_tax)
-            tableUtil.setTableItemValue(invoiceTableWidget, i, 5, invoice.total_num)
-            tableUtil.setTableItemValue(invoiceTableWidget, i, 6, invoice.serial_number)
+            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 3, invoice.total_not_tax)
+            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 4, invoice.total_tax)
+            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 5, invoice.total_num)
+            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 6, invoice.serial_number)
 
-            tableUtil.setTableItemValue(invoiceTableWidget, i, 11, invoice.remark)
-            tableUtil.setTableItemValue(invoiceTableWidget, i, 12, invoice.drawer)
-            tableUtil.setTableItemValue(invoiceTableWidget, i, 13, invoice.beneficiary)
-            tableUtil.setTableItemValue(invoiceTableWidget, i, 14, invoice.reviewer)
+            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 11, invoice.remark)
+            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 12, invoice.drawer)
+            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 13, invoice.beneficiary)
+            tableUtil.setTableItemValue(invoiceTableWidget, currentLen, 14, invoice.reviewer)
 
     def updateInvoince(self):
         pass
@@ -289,11 +275,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 for rowCount in remove_rows:
                     invoince_id = tableUtil.qStringToString(invoiceTableWidget.item(rowCount, 0).text())
                     if invoince_id:
-                        idList.append(int(invoince_id))
-
-                # 删除数据库中的数据
-                invoiceDao = InvoiceDao()
-                invoiceDao.updateStatus(idList, -1)
+                        q = Invoice.update(status=-1).where(Invoice.id == invoince_id)
+                        q.execute()
 
                 # 重新加载表格
                 self.queryInvoice()
