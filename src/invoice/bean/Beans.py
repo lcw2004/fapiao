@@ -53,9 +53,9 @@ class Product(BaseModel):
     # 产品单位
     unit = TextField(null=True)
     # 产品单价
-    unit_price = IntegerField(default=0)
+    unit_price = FloatField(default=0)
     # 含税单价（产品单价 + 产品单价 * 税率）
-    tax_price = IntegerField(default=0)
+    tax_price = FloatField(default=0)
     # 税率
     tax = FloatField(default=0.17)
     # 企业税号
@@ -95,13 +95,13 @@ class Invoice(BaseModel):
     # 备注
     remark = TextField(null=True)
     # 开票日期
-    start_time = None
+    start_time = DateTimeField(default=datetime.datetime.now)
     # 总不含税金额（即Excel中录入的金额）
-    total_not_tax = IntegerField(default=0)
+    total_not_tax = FloatField(default=0)
     # 总税额（即不含税金额 * 税率）
-    total_tax = IntegerField(default=0)
+    total_tax = FloatField(default=0)
     # 价税合计（总不含税金额 + 总税额）
-    total_num = IntegerField(default=0)
+    total_num = FloatField(default=0)
     # 系统流水号
     serial_number = TextField(null=True)
     # 开票人
@@ -127,11 +127,11 @@ class InvoiceDetail(BaseModel):
     # 产品数量
     pro_num = IntegerField(default=0)
     # 不含税金额（Excel中的金额）
-    not_tax_price = IntegerField(default=0)
+    not_tax_price = FloatField(default=0)
     # 税额（不含税金额 * 税率）
-    tax_price = IntegerField(default=0)
+    tax_price = FloatField(default=0)
     # 含税金额（不含税金额 + 税额）
-    contain_tax_price = IntegerField(default=0)
+    contain_tax_price = FloatField(default=0)
 
     # invoice对象
     invoice = ForeignKeyField(Invoice, db_column='invoice_Id', related_name='invoiceDetails')

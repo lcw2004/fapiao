@@ -176,42 +176,42 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             tbl_invoice_remark = tableUtil.qStringToString(excelTableWidget.item(i, 5).text())
 
             # 保存用户信息
-            custom = Custom.get(name=tbl_custom_name)
-            if custom:
-                print u"客户已经存在，ID为：", custom.id
+            custom_of_this = Custom.get(name=tbl_custom_name)
+            if custom_of_this:
+                print u"客户已经存在，ID为：", custom_of_this.id
             else:
-                custom = Custom.create(name=tbl_custom_name)
-                custom.save()
+                custom_of_this = Custom.create(name=tbl_custom_name)
+                custom_of_this.save()
 
             # 保存商品信息
-            product = Product.get(name=tbl_invoice_detail_pro_name)
-            if product:
-                print u"商品已经存在，ID为：", product.id
+            product_of_this = Product.get(name=tbl_invoice_detail_pro_name)
+            if product_of_this:
+                print u"商品已经存在，ID为：", product_of_this.id
             else:
-                product = Product.create(name=tbl_invoice_detail_pro_name, type=tbl_invoice_detail_pro_type)
-                product.save()
+                product_of_this = Product.create(name=tbl_invoice_detail_pro_name, type=tbl_invoice_detail_pro_type)
+                product_of_this.save()
 
             # 保存发票
-            invoice = Invoice.create(invoice_num=tbl_invoice_invoice_num,
+            invoice_of_this = Invoice.create(invoice_num=tbl_invoice_invoice_num,
                                      remark=tbl_invoice_remark,
-                                     total_not_tax=tbl_invoice_total_not_tax)
-            invoice.save()
+                                     total_not_tax=tbl_invoice_total_not_tax,
+                                     custom=custom_of_this)
+            invoice_of_this.save()
 
             # 保存发票详细信息
-            invoiceDetail = InvoiceDetail.create(
+            invoiceDetail_of_this = InvoiceDetail.create(
                 pro_type=tbl_invoice_detail_pro_type,
                 pro_name=tbl_invoice_detail_pro_name,
                 not_tax_price=tbl_invoice_total_not_tax,
-                invoice_Id=invoice.id,
-                product_id=product.id,
-                invoice=invoice,
-                product=product
+                invoice_Id=invoice_of_this.id,
+                product_id=product_of_this.id,
+                invoice=invoice_of_this,
+                product=product_of_this
             )
-            invoiceDetail.save()
+            invoiceDetail_of_this.save()
 
-
-            # 计算税额
-            invoiceDetail.caculate()
+            # TODO 计算税额
+            # invoiceDetail.caculate()
             # invoiceDao.proofreadInvoince(invoice.id)
 
             print tbl_invoice_invoice_num
