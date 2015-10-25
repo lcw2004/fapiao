@@ -105,9 +105,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # 将所选发票的详细信息合并到第一个中，并删除其他发票
         mainInvoiceId = idList[0]
-        invoiceDao = InvoiceDao()
         invoiceDao.mergeInvoinceDetail(mainInvoiceId, idList)
         invoiceDao.updateStatus(idList[1:], 9)
+
+        InvoiceDetail.update()
+        Invoice.update(status=9).where(id in idList[1:])
 
         # 重新统计税额
         invoiceDao.proofreadInvoince(mainInvoiceId)
@@ -222,6 +224,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print "-------------------------------"
 
         QMessageBox.information(self, "Information", u'数据已经保存到临时数据区！')
+        # TODO 导入成功之后清空数据
 
     def queryInvoice(self):
         invoiceTableWidget = self.invoiceTableWidget

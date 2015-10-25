@@ -115,8 +115,6 @@ class Invoice(BaseModel):
     # 客户对象
     custom = ForeignKeyField(Custom, db_column='custom_id')
 
-    # 详细信息列表
-    # invoiceDetailList = None
 
 
 # 发票详细信息表

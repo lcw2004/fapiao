@@ -23,14 +23,17 @@ def testInvoice():
         printObject(invoice.custom)
 
 def testInvoiceDetail():
-    for invoiceDetail in InvoiceDetail.select():
-        print "=================================================="
-        printObject(invoiceDetail)
-        printObject(invoiceDetail.invoice)
-        printObject(invoiceDetail.product)
+    idList = [1, 2]
+    invoice1 = Invoice.get(id=1)
+    print invoice1
+    InvoiceDetail.update(invoice = invoice1).where(InvoiceDetail.invoice << idList).sql()
+
+
+    pass
+
 
 if __name__ == "__main__":
-    testDict()
+    testInvoiceDetail()
     # testInvoiceDetail()
 
 
