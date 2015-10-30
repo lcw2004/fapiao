@@ -3,6 +3,7 @@
 from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView
 from PyQt4 import QtCore
 from PyQt4 import QtGui
+import peewee
 from mainwindow_ui import Ui_MainWindow
 
 from invoice.sys import ExportAsXML
@@ -105,10 +106,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # 将所选发票的详细信息合并到第一个中，并删除其他发票
         mainInvoiceId = idList[0]
+        mainInvoice = Invoice.get(id=mainInvoiceId)
         invoiceDao.mergeInvoinceDetail(mainInvoiceId, idList)
         invoiceDao.updateStatus(idList[1:], 9)
 
-        InvoiceDetail.update()
+        q = InvoiceDetail.update(invoice = mainInvoice).where(InvoiceDetail.invoice in idList[1:])
         Invoice.update(status=9).where(id in idList[1:])
 
         # 重新统计税额
@@ -178,18 +180,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             tbl_invoice_remark = tableUtil.qStringToString(excelTableWidget.item(i, 5).text())
 
             # 保存用户信息
-            custom_of_this = Custom.get(name=tbl_custom_name)
-            if custom_of_this:
-                print u"客户已经存在，ID为：", custom_of_this.id
-            else:
+            try:
+                custom_of_this = Custom.get(name=tbl_custom_name)
+            except Exception:
                 custom_of_this = Custom.create(name=tbl_custom_name)
                 custom_of_this.save()
 
             # 保存商品信息
-            product_of_this = Product.get(name=tbl_invoice_detail_pro_name)
-            if product_of_this:
-                print u"商品已经存在，ID为：", product_of_this.id
-            else:
+            try:
+                product_of_this = Product.get(name=tbl_invoice_detail_pro_name)
+            except Exception:
                 product_of_this = Product.create(name=tbl_invoice_detail_pro_name, type=tbl_invoice_detail_pro_type)
                 product_of_this.save()
 

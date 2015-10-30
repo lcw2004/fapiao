@@ -23,12 +23,17 @@ def testInvoice():
         printObject(invoice.custom)
 
 def testInvoiceDetail():
-    idList = [1, 2]
-    invoice1 = Invoice.get(id=1)
-    print invoice1
-    InvoiceDetail.update(invoice = invoice1).where(InvoiceDetail.invoice << idList).sql()
+    idList = [1, 2, 3, 4]
+    mainInvoice = Invoice.get(id=2)
+    # q = InvoiceDetail.update(invoice=mainInvoice).where(InvoiceDetail.invoice in idList[1:])
+    # q = InvoiceDetail.update(tax_price = 1)
+    # q.execute()
+    list = InvoiceDetail.select(InvoiceDetail.id).where(InvoiceDetail.id << idList[1:])
+    for i in list:
+        print i.id, i.pro_num
 
-
+    q = InvoiceDetail.update(invoice=mainInvoice).where(InvoiceDetail.id << idList[1:])
+    q.execute()
     pass
 
 
