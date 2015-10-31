@@ -107,14 +107,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 将所选发票的详细信息合并到第一个中，并删除其他发票
         mainInvoiceId = idList[0]
         mainInvoice = Invoice.get(id=mainInvoiceId)
-        invoiceDao.mergeInvoinceDetail(mainInvoiceId, idList)
-        invoiceDao.updateStatus(idList[1:], 9)
+        q = InvoiceDetail.update(invoice=mainInvoice).where(InvoiceDetail.invoice << idList[1:])
+        q.execute()
+        q = Invoice.update(status=9).where(Invoice.id << idList[1:])
+        q.execute()
 
-        q = InvoiceDetail.update(invoice = mainInvoice).where(InvoiceDetail.invoice in idList[1:])
-        Invoice.update(status=9).where(id in idList[1:])
-
-        # 重新统计税额
-        invoiceDao.proofreadInvoince(mainInvoiceId)
+        # TODO 重新统计税额
+        # invoiceDao.proofreadInvoince(mainInvoiceId)
 
         # 合并成功并刷新表格
         QMessageBox.information(self, "Information", u'合并成功！')
