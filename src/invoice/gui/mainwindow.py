@@ -49,35 +49,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.invoince_chaifeng_btn, QtCore.SIGNAL("clicked()"), self.chaifenInvoice)
 
     def mergeInvoiceDetail(self):
-        invoiceTableWidget = self.invoiceTableWidget
-
-        rowCount = invoiceTableWidget.rowCount()
-
-
-        # 获取所有需要合并的行的ID
-        idList = []
-        for row_num in range(rowCount):
-            invoince_id = tableUtil.qStringToString(invoiceTableWidget.item(row_num, 0).text())
-            if invoince_id:
-                invoiceDetailDao = InvoiceDetailDao()
-                invoiceDetailList = invoiceDetailDao.queryChongFu(invoince_id)
-                for invoiceDetail in invoiceDetailList:
-                    print "------------------------"
-                    print invoiceDetail.id
-                    print invoiceDetail.pro_num
-                    print invoiceDetail.not_tax_price
-                    print invoiceDetail.tax_price
-                    print invoiceDetail.contain_tax_price
-                    print invoiceDetail.invoice_Id
-                    print invoiceDetail.product_id
-
-
-        # 重新统计税额
-        # invoiceDao.proofreadInvoince(mainInvoiceId)
-
-        # 合并成功并刷新表格
-        QMessageBox.information(self, "Information", u'合并成功！')
-        self.queryInvoice()
+        pass
 
     def mergeInvoice(self):
         invoiceTableWidget = self.invoiceTableWidget
@@ -137,18 +109,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 idList.append(int(invoince_id))
 
         # 获取发票ID
-        invoiceDetailDao = InvoiceDetailDao()
-        invoiceDao = InvoiceDao()
         if idList:
-            invoiceDetail = invoiceDetailDao.getById(idList[0])
-            oldInvoiceId = invoiceDetail.invoice_Id
-            invoice = invoiceDao.getById(oldInvoiceId)
-            newInvoiceId = invoiceDao.save(invoice)
-            invoiceDetailDao.updateInvoiceId(idList, newInvoiceId)
+            print idList
+            invoiceDetail = InvoiceDetail.get(id=idList[0])
+            invoice = invoiceDetail.invoice
 
-            # 重新统计税额
-            invoiceDao.proofreadInvoince(newInvoiceId)
-            invoiceDao.proofreadInvoince(oldInvoiceId)
+            newInvoice = Invoice.create(invoice_num=invoice.invoice_num,
+                                     remark=invoice.remark,
+                                     total_not_tax=invoice.total_not_tax,
+                                     custom=invoice.custom)
+            newInvoice.save()
+
+            q = InvoiceDetail.update(invoice=newInvoice).where(InvoiceDetail.id << idList)
+            print q
+            q.execute()
+
+            # TODO 重新统计税额
+            # invoiceDao.proofreadInvoince(newInvoiceId)
+            # invoiceDao.proofreadInvoince(oldInvoiceId)
             QMessageBox.information(self, "Information", u'拆分成功！')
             self.queryInvoice()
 
