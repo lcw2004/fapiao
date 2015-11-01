@@ -28,7 +28,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_0">
        <property name="styleSheet">
@@ -172,7 +172,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="invoince_update_btn">
+           <widget class="QPushButton" name="invoine_update_btn">
             <property name="text">
              <string>修改</string>
             </property>
@@ -183,7 +183,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="invoince_delete_btn">
+           <widget class="QPushButton" name="invoice_delete_btn">
             <property name="text">
              <string>删除</string>
             </property>
@@ -194,7 +194,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="invoince_import_xml_btn">
+           <widget class="QPushButton" name="invoice_import_xml_btn">
             <property name="text">
              <string>开票</string>
             </property>
@@ -205,7 +205,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="invoince_merge_btn">
+           <widget class="QPushButton" name="invoice_merge_btn">
             <property name="text">
              <string>合并选中项</string>
             </property>
@@ -216,7 +216,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="invoince_merge_product_btn">
+           <widget class="QPushButton" name="invoice_merge_product_btn">
             <property name="text">
              <string>合并相同产品</string>
             </property>
@@ -227,7 +227,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="invoince_chaifeng_btn">
+           <widget class="QPushButton" name="invoice_chaifeng_btn">
             <property name="text">
              <string>拆分选中项</string>
             </property>
