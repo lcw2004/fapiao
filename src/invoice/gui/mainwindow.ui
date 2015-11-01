@@ -28,7 +28,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_0">
        <property name="styleSheet">
@@ -60,7 +60,7 @@
            <number>3</number>
           </property>
           <item>
-           <widget class="QPushButton" name="genInvoiceButton">
+           <widget class="QPushButton" name="excel_gen_invoice_btn">
             <property name="text">
              <string>保存到临时数据区</string>
             </property>
@@ -101,10 +101,10 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="excelFilePathEdit"/>
+           <widget class="QLineEdit" name="excel_SelectFilePathEdit"/>
           </item>
           <item>
-           <widget class="QPushButton" name="selectExcelFileButton">
+           <widget class="QPushButton" name="excel_selectl_file_btn">
             <property name="text">
              <string>选择</string>
             </property>
@@ -130,7 +130,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="excelTableWidget">
+         <widget class="QTableWidget" name="excel_table">
           <property name="rowCount">
            <number>0</number>
           </property>
@@ -161,7 +161,7 @@
            <number>3</number>
           </property>
           <item>
-           <widget class="QPushButton" name="invoice_filter_Button">
+           <widget class="QPushButton" name="invoice_filter_btn">
             <property name="text">
              <string>查询</string>
             </property>
@@ -253,7 +253,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="invoiceTableWidget">
+         <widget class="QTableWidget" name="invoice_table">
           <property name="rowCount">
            <number>0</number>
           </property>
@@ -333,7 +333,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTableWidget" name="invoinceDetailTableWidget">
+         <widget class="QTableWidget" name="invoice_detail_table">
           <property name="rowCount">
            <number>0</number>
           </property>
@@ -434,6 +434,13 @@
            <number>3</number>
           </property>
           <item>
+           <widget class="QPushButton" name="custom_query_btn">
+            <property name="text">
+             <string>查询</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="custom_add_btn">
             <property name="text">
              <string>新增</string>
@@ -470,7 +477,58 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="customTableWidget"/>
+         <widget class="QTableWidget" name="custom_table">
+          <property name="lineWidth">
+           <number>2</number>
+          </property>
+          <property name="rowCount">
+           <number>0</number>
+          </property>
+          <property name="columnCount">
+           <number>9</number>
+          </property>
+          <column>
+           <property name="text">
+            <string>ID</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>客户代码</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>客户税号</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>开户银行账号</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>客户地址</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>企业税号</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>ERP对照值</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>新建开票汇总名称列</string>
+           </property>
+          </column>
+          <column/>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -490,6 +548,13 @@
           <property name="margin">
            <number>3</number>
           </property>
+          <item>
+           <widget class="QPushButton" name="product_query_btn">
+            <property name="text">
+             <string>查询</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QPushButton" name="product_add_btn">
             <property name="text">
@@ -527,7 +592,58 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="productTableWidget"/>
+         <widget class="QTableWidget" name="product_table">
+          <column>
+           <property name="text">
+            <string>ID</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>产品名称</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>产品型号</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>产品单位</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>产品单价</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>含税单价</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>税率</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>企业税号</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>ERA对照值</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>父ID</string>
+           </property>
+          </column>
+         </widget>
         </item>
        </layout>
       </widget>
