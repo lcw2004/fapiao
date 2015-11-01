@@ -238,7 +238,7 @@ class Ui_MainWindow(object):
         self.custom_table = QtGui.QTableWidget(self.tab_3)
         self.custom_table.setLineWidth(2)
         self.custom_table.setRowCount(0)
-        self.custom_table.setColumnCount(9)
+        self.custom_table.setColumnCount(8)
         self.custom_table.setObjectName(_fromUtf8("custom_table"))
         item = QtGui.QTableWidgetItem()
         self.custom_table.setHorizontalHeaderItem(0, item)
@@ -338,7 +338,7 @@ class Ui_MainWindow(object):
         self.menuBar.addAction(self.menu_help.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(4)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -427,7 +427,7 @@ class Ui_MainWindow(object):
         item = self.custom_table.horizontalHeaderItem(6)
         item.setText(_translate("MainWindow", "ERP对照值", None))
         item = self.custom_table.horizontalHeaderItem(7)
-        item.setText(_translate("MainWindow", "新建开票汇总名称列", None))
+        item.setText(_translate("MainWindow", "开票汇总名称", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "客户管理", None))
         self.product_query_btn.setText(_translate("MainWindow", "查询", None))
         self.product_add_btn.setText(_translate("MainWindow", "新增", None))

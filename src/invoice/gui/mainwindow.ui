@@ -28,7 +28,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab_0">
        <property name="styleSheet">
@@ -485,7 +485,7 @@
            <number>0</number>
           </property>
           <property name="columnCount">
-           <number>9</number>
+           <number>8</number>
           </property>
           <column>
            <property name="text">
@@ -524,10 +524,9 @@
           </column>
           <column>
            <property name="text">
-            <string>新建开票汇总名称列</string>
+            <string>开票汇总名称</string>
            </property>
           </column>
-          <column/>
          </widget>
         </item>
        </layout>

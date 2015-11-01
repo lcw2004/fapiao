@@ -48,6 +48,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 临时待处理数据 - 拆分(按最大限额)
         self.connect(self.invoice_chaifeng_btn, QtCore.SIGNAL("clicked()"), self.invoice_chaifeng_btn_clicked)
 
+        ###############
+        ## 客户管理模块
+        self.connect(self.custom_query_btn, QtCore.SIGNAL("clicked()"), self.custom_query_btn_clicked)
+
+        ###############
+
+        ###############
+        ## 产品管理模块
+        self.connect(self.product_query_btn, QtCore.SIGNAL("clicked()"), self.product_query_btn_clicked)
+
+        ###############
+
     def invoice_merge_product_btn_clicked(self):
         pass
 
@@ -308,3 +320,56 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             tableUtil.setTableItemValue(invoice_detail_table, i, 9, invoiceDetail.product.tax)
             tableUtil.setTableItemValue(invoice_detail_table, i, 10, invoiceDetail.tax_price)
             tableUtil.setTableItemValue(invoice_detail_table, i, 11, invoiceDetail.contain_tax_price)
+
+    def custom_query_btn_clicked(self):
+        custom_table = self.custom_table
+
+        # 设置整行选中
+        custom_table.setSelectionBehavior(QAbstractItemView.SelectRows)
+        # 设置不可编辑
+        custom_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+
+        # 查询数据
+        custom_list = list(Custom.select())
+        row_count = len(custom_list)
+        self.custom_table.setRowCount(row_count)
+
+        # 将数据加载到表格中
+        for i in range(row_count):
+            custom = custom_list[i]
+            tableUtil.setTableItemValue(custom_table, i, 0, custom.id)
+            tableUtil.setTableItemValue(custom_table, i, 1, custom.code)
+            tableUtil.setTableItemValue(custom_table, i, 2, custom.name)
+            tableUtil.setTableItemValue(custom_table, i, 3, custom.tax_id)
+            tableUtil.setTableItemValue(custom_table, i, 4, custom.bank_account)
+            tableUtil.setTableItemValue(custom_table, i, 5, custom.addr)
+            tableUtil.setTableItemValue(custom_table, i, 6, custom.business_tax_di)
+            tableUtil.setTableItemValue(custom_table, i, 7, custom.erp_id)
+            tableUtil.setTableItemValue(custom_table, i, 8, custom.summary_title)
+
+    def product_query_btn_clicked(self):
+        product_table = self.product_table
+
+        # 设置整行选中
+        product_table.setSelectionBehavior(QAbstractItemView.SelectRows)
+        # 设置不可编辑
+        product_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+
+        # 查询数据
+        product_list = list(Product.select())
+        row_count = len(product_list)
+        self.product_table.setRowCount(row_count)
+
+        # 将数据加载到表格中
+        for i in range(row_count):
+            product = product_list[i]
+            tableUtil.setTableItemValue(product_table, i, 0, product.id)
+            tableUtil.setTableItemValue(product_table, i, 1, product.code)
+            tableUtil.setTableItemValue(product_table, i, 2, product.name)
+            tableUtil.setTableItemValue(product_table, i, 3, product.type)
+            tableUtil.setTableItemValue(product_table, i, 4, product.unit)
+            tableUtil.setTableItemValue(product_table, i, 5, product.unit_price)
+            tableUtil.setTableItemValue(product_table, i, 6, product.tax_price)
+            tableUtil.setTableItemValue(product_table, i, 7, product.tax)
+            tableUtil.setTableItemValue(product_table, i, 8, product.business_tax_num)
+            tableUtil.setTableItemValue(product_table, i, 9, product.p_id)
