@@ -255,6 +255,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def invoice_update_btn_clicked(self):
         # dialog = FormInvoiceDialog(self)
         # dialog.show()
+        pass
 
     def invoice_delete_btn_clicked(self):
             reply = QMessageBox.question(self,u'提示',u'确定要删除所选记录吗？',QMessageBox.Yes|QMessageBox.No)
