@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 
 from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView
 from PyQt4 import QtCore
