@@ -1,13 +1,11 @@
-__author__ = 'Administrator'
+# -*- coding: UTF-8 -*-
 
+DATABASE_PATH = "data.db"
+XML_PATH = "input.xml"
 
-
-BASE_PATH = "D:\\GitHub\\fapiao\\src\\"
-DATABASE_PATH = BASE_PATH + "data.db"
 INPUT_PATH = "D:\\invoince\\Input\\"
 OUTPUT_PATH = "D:\\invoince\\Output\\"
 TEMP_PATH = "D:\\invoince\\TEMP\\"
-XML_PATH = BASE_PATH + "input.xml"
 
 def getConfigInDB(label):
     from invoice.bean.beans import Dict
