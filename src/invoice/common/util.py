@@ -1,12 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-from PyQt4 import QtGui
-
-from invoice.dao.DictDao import DictDao
-from invoice.common import excelparse
 import os
-from invoice.common import tableUtil
-
 
 
 # 将文件保存到指定路径

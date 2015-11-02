@@ -4,7 +4,6 @@ import xlrd
 
 import commonUtil
 from invoice.common import tableUtil
-from invoice.dao.DictDao import DictDao
 from invoice.bean.Beans import *
 
 def parseExcelToInvoiceList(excelPath):

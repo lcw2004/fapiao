@@ -4,7 +4,6 @@ from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 
-from invoice.gui.form_invoice import FormInvoiceDialog
 from mainwindow_ui import Ui_MainWindow
 from invoice.sys import ExportAsXML
 from invoice.common import excelparse
@@ -254,11 +253,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             tableUtil.setTableItemValue(invoice_table, i, 14, invoice.reviewer)
 
     def invoice_update_btn_clicked(self):
-        dialog = FormInvoiceDialog(self)
-        dialog.show()
-
-
-        pass
+        # dialog = FormInvoiceDialog(self)
+        # dialog.show()
 
     def invoice_delete_btn_clicked(self):
             reply = QMessageBox.question(self,u'提示',u'确定要删除所选记录吗？',QMessageBox.Yes|QMessageBox.No)
