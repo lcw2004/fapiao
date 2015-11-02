@@ -1,18 +1,11 @@
 # -*- coding: utf-8 -*-
 
-# 菜单栏
-# C:\Python27\Lib\site-packages\PyQt4\examples\demos\textedit
-
-# 弹出框
-# C:\Python27\Lib\site-packages\PyQt4\examples\dialogs
-from invoice.common import config
-
-__author__ = 'Administrator'
-
-from PyQt4 import QtCore, QtGui
-
 import os
 import sys
+import logging
+from invoice.common import config
+from PyQt4 import QtGui
+
 
 # 项目基础路径
 BASE_PATH = None
@@ -42,7 +35,11 @@ def init():
 
 # 主程序入口
 if __name__ == "__main__":
-    init()
+    from invoice.log import logging_set
+    logging_set.setup_logging()
+
+    logger = logging.getLogger(__name__)
+    logger.debug("This is a debug")
 
     app = QtGui.QApplication(sys.argv)
     from invoice.gui.mainwindow import MainWindow
