@@ -40,3 +40,29 @@ def has_chinese_charactar(input_str):
     if match:
         res = True
     return res
+
+def save_to_file(content, path):
+    """
+    将文件保存到指定路径
+    :param content:文件内容
+    :param path:文件路径
+    """
+    f = open(path, 'w')
+    f.write(content)
+    f.close()
+
+def read_from_file(path):
+    """
+    从文件里面读取信息
+    :param path:文件路径
+    """
+    f = open(path, 'r')
+    return f.read()
+
+def is_file_exists(path):
+    """
+    判断文件是否存在
+    :param path:文件路径
+    """
+    import os.path
+    return os.path.exists(path)

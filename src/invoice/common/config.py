@@ -10,7 +10,7 @@ TEMP_PATH = "D:\\invoince\\TEMP\\"
 XML_PATH = BASE_PATH + "input.xml"
 
 def getConfigInDB(label):
-    from invoice.bean.Beans import Dict
+    from invoice.bean.beans import Dict
     dict = Dict.get(Dict.label == label)
     return dict
 

@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Kp>
     <Fpxx>
-        <Zsl>${len(invoinceList) or '' }</Zsl>
+        <Zsl>${len(invoiceList) or '' }</Zsl>
 
-        % for invoince in invoinceList:
+        % for invoice in invoiceList:
         <Fpsj>
             <Fp>
-                <Djh>${invoince.invoice_num or '' }</Djh>
-                <Gfmc>${invoince.custom.name or '' }</Gfmc>
-                <Gfsh>${invoince.custom.tax_id or '' }</Gfsh>
-                <Gfyhzh>${invoince.custom.bank_account or '' }</Gfyhzh>
-                <Gfdzdh>${invoince.custom.addr or '' }</Gfdzdh>
-                <Bz>${invoince.remark or '' }</Bz>
-                <Fhr>${invoince.reviewer or '' }</Fhr>
-                <Skr>${invoince.beneficiary or '' }</Skr>
+                <Djh>${invoice.invoice_num or '' }</Djh>
+                <Gfmc>${invoice.custom.name or '' }</Gfmc>
+                <Gfsh>${invoice.custom.tax_id or '' }</Gfsh>
+                <Gfyhzh>${invoice.custom.bank_account or '' }</Gfyhzh>
+                <Gfdzdh>${invoice.custom.addr or '' }</Gfdzdh>
+                <Bz>${invoice.remark or '' }</Bz>
+                <Fhr>${invoice.reviewer or '' }</Fhr>
+                <Skr>${invoice.beneficiary or '' }</Skr>
                 <Spxx>
-                     % for invoinceDetail in invoince.invoiceDetailList:
+                     % for invoiceDetail in invoice.invoiceDetailList:
                     <Sph>
-                        <Xh>${invoinceDetail.id or '' }</Xh>
-                        <Spmc>${invoinceDetail.product.name or '' }</Spmc>
-                        <Ggxh>${invoinceDetail.product.type or '' }</Ggxh>
-                        <Jldw>${invoinceDetail.product.unit or '' }</Jldw>
-                        <Dj>${invoinceDetail.product.unit_price or '0' }</Dj>
-                        <Sl>${invoinceDetail.pro_num or '0' }</Sl>
-                        <Je>${invoinceDetail.not_tax_price}</Je>
-                        <Slv>${invoinceDetail.product.tax or '0.17' }</Slv>
+                        <Xh>${invoiceDetail.id or '' }</Xh>
+                        <Spmc>${invoiceDetail.product.name or '' }</Spmc>
+                        <Ggxh>${invoiceDetail.product.type or '' }</Ggxh>
+                        <Jldw>${invoiceDetail.product.unit or '' }</Jldw>
+                        <Dj>${invoiceDetail.product.unit_price or '0' }</Dj>
+                        <Sl>${invoiceDetail.pro_num or '0' }</Sl>
+                        <Je>${invoiceDetail.not_tax_price}</Je>
+                        <Slv>${invoiceDetail.product.tax or '0.17' }</Slv>
                     </Sph>
                      % endfor
                 </Spxx>

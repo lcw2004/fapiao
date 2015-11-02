@@ -1,10 +1,8 @@
 # -*- coding: UTF-8 -*-
 
 import xlrd
-
 import common_util
-from invoice.common import tableUtil
-from invoice.bean.Beans import *
+from invoice.bean.beans import *
 
 
 def parse_excel_to_invoice_list(excel_path):
@@ -69,33 +67,3 @@ def parse_excel_to_invoice_list(excel_path):
         invoice_detail_list.append(invoice_detail)
 
     return invoice_detail_list
-
-
-def parse_excel_fill_table(excel_path, excel_table_widget):
-    """
-    解析Excel并将解析出来的数据填充到表格里面
-    :param excel_path:Excel文件路径
-    :param excel_table_widget:用于显示火速据的表格
-    """
-    # 设置表格头部
-    tableUtil.initTableHeaders(excel_table_widget)
-
-    # 解析Excel
-    invoice_detail_list = parse_excel_to_invoice_list(excel_path)
-
-    # 设置表格行数
-    row_count = len(invoice_detail_list)
-    col_count = 10
-    excel_table_widget.setRowCount(row_count)
-    excel_table_widget.setColumnCount(col_count)
-
-    # 填充数据
-    for i in range(row_count):
-        invoice_detail = invoice_detail_list[i]
-
-        tableUtil.setTableItemValue(excel_table_widget, i, 0, invoice_detail.invoice.custom.name)
-        tableUtil.setTableItemValue(excel_table_widget, i, 1, invoice_detail.invoice.invoice_num)
-        tableUtil.setTableItemValue(excel_table_widget, i, 2, str(invoice_detail.invoice.total_not_tax))
-        tableUtil.setTableItemValue(excel_table_widget, i, 3, invoice_detail.product.type)
-        tableUtil.setTableItemValue(excel_table_widget, i, 4, invoice_detail.product.name)
-        tableUtil.setTableItemValue(excel_table_widget, i, 5, invoice_detail.invoice.remark)

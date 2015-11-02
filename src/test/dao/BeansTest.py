@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-from invoice.bean.Beans import *
+from invoice.bean.beans import *
 def printObject(obj):
     for property, value in vars(obj).iteritems():
         if property == "_data":

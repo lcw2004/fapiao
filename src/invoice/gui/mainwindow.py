@@ -5,10 +5,10 @@ from PyQt4 import QtCore
 from PyQt4 import QtGui
 
 from mainwindow_ui import Ui_MainWindow
-from invoice.sys import ExportAsXML
-from invoice.common import excelparse
-from invoice.common import tableUtil
-from invoice.bean.Beans import *
+from invoice.sys import invoice_exporter
+from invoice.common import excel_parser
+from invoice.common import table_util
+from invoice.bean.beans import *
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -66,7 +66,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoice_table = self.invoice_table
 
         # 判断选择的合并的发票数量
-        selected_rows = tableUtil.getSelectedRows(invoice_table)
+        selected_rows = table_util.get_selected_row_number_list(invoice_table)
         if len(selected_rows) <= 1:
             QMessageBox.information(None, "Information", u'请选择至少两个需要合并的发票！')
             return
@@ -75,8 +75,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoice_id_list = []
         custom_name_list = []
         for row_num in selected_rows:
-            invoice_id = tableUtil.qStringToString(invoice_table.item(row_num, 0).text())
-            invoice_custom_name = tableUtil.qStringToString(invoice_table.item(row_num, 2).text())
+            invoice_id = table_util.str_to_unicode_str(invoice_table.item(row_num, 0).text())
+            invoice_custom_name = table_util.str_to_unicode_str(invoice_table.item(row_num, 2).text())
             if invoice_id:
                 invoice_id_list.append(int(invoice_id))
                 custom_name_list.append(invoice_custom_name)
@@ -107,7 +107,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoice_detail_table = self.invoice_detail_table
 
         # 判断选择的合并的发票数量
-        selected_rows = tableUtil.getSelectedRows(invoice_detail_table)
+        selected_rows = table_util.get_selected_row_number_list(invoice_detail_table)
         if len(selected_rows) < 1:
             QMessageBox.information(None, "Information", u'请选择至少一个需要拆分的发票明细！')
             return
@@ -115,7 +115,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 获取所有需要合并的行的ID
         invoice_id_list = []
         for row_num in selected_rows:
-            invoice_id = tableUtil.qStringToString(invoice_detail_table.item(row_num, 0).text())
+            invoice_id = table_util.str_to_unicode_str(invoice_detail_table.item(row_num, 0).text())
             if invoice_id:
                 invoice_id_list.append(int(invoice_id))
 
@@ -144,10 +144,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         pass
 
     def excel_selectl_file_btn_clicked(self):
-        # TODO 判断是否选择文件
-        filename = QtGui.QFileDialog.getOpenFileName(None, 'Excel', '../', 'Excel File (*.xls)')
-        if filename:
-            excelparse.parse_excel_fill_table(filename, self.excel_table)
+        excel_path = QtGui.QFileDialog.getOpenFileName(None, 'Excel', '../', 'Excel File (*.xls)')
+        if excel_path:
+            excel_table_widget = self.excel_table
+
+            # 设置表格头部
+            table_util.init_table_headers(excel_table_widget)
+
+            # 解析Excel
+            invoice_detail_list = excel_parser.parse_excel_to_invoice_list(excel_path)
+
+            # 设置表格行数
+            row_count = len(invoice_detail_list)
+            col_count = 10
+            excel_table_widget.setRowCount(row_count)
+            excel_table_widget.setColumnCount(col_count)
+
+            # 填充数据
+            for i in range(row_count):
+                invoice_detail = invoice_detail_list[i]
+                table_util.set_table_item_value(excel_table_widget, i, 0, invoice_detail.invoice.custom.name)
+                table_util.set_table_item_value(excel_table_widget, i, 1, invoice_detail.invoice.invoice_num)
+                table_util.set_table_item_value(excel_table_widget, i, 2, str(invoice_detail.invoice.total_not_tax))
+                table_util.set_table_item_value(excel_table_widget, i, 3, invoice_detail.product.type)
+                table_util.set_table_item_value(excel_table_widget, i, 4, invoice_detail.product.name)
+                table_util.set_table_item_value(excel_table_widget, i, 5, invoice_detail.invoice.remark)
 
     def excel_gen_invoice_btn_clicked(self):
         excel_table = self.excel_table
@@ -160,12 +181,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
 
         for i in range(row_count):
-            tbl_custom_name = tableUtil.qStringToString(excel_table.item(i, 0).text())
-            tbl_invoice_invoice_num = tableUtil.qStringToString(excel_table.item(i, 1).text())
-            tbl_invoice_total_not_tax = tableUtil.qStringToString(excel_table.item(i, 2).text())
-            tbl_invoice_detail_pro_type = tableUtil.qStringToString(excel_table.item(i, 3).text())
-            tbl_invoice_detail_pro_name = tableUtil.qStringToString(excel_table.item(i, 4).text())
-            tbl_invoice_remark = tableUtil.qStringToString(excel_table.item(i, 5).text())
+            tbl_custom_name = table_util.str_to_unicode_str(excel_table.item(i, 0).text())
+            tbl_invoice_invoice_num = table_util.str_to_unicode_str(excel_table.item(i, 1).text())
+            tbl_invoice_total_not_tax = table_util.str_to_unicode_str(excel_table.item(i, 2).text())
+            tbl_invoice_detail_pro_type = table_util.str_to_unicode_str(excel_table.item(i, 3).text())
+            tbl_invoice_detail_pro_name = table_util.str_to_unicode_str(excel_table.item(i, 4).text())
+            tbl_invoice_remark = table_util.str_to_unicode_str(excel_table.item(i, 5).text())
 
             # 保存用户信息
             try:
@@ -233,24 +254,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for i in range(rowCount):
             invoice = invoice_list[i]
 
-            tableUtil.setTableItemValue(invoice_table, i, 0, invoice.id)
-            tableUtil.setTableItemValue(invoice_table, i, 1, invoice.invoice_num)
+            table_util.set_table_item_value(invoice_table, i, 0, invoice.id)
+            table_util.set_table_item_value(invoice_table, i, 1, invoice.invoice_num)
             if invoice.custom:
-                tableUtil.setTableItemValue(invoice_table, i, 2, invoice.custom.name)
-                tableUtil.setTableItemValue(invoice_table, i, 7, invoice.custom.code)
-                tableUtil.setTableItemValue(invoice_table, i, 8, invoice.custom.tax_id)
-                tableUtil.setTableItemValue(invoice_table, i, 9, invoice.custom.addr)
-                tableUtil.setTableItemValue(invoice_table, i, 10, invoice.custom.bank_account)
+                table_util.set_table_item_value(invoice_table, i, 2, invoice.custom.name)
+                table_util.set_table_item_value(invoice_table, i, 7, invoice.custom.code)
+                table_util.set_table_item_value(invoice_table, i, 8, invoice.custom.tax_id)
+                table_util.set_table_item_value(invoice_table, i, 9, invoice.custom.addr)
+                table_util.set_table_item_value(invoice_table, i, 10, invoice.custom.bank_account)
 
-            tableUtil.setTableItemValue(invoice_table, i, 3, invoice.total_not_tax)
-            tableUtil.setTableItemValue(invoice_table, i, 4, invoice.total_tax)
-            tableUtil.setTableItemValue(invoice_table, i, 5, invoice.total_num)
-            tableUtil.setTableItemValue(invoice_table, i, 6, invoice.serial_number)
+            table_util.set_table_item_value(invoice_table, i, 3, invoice.total_not_tax)
+            table_util.set_table_item_value(invoice_table, i, 4, invoice.total_tax)
+            table_util.set_table_item_value(invoice_table, i, 5, invoice.total_num)
+            table_util.set_table_item_value(invoice_table, i, 6, invoice.serial_number)
 
-            tableUtil.setTableItemValue(invoice_table, i, 11, invoice.remark)
-            tableUtil.setTableItemValue(invoice_table, i, 12, invoice.drawer)
-            tableUtil.setTableItemValue(invoice_table, i, 13, invoice.beneficiary)
-            tableUtil.setTableItemValue(invoice_table, i, 14, invoice.reviewer)
+            table_util.set_table_item_value(invoice_table, i, 11, invoice.remark)
+            table_util.set_table_item_value(invoice_table, i, 12, invoice.drawer)
+            table_util.set_table_item_value(invoice_table, i, 13, invoice.beneficiary)
+            table_util.set_table_item_value(invoice_table, i, 14, invoice.reviewer)
 
     def invoice_update_btn_clicked(self):
         # dialog = FormInvoiceDialog(self)
@@ -264,9 +285,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
                 # 获取所有需要删除的行的ID
                 idList = []
-                remove_rows = tableUtil.getSelectedRows(invoice_table)
+                remove_rows = table_util.get_selected_row_number_list(invoice_table)
                 for rowCount in remove_rows:
-                    invoice_id = tableUtil.qStringToString(invoice_table.item(rowCount, 0).text())
+                    invoice_id = table_util.str_to_unicode_str(invoice_table.item(rowCount, 0).text())
                     if invoice_id:
                         q = Invoice.update(status=-1).where(Invoice.id == invoice_id)
                         q.execute()
@@ -277,7 +298,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def invoice_import_xml_btn_clicked(self):
         invoiceList = list(Invoice.select(Invoice.status == 0))
         print invoiceList
-        isSuccess = ExportAsXML.exportAsFile(invoiceList, "1.xml")
+        isSuccess = invoice_exporter.export_as_file(invoiceList, "1.xml")
         if isSuccess:
             QMessageBox.information(None, "Information", u'导入成功！')
         else:
@@ -305,18 +326,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for i in range(rowCount):
             invoiceDetail = invoiceDetailList[i]
 
-            tableUtil.setTableItemValue(invoice_detail_table, i, 0, invoiceDetail.id)
-            tableUtil.setTableItemValue(invoice_detail_table, i, 1, invoiceDetail.product.code)
-            tableUtil.setTableItemValue(invoice_detail_table, i, 2, invoiceDetail.product.name)
-            tableUtil.setTableItemValue(invoice_detail_table, i, 3, invoiceDetail.product.type)
-            tableUtil.setTableItemValue(invoice_detail_table, i, 4, invoiceDetail.product.unit)
-            tableUtil.setTableItemValue(invoice_detail_table, i, 5, invoiceDetail.product.unit_price)
-            tableUtil.setTableItemValue(invoice_detail_table, i, 6, invoiceDetail.pro_num)
-            tableUtil.setTableItemValue(invoice_detail_table, i, 7, invoiceDetail.product.tax_price)
-            tableUtil.setTableItemValue(invoice_detail_table, i, 8, invoiceDetail.not_tax_price)
-            tableUtil.setTableItemValue(invoice_detail_table, i, 9, invoiceDetail.product.tax)
-            tableUtil.setTableItemValue(invoice_detail_table, i, 10, invoiceDetail.tax_price)
-            tableUtil.setTableItemValue(invoice_detail_table, i, 11, invoiceDetail.contain_tax_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 0, invoiceDetail.id)
+            table_util.set_table_item_value(invoice_detail_table, i, 1, invoiceDetail.product.code)
+            table_util.set_table_item_value(invoice_detail_table, i, 2, invoiceDetail.product.name)
+            table_util.set_table_item_value(invoice_detail_table, i, 3, invoiceDetail.product.type)
+            table_util.set_table_item_value(invoice_detail_table, i, 4, invoiceDetail.product.unit)
+            table_util.set_table_item_value(invoice_detail_table, i, 5, invoiceDetail.product.unit_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 6, invoiceDetail.pro_num)
+            table_util.set_table_item_value(invoice_detail_table, i, 7, invoiceDetail.product.tax_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 8, invoiceDetail.not_tax_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 9, invoiceDetail.product.tax)
+            table_util.set_table_item_value(invoice_detail_table, i, 10, invoiceDetail.tax_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 11, invoiceDetail.contain_tax_price)
 
     def custom_query_btn_clicked(self):
         custom_table = self.custom_table
@@ -334,15 +355,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 将数据加载到表格中
         for i in range(row_count):
             custom = custom_list[i]
-            tableUtil.setTableItemValue(custom_table, i, 0, custom.id)
-            tableUtil.setTableItemValue(custom_table, i, 1, custom.code)
-            tableUtil.setTableItemValue(custom_table, i, 2, custom.name)
-            tableUtil.setTableItemValue(custom_table, i, 3, custom.tax_id)
-            tableUtil.setTableItemValue(custom_table, i, 4, custom.bank_account)
-            tableUtil.setTableItemValue(custom_table, i, 5, custom.addr)
-            tableUtil.setTableItemValue(custom_table, i, 6, custom.business_tax_di)
-            tableUtil.setTableItemValue(custom_table, i, 7, custom.erp_id)
-            tableUtil.setTableItemValue(custom_table, i, 8, custom.summary_title)
+            table_util.set_table_item_value(custom_table, i, 0, custom.id)
+            table_util.set_table_item_value(custom_table, i, 1, custom.code)
+            table_util.set_table_item_value(custom_table, i, 2, custom.name)
+            table_util.set_table_item_value(custom_table, i, 3, custom.tax_id)
+            table_util.set_table_item_value(custom_table, i, 4, custom.bank_account)
+            table_util.set_table_item_value(custom_table, i, 5, custom.addr)
+            table_util.set_table_item_value(custom_table, i, 6, custom.business_tax_di)
+            table_util.set_table_item_value(custom_table, i, 7, custom.erp_id)
+            table_util.set_table_item_value(custom_table, i, 8, custom.summary_title)
 
     def product_query_btn_clicked(self):
         product_table = self.product_table
@@ -360,13 +381,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 将数据加载到表格中
         for i in range(row_count):
             product = product_list[i]
-            tableUtil.setTableItemValue(product_table, i, 0, product.id)
-            tableUtil.setTableItemValue(product_table, i, 1, product.code)
-            tableUtil.setTableItemValue(product_table, i, 2, product.name)
-            tableUtil.setTableItemValue(product_table, i, 3, product.type)
-            tableUtil.setTableItemValue(product_table, i, 4, product.unit)
-            tableUtil.setTableItemValue(product_table, i, 5, product.unit_price)
-            tableUtil.setTableItemValue(product_table, i, 6, product.tax_price)
-            tableUtil.setTableItemValue(product_table, i, 7, product.tax)
-            tableUtil.setTableItemValue(product_table, i, 8, product.business_tax_num)
-            tableUtil.setTableItemValue(product_table, i, 9, product.p_id)
+            table_util.set_table_item_value(product_table, i, 0, product.id)
+            table_util.set_table_item_value(product_table, i, 1, product.code)
+            table_util.set_table_item_value(product_table, i, 2, product.name)
+            table_util.set_table_item_value(product_table, i, 3, product.type)
+            table_util.set_table_item_value(product_table, i, 4, product.unit)
+            table_util.set_table_item_value(product_table, i, 5, product.unit_price)
+            table_util.set_table_item_value(product_table, i, 6, product.tax_price)
+            table_util.set_table_item_value(product_table, i, 7, product.tax)
+            table_util.set_table_item_value(product_table, i, 8, product.business_tax_num)
+            table_util.set_table_item_value(product_table, i, 9, product.p_id)

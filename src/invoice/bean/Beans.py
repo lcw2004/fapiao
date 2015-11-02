@@ -7,8 +7,11 @@ from invoice.common import config
 print config.DATABASE_PATH
 db = SqliteDatabase(config.DATABASE_PATH)
 
-# 基础类
 class BaseModel(Model):
+    """
+    基础类
+    """
+
     # ID
     id = PrimaryKeyField()
 
@@ -16,10 +19,10 @@ class BaseModel(Model):
         database = db
 
 
-# 客户表
 class Custom(BaseModel):
-    class Meta:
-        db_table = 'tbl_custom'
+    """
+    客户表
+    """
 
     # 客户代码
     code = TextField(null=True)
@@ -38,11 +41,14 @@ class Custom(BaseModel):
     # 开票汇总名称
     summary_title = TextField(null=True)
 
-
-# 产品表
-class Product(BaseModel):
     class Meta:
-        db_table = 'tbl_product'
+        db_table = 'tbl_custom'
+
+
+class Product(BaseModel):
+    """
+    产品表
+    """
 
     # 产品代码
     code = TextField(null=True)
@@ -66,15 +72,17 @@ class Product(BaseModel):
     col2 = TextField(null=True)
     col3 = TextField(null=True)
     col4 = TextField(null=True)
-
     # 父ID
     p_id = IntegerField(default=0.17)
 
-
-# 字典表
-class Dict(BaseModel):
     class Meta:
-        db_table = 'tbl_dict'
+        db_table = 'tbl_product'
+
+
+class Dict(BaseModel):
+    """
+    字典表
+    """
 
     label = TextField(null=True)
     value = TextField(null=True)
@@ -83,15 +91,17 @@ class Dict(BaseModel):
     status = IntegerField(null=True)
     oindex = IntegerField(null=True)
 
-
-# 发票表
-class Invoice(BaseModel):
     class Meta:
-        db_table = 'tbl_invoice'
+        db_table = 'tbl_dict'
+
+
+class Invoice(BaseModel):
+    """
+    发票表
+    """
 
     # 发票号码
     invoice_num = TextField()
-
     # 备注
     remark = TextField(null=True)
     # 开票日期
@@ -115,13 +125,14 @@ class Invoice(BaseModel):
     # 客户对象
     custom = ForeignKeyField(Custom, db_column='custom_id')
 
-
-
-# 发票详细信息表
-class InvoiceDetail(BaseModel):
     class Meta:
-        db_table = 'tbl_invoice_detail'
+        db_table = 'tbl_invoice'
 
+
+class InvoiceDetail(BaseModel):
+    """
+    发票详细信息表
+    """
     # 产品数量
     pro_num = IntegerField(default=0)
     # 不含税金额（Excel中的金额）
@@ -130,8 +141,10 @@ class InvoiceDetail(BaseModel):
     tax_price = FloatField(default=0)
     # 含税金额（不含税金额 + 税额）
     contain_tax_price = FloatField(default=0)
-
     # invoice对象
     invoice = ForeignKeyField(Invoice, db_column='invoice_Id', related_name='invoiceDetails')
     # 产品对象
     product = ForeignKeyField(Product, db_column='product_id')
+
+    class Meta:
+        db_table = 'tbl_invoice_detail'
