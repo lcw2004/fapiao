@@ -1,10 +1,10 @@
 # -*- coding: UTF-8 -*-
-import datetime
 
+import datetime
 from peewee import *
 from invoice.common import config
 
-print config.DATABASE_PATH
+
 db = SqliteDatabase(config.DATABASE_PATH)
 
 class BaseModel(Model):

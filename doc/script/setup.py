@@ -13,4 +13,5 @@ setup(
                 "includes": ["sip"],
                 "packages": ["sqlalchemy"]
             }
-    })
+    }, requires=['peewee']
+)

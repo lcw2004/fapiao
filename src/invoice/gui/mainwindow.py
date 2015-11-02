@@ -10,15 +10,16 @@ from invoice.common import excel_parser
 from invoice.common import table_util
 from invoice.bean.beans import *
 
+logger = logging.getLogger(__name__)
+
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
 
         # 绑定选择Excel事件
-        self.connect(self.excel_selectl_file_btn, QtCore.SIGNAL("clicked()"), self.excel_selectl_file_btn_clicked)
+        self.connect(self.excel_selectl_file_btn, QtCore.SIGNAL("clicked()"), self.excel_select_file_btn_clicked)
 
         # 数据导入 - 生成发票
         self.connect(self.excel_gen_invoice_btn, QtCore.SIGNAL("clicked()"), self.excel_gen_invoice_btn_clicked)
@@ -27,7 +28,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.invoice_filter_btn, QtCore.SIGNAL("clicked()"), self.invoice_filter_btn_clicked)
 
         # 绑定元素选择事件
-        self.connect(self.invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'), self.invoice_table_item_clicked)
+        self.connect(self.invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'),
+                     self.invoice_table_item_clicked)
 
         # 临时待处理数据 - 修改
         self.connect(self.invoine_update_btn, QtCore.SIGNAL("clicked()"), self.invoice_update_btn_clicked)
@@ -102,7 +104,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         QMessageBox.information(None, "Information", u'合并成功！')
         self.invoice_filter_btn_clicked()
 
-
     def invoice_chaifeng_btn_clicked(self):
         invoice_detail_table = self.invoice_detail_table
 
@@ -126,9 +127,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             invoice = invoice_detail.invoice
 
             new_invoice = Invoice.create(invoice_num=invoice.invoice_num,
-                                     remark=invoice.remark,
-                                     total_not_tax=invoice.total_not_tax,
-                                     custom=invoice.custom)
+                                         remark=invoice.remark,
+                                         total_not_tax=invoice.total_not_tax,
+                                         custom=invoice.custom)
             new_invoice.save()
 
             q = InvoiceDetail.update(invoice=new_invoice).where(InvoiceDetail.id << invoice_id_list)
@@ -143,9 +144,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         pass
 
-    def excel_selectl_file_btn_clicked(self):
+    def excel_select_file_btn_clicked(self):
         excel_path = QtGui.QFileDialog.getOpenFileName(None, 'Excel', '../', 'Excel File (*.xls)')
         if excel_path:
+            logger.debug(u"选择Excel文件:{0}".format(excel_path))
             excel_table_widget = self.excel_table
 
             # 设置表格头部
@@ -153,6 +155,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             # 解析Excel
             invoice_detail_list = excel_parser.parse_excel_to_invoice_list(excel_path)
+            logger.debug(u"解析Excel:{0}".format(invoice_detail_list))
 
             # 设置表格行数
             row_count = len(invoice_detail_list)
@@ -204,9 +207,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             # 保存发票
             invoice_of_this = Invoice.create(invoice_num=tbl_invoice_invoice_num,
-                                     remark=tbl_invoice_remark,
-                                     total_not_tax=tbl_invoice_total_not_tax,
-                                     custom=custom_of_this)
+                                             remark=tbl_invoice_remark,
+                                             total_not_tax=tbl_invoice_total_not_tax,
+                                             custom=custom_of_this)
             invoice_of_this.save()
 
             # 保存发票详细信息
@@ -225,13 +228,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # invoiceDetail.caculate()
             # invoiceDao.proofreadInvoince(invoice.id)
 
-            print tbl_invoice_invoice_num
-            print tbl_invoice_total_not_tax
-            print tbl_invoice_detail_pro_type
-            print tbl_invoice_detail_pro_name
-            print tbl_invoice_remark
-            print "-------------------------------"
-
         QMessageBox.information(None, "Information", u'数据已经保存到临时数据区！')
         # TODO 导入成功之后清空数据
 
@@ -244,8 +240,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoice_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         # 查询数据
-        invoice_list = list(Invoice.select().where(Invoice.status==0))
-
+        invoice_list = list(Invoice.select().where(Invoice.status == 0))
 
         rowCount = len(invoice_list)
         self.invoice_table.setRowCount(rowCount)
@@ -279,21 +274,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         pass
 
     def invoice_delete_btn_clicked(self):
-            reply = QMessageBox.question(self,u'提示',u'确定要删除所选记录吗？',QMessageBox.Yes|QMessageBox.No)
-            if reply == QMessageBox.Yes:
-                invoice_table = self.invoice_table
+        reply = QMessageBox.question(self, u'提示', u'确定要删除所选记录吗？', QMessageBox.Yes | QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            invoice_table = self.invoice_table
 
-                # 获取所有需要删除的行的ID
-                idList = []
-                remove_rows = table_util.get_selected_row_number_list(invoice_table)
-                for rowCount in remove_rows:
-                    invoice_id = table_util.str_to_unicode_str(invoice_table.item(rowCount, 0).text())
-                    if invoice_id:
-                        q = Invoice.update(status=-1).where(Invoice.id == invoice_id)
-                        q.execute()
+            # 获取所有需要删除的行的ID
+            idList = []
+            remove_rows = table_util.get_selected_row_number_list(invoice_table)
+            for rowCount in remove_rows:
+                invoice_id = table_util.str_to_unicode_str(invoice_table.item(rowCount, 0).text())
+                if invoice_id:
+                    q = Invoice.update(status=-1).where(Invoice.id == invoice_id)
+                    q.execute()
 
-                # 重新加载表格
-                self.invoice_filter_btn_clicked()
+            # 重新加载表格
+            self.invoice_filter_btn_clicked()
 
     def invoice_import_xml_btn_clicked(self):
         invoiceList = list(Invoice.select(Invoice.status == 0))
@@ -314,7 +309,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoice_detail_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         # 获取选中行的ID
-        invoiceId =  self.invoice_table.item(item.row(), 0).text()
+        invoiceId = self.invoice_table.item(item.row(), 0).text()
 
         # 根据ID查询明细
         invoiceDetailList = list(Invoice.get(id=invoiceId).invoiceDetails)
