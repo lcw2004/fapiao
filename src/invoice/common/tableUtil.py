@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# 设置表头
-from PyQt4 import QtGui
 
+from PyQt4 import QtGui
 from invoice.common.config import getConfigInDB as getConfigInDB
 
+# 设置表头
 def initTableHeaders(excelTableWidget):
       # self.table.setHorizontalHeaderLabels(['SUN','MON','TUE','WED','THU','FIR','SAT'])
 

@@ -1,9 +1,9 @@
 __author__ = 'Administrator'
 
-from invoice.common.excelparse import parseExcelToInvoiceList
+from invoice.common.excelparse import parse_excel_to_invoice_list
 
 if __name__ == "__main__":
-    invoiceDetailList = parseExcelToInvoiceList("C:\\Users\\Administrator\\Desktop\\data.xls")
+    invoiceDetailList = parse_excel_to_invoice_list("C:\\Users\\Administrator\\Desktop\\data.xls")
     for i in range(len(invoiceDetailList)):
         invoiceDetail = invoiceDetailList[i]
         print "--------------------------------------"

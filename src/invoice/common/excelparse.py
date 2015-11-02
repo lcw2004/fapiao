@@ -2,37 +2,47 @@
 
 import xlrd
 
-import commonUtil
+import common_util
 from invoice.common import tableUtil
 from invoice.bean.Beans import *
 
-def parseExcelToInvoiceList(excelPath):
-    invoiceDetailList = []
 
-    data = xlrd.open_workbook(excelPath)
+def parse_excel_to_invoice_list(excel_path):
+    """
+    解析Excel文件，并将Excel内的数据转为一个Invoice List
+    :param excel_path:Excel文件路径
+    :return:Invoice List
+    """
+    invoice_detail_list = []
+
+    # 读取Excel文件
+    data = xlrd.open_workbook(excel_path)
 
     # 获取第一个表格
-    excelSheet0 = data.sheets()[0]
-    nrows = excelSheet0.nrows
-    ncols = excelSheet0.ncols
+    excel_sheet_0 = data.sheets()[0]
+    sheet_nrows = excel_sheet_0.nrows
 
-    for i in range(nrows):
-        row = excelSheet0.row_values(i)
+    for i in range(sheet_nrows):
+        row = excel_sheet_0.row_values(i)
 
-        tbl_custom_name = commonUtil.to_string_trim(row[4])
-        tbl_invoice_invoice_num = commonUtil.float_to_string(row[3])
-        tbl_invoice_total_not_tax = commonUtil.to_string_trim(row[20])
-        tbl_invoice_detail_pro_type = commonUtil.to_string_trim(row[17])
-        tbl_invoice_detail_pro_name = commonUtil.to_string_trim(row[16])
-        tbl_invoice_remark = commonUtil.to_string_trim(row[9]) + "," + commonUtil.to_string_trim(row[6]) + "," + commonUtil.to_string_trim(row[7]) + "," + \
-                             commonUtil.to_string_trim(row[12]) + "," + commonUtil.to_string_trim(row[11]) + "," + commonUtil.to_string_trim(row[14])
+        tbl_custom_name = common_util.to_string_trim(row[4])
+        tbl_invoice_invoice_num = common_util.float_to_string(row[3])
+        tbl_invoice_total_not_tax = common_util.to_string_trim(row[20])
+        tbl_invoice_detail_pro_type = common_util.to_string_trim(row[17])
+        tbl_invoice_detail_pro_name = common_util.to_string_trim(row[16])
+        tbl_invoice_remark = common_util.to_string_trim(row[9]) + "," + \
+                             common_util.to_string_trim(row[6]) + "," + \
+                             common_util.to_string_trim(row[7]) + "," + \
+                             common_util.to_string_trim(row[12]) + "," + \
+                             common_util.to_string_trim(row[11]) + "," + \
+                             common_util.to_string_trim(row[14])
 
-         # 如果是空字符串，退出
-        if commonUtil.is_blank_str(tbl_invoice_invoice_num):
+        # 如果是空字符串，退出
+        if common_util.is_blank_str(tbl_invoice_invoice_num):
             continue
 
         # 检查是否包含中文字符串，如果包含，退出
-        if commonUtil.has_chinese_charactar(tbl_invoice_invoice_num):
+        if common_util.has_chinese_charactar(tbl_invoice_invoice_num):
             continue
 
         # 客户对象
@@ -52,40 +62,40 @@ def parseExcelToInvoiceList(excelPath):
         product.name = tbl_invoice_detail_pro_name
 
         # 保存发票详细信息
-        invoiceDetail = InvoiceDetail()
-        invoiceDetail.product = product
-        invoiceDetail.invoice = invoice
+        invoice_detail = InvoiceDetail()
+        invoice_detail.product = product
+        invoice_detail.invoice = invoice
 
-        invoiceDetailList.append(invoiceDetail)
+        invoice_detail_list.append(invoice_detail)
 
-        print "--------------------------------------"
-        print invoiceDetail.invoice.custom.name
-        print invoiceDetail.invoice.invoice_num
-        print invoiceDetail.invoice.total_not_tax
-        print invoiceDetail.invoice.remark
-        print invoiceDetail.product.type
-        print invoiceDetail.product.name
-        print "--------------------------------------"
-    return invoiceDetailList
+    return invoice_detail_list
 
-def parseExcel(excelPath, excelTableWidget):
+
+def parse_excel_fill_table(excel_path, excel_table_widget):
+    """
+    解析Excel并将解析出来的数据填充到表格里面
+    :param excel_path:Excel文件路径
+    :param excel_table_widget:用于显示火速据的表格
+    """
     # 设置表格头部
-    tableUtil.initTableHeaders(excelTableWidget)
+    tableUtil.initTableHeaders(excel_table_widget)
 
     # 解析Excel
-    invoiceDetailList = parseExcelToInvoiceList(excelPath)
+    invoice_detail_list = parse_excel_to_invoice_list(excel_path)
 
     # 设置表格行数
-    nrows = len(invoiceDetailList)
-    ncols = 10
-    excelTableWidget.setRowCount(nrows)
-    excelTableWidget.setColumnCount(ncols)
-    for i in range(nrows):
-        invoiceDetail = invoiceDetailList[i]
+    row_count = len(invoice_detail_list)
+    col_count = 10
+    excel_table_widget.setRowCount(row_count)
+    excel_table_widget.setColumnCount(col_count)
 
-        tableUtil.setTableItemValue(excelTableWidget, i, 0, invoiceDetail.invoice.custom.name)
-        tableUtil.setTableItemValue(excelTableWidget, i, 1, invoiceDetail.invoice.invoice_num)
-        tableUtil.setTableItemValue(excelTableWidget, i, 2, str(invoiceDetail.invoice.total_not_tax))
-        tableUtil.setTableItemValue(excelTableWidget, i, 3, invoiceDetail.product.type)
-        tableUtil.setTableItemValue(excelTableWidget, i, 4, invoiceDetail.product.name)
-        tableUtil.setTableItemValue(excelTableWidget, i, 5, invoiceDetail.invoice.remark)
+    # 填充数据
+    for i in range(row_count):
+        invoice_detail = invoice_detail_list[i]
+
+        tableUtil.setTableItemValue(excel_table_widget, i, 0, invoice_detail.invoice.custom.name)
+        tableUtil.setTableItemValue(excel_table_widget, i, 1, invoice_detail.invoice.invoice_num)
+        tableUtil.setTableItemValue(excel_table_widget, i, 2, str(invoice_detail.invoice.total_not_tax))
+        tableUtil.setTableItemValue(excel_table_widget, i, 3, invoice_detail.product.type)
+        tableUtil.setTableItemValue(excel_table_widget, i, 4, invoice_detail.product.name)
+        tableUtil.setTableItemValue(excel_table_widget, i, 5, invoice_detail.invoice.remark)

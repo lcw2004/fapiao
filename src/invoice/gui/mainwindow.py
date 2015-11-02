@@ -147,7 +147,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # TODO 判断是否选择文件
         filename = QtGui.QFileDialog.getOpenFileName(None, 'Excel', '../', 'Excel File (*.xls)')
         if filename:
-            excelparse.parseExcel(filename, self.excel_table)
+            excelparse.parse_excel_fill_table(filename, self.excel_table)
 
     def excel_gen_invoice_btn_clicked(self):
         excel_table = self.excel_table
