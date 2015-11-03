@@ -9,7 +9,7 @@ db = SqliteDatabase(config.DATABASE_PATH)
 
 class BaseModel(Model):
     """
-    基础类
+    基础类（父类）
     """
 
     # ID
@@ -133,6 +133,7 @@ class InvoiceDetail(BaseModel):
     """
     发票详细信息表
     """
+
     # 产品数量
     pro_num = IntegerField(default=0)
     # 不含税金额（Excel中的金额）
@@ -148,3 +149,4 @@ class InvoiceDetail(BaseModel):
 
     class Meta:
         db_table = 'tbl_invoice_detail'
+
