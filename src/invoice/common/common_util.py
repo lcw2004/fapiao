@@ -6,6 +6,8 @@ def to_string_trim(input_str):
     """
     将其他类型转为字符串
     """
+    if input_str is None:
+        input_str = ""
     return input_str
 
 def float_to_string(input_str):

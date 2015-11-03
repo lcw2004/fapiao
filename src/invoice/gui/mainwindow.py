@@ -364,9 +364,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(custom_table, i, 8, custom.summary_title)
 
     def custom_update_btn_clicked(self):
-        dialog = CustomDialog(2)
+        custom_table = self.custom_table
+        selected_rows = table_util.get_selected_row_number_list(custom_table)
+
+        if len(selected_rows) != 1:
+            QMessageBox.information(None, "Information", u'请选择一项数据进行修改！')
+            return
+
+        invoice_id = table_util.str_to_unicode_str(custom_table.item(0, 0).text())
+        dialog = CustomDialog(self, invoice_id)
         dialog.show()
-        pass
 
     def product_query_btn_clicked(self):
         product_table = self.product_table
