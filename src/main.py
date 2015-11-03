@@ -33,7 +33,7 @@ if __name__ == "__main__":
         sys.exit(app.exec_())
     except Exception as e:
         logger = logging.getLogger(__name__)
-        logging.exception(u"程序出现异常")
+        logger.exception(u"程序出现异常")
         print e
 
 

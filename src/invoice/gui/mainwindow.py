@@ -4,6 +4,7 @@ import logging
 from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView
 from PyQt4 import QtCore
 from PyQt4 import QtGui
+from invoice.gui.form_custom import CustomDialog
 
 from mainwindow_ui import Ui_MainWindow
 from invoice.sys import invoice_exporter
@@ -53,6 +54,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ###############
         ## 客户管理模块
         self.connect(self.custom_query_btn, QtCore.SIGNAL("clicked()"), self.custom_query_btn_clicked)
+        self.connect(self.custom_update_btn, QtCore.SIGNAL("clicked()"), self.custom_update_btn_clicked)
 
         ###############
 
@@ -360,6 +362,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(custom_table, i, 6, custom.business_tax_di)
             table_util.set_table_item_value(custom_table, i, 7, custom.erp_id)
             table_util.set_table_item_value(custom_table, i, 8, custom.summary_title)
+
+    def custom_update_btn_clicked(self):
+        dialog = CustomDialog(2)
+        dialog.show()
+        pass
 
     def product_query_btn_clicked(self):
         product_table = self.product_table
