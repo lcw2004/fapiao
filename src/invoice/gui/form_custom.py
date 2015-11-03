@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
-from PyQt4.QtGui import QDialog
+from PyQt4.QtGui import QDialog, QMessageBox
 
 from form_custom_ui import *
 from invoice.bean.beans import *
@@ -16,6 +16,30 @@ class CustomDialog(QDialog, Ui_Dialog):
         if custom_id:
             self.custom_id = custom_id
             self.init_data(custom_id)
+
+          # 绑定选择Excel事件
+        self.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), self.accepted)
+
+    def accepted(self):
+        code = self.get_edit_text(self.code_LineEdit)
+        name = self.get_edit_text(self.name_LineEdit)
+        tax_id = self.get_edit_text(self.tax_id_LineEdit)
+        bank_account = self.get_edit_text(self.bank_account_LineEdit)
+        business_tax_id = self.get_edit_text(self.business_tax_id_LineEdit)
+        erp_id = self.get_edit_text(self.erp_id_LineEdit)
+        summary_title = self.get_edit_text(self.summary_title_LineEdit)
+
+        custom = Custom.get(id=self.custom_id)
+        custom.update(code=code)
+        pass
+
+    def get_edit_text(self, edit):
+        text = edit.text()
+        return str(text)
+
+    def get_edit_text(self, edit):
+        text = edit.text()
+        return str(text)
 
     def init_data(self, custom_id):
         try:
