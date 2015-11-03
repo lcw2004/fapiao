@@ -9,7 +9,7 @@ db = SqliteDatabase(config.DATABASE_PATH)
 
 class BaseModel(Model):
     """
-    基础类（父类）
+    基础类
     """
 
     # ID
