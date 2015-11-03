@@ -40,6 +40,8 @@ class Custom(BaseModel):
     erp_id = TextField(null=True)
     # 开票汇总名称
     summary_title = TextField(null=True)
+    # 备注
+    remark=TextField(null=True)
 
     class Meta:
         db_table = 'tbl_custom'
