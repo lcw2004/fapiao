@@ -34,6 +34,6 @@ if __name__ == "__main__":
     except Exception as e:
         logger = logging.getLogger(__name__)
         logger.exception(u"程序出现异常")
-        print e
+        logger.error(e)
 
 

@@ -26,6 +26,7 @@ class CustomDialog(QDialog, Ui_Dialog):
             name = self.get_edit_text(self.name_LineEdit)
             tax_id = self.get_edit_text(self.tax_id_LineEdit)
             bank_account = self.get_edit_text(self.bank_account_LineEdit)
+            addr = self.get_edit_text(self.addr_LineEdit)
             business_tax_id = self.get_edit_text(self.business_tax_id_LineEdit)
             erp_id = self.get_edit_text(self.erp_id_LineEdit)
             summary_title = self.get_edit_text(self.summary_title_LineEdit)
@@ -34,23 +35,22 @@ class CustomDialog(QDialog, Ui_Dialog):
                               name=name,
                               tax_id=tax_id,
                               bank_account=bank_account,
+                              addr=addr,
                               business_tax_id=business_tax_id,
                               erp_id=erp_id,
                               summary_title=summary_title
                               ).where(Custom.id==self.custom_id)
             q.execute()
-        except Exception:
-            pass
+        except Exception as e:
+            logger = logging.getLogger(__name__)
+            logger.exception(u"报错客户信息出错！")
+            logger.error(e)
 
         pass
 
     def get_edit_text(self, edit):
         text = edit.text()
-        return str(text)
-
-    def get_edit_text(self, edit):
-        text = edit.text()
-        return str(text)
+        return str(text).decode("GBK")
 
     def init_data(self, custom_id):
         try:
