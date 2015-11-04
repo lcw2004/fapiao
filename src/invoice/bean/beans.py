@@ -35,7 +35,7 @@ class Custom(BaseModel):
     # 客户地址
     addr = TextField(null=True)
     # 企业税号
-    business_tax_di = TextField(null=True)
+    business_tax_id = TextField(null=True)
     # ERP对照值
     erp_id = TextField(null=True)
     # 开票汇总名称

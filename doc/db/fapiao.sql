@@ -26,7 +26,7 @@ name                 TEXT,
 tax_id               TEXT,
 addr                 TEXT,
 bank_account         TEXT,
-business_tax_di      TEXT,
+business_tax_id      TEXT,
 erp_id               TEXT,
 summary_title        TEXT,
 primary key (id)

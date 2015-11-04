@@ -21,16 +21,27 @@ class CustomDialog(QDialog, Ui_Dialog):
         self.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), self.accepted)
 
     def accepted(self):
-        code = self.get_edit_text(self.code_LineEdit)
-        name = self.get_edit_text(self.name_LineEdit)
-        tax_id = self.get_edit_text(self.tax_id_LineEdit)
-        bank_account = self.get_edit_text(self.bank_account_LineEdit)
-        business_tax_id = self.get_edit_text(self.business_tax_id_LineEdit)
-        erp_id = self.get_edit_text(self.erp_id_LineEdit)
-        summary_title = self.get_edit_text(self.summary_title_LineEdit)
+        try:
+            code = self.get_edit_text(self.code_LineEdit)
+            name = self.get_edit_text(self.name_LineEdit)
+            tax_id = self.get_edit_text(self.tax_id_LineEdit)
+            bank_account = self.get_edit_text(self.bank_account_LineEdit)
+            business_tax_id = self.get_edit_text(self.business_tax_id_LineEdit)
+            erp_id = self.get_edit_text(self.erp_id_LineEdit)
+            summary_title = self.get_edit_text(self.summary_title_LineEdit)
 
-        custom = Custom.get(id=self.custom_id)
-        custom.update(code=code)
+            q = Custom.update(code=code,
+                              name=name,
+                              tax_id=tax_id,
+                              bank_account=bank_account,
+                              business_tax_id=business_tax_id,
+                              erp_id=erp_id,
+                              summary_title=summary_title
+                              ).where(Custom.id==self.custom_id)
+            q.execute()
+        except Exception:
+            pass
+
         pass
 
     def get_edit_text(self, edit):
@@ -49,7 +60,7 @@ class CustomDialog(QDialog, Ui_Dialog):
             self.tax_id_LineEdit.setText(common_util.to_string_trim(custom.tax_id))
             self.bank_account_LineEdit.setText(common_util.to_string_trim(custom.bank_account))
             self.addr_LineEdit.setText(common_util.to_string_trim(custom.addr))
-            self.business_tax_id_LineEdit.setText(common_util.to_string_trim(custom.business_tax_di))
+            self.business_tax_id_LineEdit.setText(common_util.to_string_trim(custom.business_tax_id))
             self.erp_id_LineEdit.setText(common_util.to_string_trim(custom.erp_id))
             self.summary_title_LineEdit.setText(common_util.to_string_trim(custom.summary_title))
             self.remark_PlainTextEdit.setPlainText(common_util.to_string_trim(custom.remark))

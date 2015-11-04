@@ -359,7 +359,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(custom_table, i, 3, custom.tax_id)
             table_util.set_table_item_value(custom_table, i, 4, custom.bank_account)
             table_util.set_table_item_value(custom_table, i, 5, custom.addr)
-            table_util.set_table_item_value(custom_table, i, 6, custom.business_tax_di)
+            table_util.set_table_item_value(custom_table, i, 6, custom.business_tax_id)
             table_util.set_table_item_value(custom_table, i, 7, custom.erp_id)
             table_util.set_table_item_value(custom_table, i, 8, custom.summary_title)
 
