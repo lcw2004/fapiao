@@ -362,6 +362,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(custom_table, i, 6, custom.business_tax_id)
             table_util.set_table_item_value(custom_table, i, 7, custom.erp_id)
             table_util.set_table_item_value(custom_table, i, 8, custom.summary_title)
+            table_util.set_table_item_value(custom_table, i, 9, custom.remark)
 
     def custom_update_btn_clicked(self):
         custom_table = self.custom_table
@@ -371,9 +372,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.information(None, "Information", u'请选择一项数据进行修改！')
             return
 
-        invoice_id = table_util.str_to_unicode_str(custom_table.item(0, 0).text())
+        invoice_id = table_util.str_to_unicode_str(custom_table.item(selected_rows[0], 0).text())
         dialog = CustomDialog(self, invoice_id)
         dialog.show()
+
 
     def product_query_btn_clicked(self):
         product_table = self.product_table

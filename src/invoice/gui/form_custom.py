@@ -11,6 +11,7 @@ class CustomDialog(QDialog, Ui_Dialog):
     def __init__(self, parent=None, custom_id=None):
         super(CustomDialog, self).__init__(parent)
         self.setupUi(self)
+        self.parent = parent
 
         # 初始化数据
         if custom_id:
@@ -30,6 +31,7 @@ class CustomDialog(QDialog, Ui_Dialog):
             business_tax_id = self.get_edit_text(self.business_tax_id_LineEdit)
             erp_id = self.get_edit_text(self.erp_id_LineEdit)
             summary_title = self.get_edit_text(self.summary_title_LineEdit)
+            remark = self.get_paint_context(self.remark_PlainTextEdit)
 
             q = Custom.update(code=code,
                               name=name,
@@ -38,18 +40,26 @@ class CustomDialog(QDialog, Ui_Dialog):
                               addr=addr,
                               business_tax_id=business_tax_id,
                               erp_id=erp_id,
-                              summary_title=summary_title
-                              ).where(Custom.id==self.custom_id)
+                              summary_title=summary_title,
+                              remark=remark).where(Custom.id==self.custom_id)
             q.execute()
+
+            # 刷新父窗体
+            self.parent.custom_query_btn_clicked()
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.exception(u"报错客户信息出错！")
             logger.error(e)
 
-        pass
+
+
 
     def get_edit_text(self, edit):
         text = edit.text()
+        return str(text).decode("GBK")
+
+    def get_paint_context(self, edit):
+        text = edit.toPlainText()
         return str(text).decode("GBK")
 
     def init_data(self, custom_id):
