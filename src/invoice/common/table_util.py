@@ -91,3 +91,20 @@ def set_table_item_value(table_widget, row_num, col_num, input_str):
 
     if input_str:
         table_widget.setItem(row_num, col_num, QtGui.QTableWidgetItem(item_text))
+
+def get_edit_text(edit):
+    """
+    获取指定编辑框中的文本，并转为GBK编码
+    :param edit: 编辑框
+    """
+    text = edit.text()
+    return str(text).decode("GBK")
+
+
+def get_paint_context(edit):
+    """
+    获取多行编辑框中的文本，并转为GBK编码
+    :param edit: 多行编辑框
+    """
+    text = edit.toPlainText()
+    return str(text).decode("GBK")

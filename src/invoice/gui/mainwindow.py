@@ -54,8 +54,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ###############
         ## 客户管理模块
         self.connect(self.custom_query_btn, QtCore.SIGNAL("clicked()"), self.custom_query_btn_clicked)
+        self.connect(self.custom_add_btn, QtCore.SIGNAL("clicked()"), self.custom_add_btn_clicked)
         self.connect(self.custom_update_btn, QtCore.SIGNAL("clicked()"), self.custom_update_btn_clicked)
-
+        self.connect(self.custom_delete_btn, QtCore.SIGNAL("clicked()"), self.custom_delete_btn_clicked)
         ###############
 
         ###############
@@ -286,9 +287,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             remove_rows = table_util.get_selected_row_number_list(invoice_table)
             for rowCount in remove_rows:
                 invoice_id = table_util.str_to_unicode_str(invoice_table.item(rowCount, 0).text())
-                if invoice_id:
-                    q = Invoice.update(status=-1).where(Invoice.id == invoice_id)
-                    q.execute()
+                idList.append(invoice_id)
+
+            # 删除数据
+            q = Invoice.update(status=-1).where(Invoice.id << idList)
+            q.execute()
 
             # 重新加载表格
             self.invoice_filter_btn_clicked()
@@ -346,7 +349,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         custom_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         # 查询数据
-        custom_list = list(Custom.select())
+        custom_list = list(Custom.select().where(Custom.status==0))
         row_count = len(custom_list)
         self.custom_table.setRowCount(row_count)
 
@@ -369,12 +372,35 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         selected_rows = table_util.get_selected_row_number_list(custom_table)
 
         if len(selected_rows) != 1:
-            QMessageBox.information(None, "Information", u'请选择一项数据进行修改！')
+            QMessageBox.information(None, "Information", u'请选择一条数据进行修改！')
             return
 
         invoice_id = table_util.str_to_unicode_str(custom_table.item(selected_rows[0], 0).text())
         dialog = CustomDialog(self, invoice_id)
         dialog.show()
+
+    def custom_add_btn_clicked(self):
+        dialog = CustomDialog(self)
+        dialog.show()
+
+    def custom_delete_btn_clicked(self):
+        reply = QMessageBox.question(self, u'提示', u'确定要删除所选记录吗？', QMessageBox.Yes | QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            custom_table = self.custom_table
+            selected_rows = table_util.get_selected_row_number_list(custom_table)
+
+            # 获取所有需要删除的行的ID
+            id_list = []
+            for rowCount in selected_rows:
+                id = table_util.str_to_unicode_str(custom_table.item(rowCount, 0).text())
+                id_list.append(id)
+
+            # 删除数据
+            q = Custom.update(status=1).where(Custom.id << id_list)
+            q.execute()
+
+            # 重新加载表格
+            self.custom_query_btn_clicked()
 
 
     def product_query_btn_clicked(self):
