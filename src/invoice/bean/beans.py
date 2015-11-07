@@ -42,6 +42,8 @@ class Custom(BaseModel):
     summary_title = TextField(null=True)
     # 备注
     remark=TextField(null=True)
+    # 状态
+    status = IntegerField(default=0)
 
     class Meta:
         db_table = 'tbl_custom'
@@ -76,6 +78,8 @@ class Product(BaseModel):
     col4 = TextField(null=True)
     # 父ID
     p_id = IntegerField(default=0.17)
+    # 状态
+    status = IntegerField(default=0)
 
     class Meta:
         db_table = 'tbl_product'
