@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from PyQt4 import QtCore
 import logging
 
 from PyQt4.QtGui import QDialog
@@ -20,7 +21,7 @@ class ProductDialog(QDialog, Ui_Dialog):
             self.init_data(product_id)
 
         # 绑定事件
-        # self.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), self.accepted)
+        self.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), self.accepted)
 
     def accepted(self):
         """
@@ -30,41 +31,45 @@ class ProductDialog(QDialog, Ui_Dialog):
         try:
             code = table_util.get_edit_text(self.code_LineEdit)
             name = table_util.get_edit_text(self.name_LineEdit)
-            tax_id = table_util.get_edit_text(self.tax_id_LineEdit)
-            bank_account = table_util.get_edit_text(self.bank_account_LineEdit)
-            addr = table_util.get_edit_text(self.addr_LineEdit)
-            business_tax_id = table_util.get_edit_text(self.business_tax_id_LineEdit)
+            type = table_util.get_edit_text(self.type_LineEdit)
+            unit = table_util.get_edit_text(self.unit_LineEdit)
+            unit_price = table_util.get_edit_text(self.unit_price_LineEdit)
+            tax_price = table_util.get_edit_text(self.tax_price_LineEdit)
+            tax = table_util.get_edit_text(self.tax_LineEdit)
+            business_tax_num = table_util.get_edit_text(self.business_tax_num_LineEdit)
             erp_id = table_util.get_edit_text(self.erp_id_LineEdit)
-            summary_title = table_util.get_edit_text(self.summary_title_LineEdit)
-            remark = table_util.get_paint_context(self.remark_PlainTextEdit)
+            p_id = table_util.get_edit_text(self.p_id_LineEdit)
 
-            if self.custom_id:
+            if self.product_id:
                 # 修改
-                q = Custom.update(code=code,
-                                  name=name,
-                                  tax_id=tax_id,
-                                  bank_account=bank_account,
-                                  addr=addr,
-                                  business_tax_id=business_tax_id,
-                                  erp_id=erp_id,
-                                  summary_title=summary_title,
-                                  remark=remark).where(Custom.id == self.custom_id)
+                q = Product.update(code=code,
+                                   name=name,
+                                   type=type,
+                                   unit=unit,
+                                   unit_price=unit_price,
+                                   tax_price=tax_price,
+                                   tax=tax,
+                                   business_tax_num=business_tax_num,
+                                   erp_id=erp_id,
+                                   p_id=p_id).where(Product.id == self.product_id)
                 q.execute()
             else:
                 # 添加
-                custom = Custom.create(code=code,
+                product = Product.create(code=code,
                                        name=name,
-                                       tax_id=tax_id,
-                                       bank_account=bank_account,
-                                       addr=addr,
-                                       business_tax_id=business_tax_id,
+                                       type=type,
+                                       unit=unit,
+                                       unit_price=unit_price,
+                                       tax_price=tax_price,
+                                       tax=tax,
+                                       business_tax_num=business_tax_num,
                                        erp_id=erp_id,
-                                       summary_title=summary_title,
-                                       remark=remark)
-                custom.save()
+                                       p_id=p_id)
+                product.save()
+
 
             # 刷新父窗体
-            self.parent.custom_query_btn_clicked()
+            self.parent.product_query_btn_clicked()
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.exception(u"报错客户信息出错！")
