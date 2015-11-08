@@ -93,6 +93,7 @@ class Ui_Dialog(object):
         self.bank_account_LineEdit.setObjectName(_fromUtf8("bank_account_LineEdit"))
         self.gridLayout.addWidget(self.bank_account_LineEdit, 3, 2, 1, 1)
         self.code_LineEdit = QtGui.QLineEdit(Dialog)
+        self.code_LineEdit.setText(_fromUtf8(""))
         self.code_LineEdit.setObjectName(_fromUtf8("code_LineEdit"))
         self.gridLayout.addWidget(self.code_LineEdit, 0, 2, 1, 1)
         self.remark_PlainTextEdit = QtGui.QPlainTextEdit(Dialog)
@@ -116,4 +117,3 @@ class Ui_Dialog(object):
         self.label_5.setText(_translate("Dialog", "备注：", None))
         self.label_2.setText(_translate("Dialog", "企业税号：", None))
         self.label_3.setText(_translate("Dialog", "ERP对照值：", None))
-

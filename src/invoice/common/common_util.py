@@ -7,8 +7,17 @@ def to_string_trim(input_str):
     将其他类型转为字符串
     """
     if input_str is None:
-        input_str = ""
-    return input_str
+        output_str = ""
+    elif isinstance(input_str, float):
+        output_str = str(input_str)
+    elif isinstance(input_str, int):
+        output_str = str(input_str)
+    else:
+        output_str = input_str
+
+
+
+    return output_str
 
 def float_to_string(input_str):
     u"""

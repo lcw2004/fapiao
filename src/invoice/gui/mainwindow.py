@@ -5,7 +5,7 @@ from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from invoice.gui.form_custom import CustomDialog
-
+from invoice.gui.form_product import ProductDialog
 from mainwindow_ui import Ui_MainWindow
 from invoice.sys import invoice_exporter
 from invoice.common import excel_parser
@@ -20,36 +20,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
 
-        # 绑定选择Excel事件
+        ###############
+        ## Excel导入
         self.connect(self.excel_selectl_file_btn, QtCore.SIGNAL("clicked()"), self.excel_select_file_btn_clicked)
-
-        # 数据导入 - 生成发票
         self.connect(self.excel_gen_invoice_btn, QtCore.SIGNAL("clicked()"), self.excel_gen_invoice_btn_clicked)
+        ###############
 
-        # 临时待处理数据 - 表格加载
+        ###############
+        ## 临时待处理数据
         self.connect(self.invoice_filter_btn, QtCore.SIGNAL("clicked()"), self.invoice_filter_btn_clicked)
-
-        # 绑定元素选择事件
-        self.connect(self.invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'),
-                     self.invoice_table_item_clicked)
-
-        # 临时待处理数据 - 修改
+        self.connect(self.invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'), self.invoice_table_item_clicked)
         self.connect(self.invoine_update_btn, QtCore.SIGNAL("clicked()"), self.invoice_update_btn_clicked)
-
-        # 临时待处理数据 - 删除
         self.connect(self.invoice_delete_btn, QtCore.SIGNAL("clicked()"), self.invoice_delete_btn_clicked)
-
-        # 临时待处理数据 - 导入到开票系统
         self.connect(self.invoice_import_xml_btn, QtCore.SIGNAL("clicked()"), self.invoice_import_xml_btn_clicked)
-
-        # 临时待处理数据 - 合并选中项
         self.connect(self.invoice_merge_btn, QtCore.SIGNAL("clicked()"), self.invoice_merge_btn_clicked)
-
-        # 临时待处理数据 - 合并发票相同的产品
         self.connect(self.invoice_merge_product_btn, QtCore.SIGNAL("clicked()"), self.invoice_merge_product_btn_clicked)
-
-        # 临时待处理数据 - 拆分(按最大限额)
         self.connect(self.invoice_chaifeng_btn, QtCore.SIGNAL("clicked()"), self.invoice_chaifeng_btn_clicked)
+        ###############
 
         ###############
         ## 客户管理模块
@@ -62,11 +49,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ###############
         ## 产品管理模块
         self.connect(self.product_query_btn, QtCore.SIGNAL("clicked()"), self.product_query_btn_clicked)
-
+        self.connect(self.product_add_btn, QtCore.SIGNAL("clicked()"), self.product_add_btn_clicked)
+        self.connect(self.product_update_btn, QtCore.SIGNAL("clicked()"), self.product_update_btn_clicked)
+        self.connect(self.product_delete_btn, QtCore.SIGNAL("clicked()"), self.product_delete_btn_clicked)
         ###############
+
+
 
     def invoice_merge_product_btn_clicked(self):
         pass
+
 
     def invoice_merge_btn_clicked(self):
         invoice_table = self.invoice_table
@@ -429,3 +421,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(product_table, i, 7, product.tax)
             table_util.set_table_item_value(product_table, i, 8, product.business_tax_num)
             table_util.set_table_item_value(product_table, i, 9, product.p_id)
+
+
+    def product_add_btn_clicked(self):
+        pass
+
+    def product_update_btn_clicked(self):
+        product_table = self.product_table
+        selected_rows = table_util.get_selected_row_number_list(product_table)
+
+        if len(selected_rows) != 1:
+            QMessageBox.information(None, "Information", u'请选择一条数据进行修改！')
+            return
+
+        product_id = table_util.str_to_unicode_str(product_table.item(selected_rows[0], 0).text())
+        dialog = ProductDialog(self, product_id)
+        dialog.show()
+
+    def product_delete_btn_clicked(self):
+        pass
