@@ -51,7 +51,8 @@ class ProductDialog(QDialog, Ui_Dialog):
                                    tax=tax,
                                    business_tax_num=business_tax_num,
                                    erp_id=erp_id,
-                                   p_id=p_id).where(Product.id == self.product_id)
+                                   # p_id=p_id
+                                   ).where(Product.id == self.product_id)
                 q.execute()
             else:
                 # 添加

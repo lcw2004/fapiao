@@ -28,7 +28,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab_0">
        <property name="styleSheet">
@@ -605,6 +605,11 @@
           <column>
            <property name="text">
             <string>ID</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>产品代码</string>
            </property>
           </column>
           <column>

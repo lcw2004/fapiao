@@ -420,8 +420,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(product_table, i, 6, product.tax_price)
             table_util.set_table_item_value(product_table, i, 7, product.tax)
             table_util.set_table_item_value(product_table, i, 8, product.business_tax_num)
-            table_util.set_table_item_value(product_table, i, 9, product.p_id)
-
+            table_util.set_table_item_value(product_table, i, 9, product.erp_id)
+            table_util.set_table_item_value(product_table, i, 10, product.p_id)
 
     def product_add_btn_clicked(self):
         pass
