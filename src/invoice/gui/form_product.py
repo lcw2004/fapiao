@@ -19,6 +19,8 @@ class ProductDialog(QDialog, Ui_Dialog):
         # 初始化数据
         if product_id:
             self.init_data(product_id)
+        else:
+            self.init_data(100)
 
         # 绑定事件
         self.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), self.accepted)
@@ -38,7 +40,7 @@ class ProductDialog(QDialog, Ui_Dialog):
             tax = table_util.get_edit_text(self.tax_LineEdit)
             business_tax_num = table_util.get_edit_text(self.business_tax_num_LineEdit)
             erp_id = table_util.get_edit_text(self.erp_id_LineEdit)
-            p_id = table_util.get_edit_text(self.p_id_LineEdit)
+            p_id = int(table_util.get_edit_text(self.p_id_LineEdit))
 
             if self.product_id:
                 # 修改
@@ -51,21 +53,22 @@ class ProductDialog(QDialog, Ui_Dialog):
                                    tax=tax,
                                    business_tax_num=business_tax_num,
                                    erp_id=erp_id,
-                                   # p_id=p_id
+                                   p_id=p_id
                                    ).where(Product.id == self.product_id)
                 q.execute()
             else:
                 # 添加
                 product = Product.create(code=code,
-                                       name=name,
-                                       type=type,
-                                       unit=unit,
-                                       unit_price=unit_price,
-                                       tax_price=tax_price,
-                                       tax=tax,
-                                       business_tax_num=business_tax_num,
-                                       erp_id=erp_id,
-                                       p_id=p_id)
+                                   name=name,
+                                   type=type,
+                                   unit=unit,
+                                   unit_price=unit_price,
+                                   tax_price=tax_price,
+                                   tax=tax,
+                                   business_tax_num=business_tax_num,
+                                   erp_id=erp_id,
+                                   p_id=p_id
+                                   )
                 product.save()
 
 

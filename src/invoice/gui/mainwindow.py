@@ -29,7 +29,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ###############
         ## 临时待处理数据
         self.connect(self.invoice_filter_btn, QtCore.SIGNAL("clicked()"), self.invoice_filter_btn_clicked)
-        self.connect(self.invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'), self.invoice_table_item_clicked)
+        self.connect(self.invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'),
+                     self.invoice_table_item_clicked)
         self.connect(self.invoine_update_btn, QtCore.SIGNAL("clicked()"), self.invoice_update_btn_clicked)
         self.connect(self.invoice_delete_btn, QtCore.SIGNAL("clicked()"), self.invoice_delete_btn_clicked)
         self.connect(self.invoice_import_xml_btn, QtCore.SIGNAL("clicked()"), self.invoice_import_xml_btn_clicked)
@@ -54,11 +55,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.product_delete_btn, QtCore.SIGNAL("clicked()"), self.product_delete_btn_clicked)
         ###############
 
-
-
     def invoice_merge_product_btn_clicked(self):
         pass
-
 
     def invoice_merge_btn_clicked(self):
         invoice_table = self.invoice_table
@@ -341,7 +339,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         custom_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         # 查询数据
-        custom_list = list(Custom.select().where(Custom.status==0))
+        custom_list = list(Custom.select().where(Custom.status == 0))
         row_count = len(custom_list)
         self.custom_table.setRowCount(row_count)
 
@@ -394,7 +392,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # 重新加载表格
             self.custom_query_btn_clicked()
 
-
     def product_query_btn_clicked(self):
         product_table = self.product_table
 
@@ -404,7 +401,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         product_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         # 查询数据
-        product_list = list(Product.select())
+        product_list = list(Product.select().where(Product.status == 0))
         row_count = len(product_list)
         self.product_table.setRowCount(row_count)
 
@@ -424,7 +421,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(product_table, i, 10, product.p_id)
 
     def product_add_btn_clicked(self):
-        pass
+        dialog = ProductDialog(self)
+        dialog.show()
 
     def product_update_btn_clicked(self):
         product_table = self.product_table
@@ -439,4 +437,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dialog.show()
 
     def product_delete_btn_clicked(self):
-        pass
+        reply = QMessageBox.question(self, u'提示', u'确定要删除所选记录吗？', QMessageBox.Yes | QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            product_table = self.product_table
+            selected_rows = table_util.get_selected_row_number_list(product_table)
+
+            # 获取所有需要删除的行的ID
+            id_list = []
+            for rowCount in selected_rows:
+                id = table_util.str_to_unicode_str(product_table.item(rowCount, 0).text())
+                id_list.append(id)
+
+            # 删除数据
+            q = Product.update(status=1).where(Product.id << id_list)
+            q.execute()
+
+            # 重新加载表格
+            self.product_query_btn_clicked()
