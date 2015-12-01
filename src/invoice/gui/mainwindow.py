@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
+from PyQt4.QtCore import Qt
 
-from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView
+from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView, QPrinter, QPrintPreviewDialog
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from invoice.gui.form_custom import CustomDialog
@@ -37,6 +38,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.invoice_merge_btn, QtCore.SIGNAL("clicked()"), self.invoice_merge_btn_clicked)
         self.connect(self.invoice_merge_product_btn, QtCore.SIGNAL("clicked()"), self.invoice_merge_product_btn_clicked)
         self.connect(self.invoice_chaifeng_btn, QtCore.SIGNAL("clicked()"), self.invoice_chaifeng_btn_clicked)
+        self.connect(self.invoice_print_btn, QtCore.SIGNAL("clicked()"), self.invoice_print_btn_clicked)
         ###############
 
         ###############
@@ -136,7 +138,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.information(None, "Information", u'拆分成功！')
             self.invoice_filter_btn_clicked()
 
-        pass
+
+    def invoice_print_btn_clicked(self):
+        printer =QPrinter(QPrinter.HighResolution)
+        preview =QPrintPreviewDialog(self)
+        preview.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowTitleHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint | Qt.WindowContextHelpButtonHint)
+        preview.exec_()
+
 
     def excel_select_file_btn_clicked(self):
         excel_path = QtGui.QFileDialog.getOpenFileName(None, 'Excel', '../', 'Excel File (*.xls)')
