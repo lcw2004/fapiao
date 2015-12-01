@@ -117,4 +117,3 @@ class Ui_Dialog(object):
         self.label_5.setText(_translate("Dialog", "备注：", None))
         self.label_2.setText(_translate("Dialog", "企业税号：", None))
         self.label_3.setText(_translate("Dialog", "ERP对照值：", None))
-

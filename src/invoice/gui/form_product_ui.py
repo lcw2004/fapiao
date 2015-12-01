@@ -123,4 +123,3 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "含税单价：", None))
         self.label_3.setText(_translate("Dialog", "税率：", None))
         self.label_6.setText(_translate("Dialog", "父ID：", None))
-
