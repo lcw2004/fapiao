@@ -2,7 +2,7 @@
 import logging
 from PyQt4.QtCore import Qt
 
-from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView, QPrinter, QPrintPreviewDialog
+from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView, QPrinter, QPrintPreviewDialog, QPainter, QPixmap
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from invoice.gui.form_custom import CustomDialog
@@ -141,9 +141,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def invoice_print_btn_clicked(self):
         printer =QPrinter(QPrinter.HighResolution)
-        preview =QPrintPreviewDialog(self)
-        preview.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowTitleHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint | Qt.WindowContextHelpButtonHint)
+        preview = QPrintPreviewDialog(printer, self)
+        preview.paintRequested.connect(self.plotPic)
         preview.exec_()
+
+    def plotPic(self, printer):
+        painter = QPainter(printer)
+        image = QtGui.QPixmap("D:\\1.jpg")
+        rect = painter.viewport()
+        # QSize
+        size = image.size()
+        size.scale(rect.size(), Qt.KeepAspectRatio)  # //此处保证图片显示完整
+        painter.setViewport(rect.x(), rect.y(), size.width(), size.height())
+        painter.setWindow(image.rect())
+        painter.drawPixmap(0, 0, image)
 
 
     def excel_select_file_btn_clicked(self):
