@@ -81,8 +81,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 custom_name_list.append(invoice_custom_name)
 
         # 判断是否
-        customNameSet = set(custom_name_list)
-        if len(customNameSet) > 1:
+        custom_name_set = set(custom_name_list)
+        if len(custom_name_set) > 1:
             QMessageBox.information(self.centralWidget(), "Information", u'所选发票中存在两个不同客户的发票！')
             return
 
@@ -139,16 +139,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.information(self.centralWidget(), "Information", u'拆分成功！')
             self.invoice_filter_btn_clicked()
 
-
     def invoice_print_btn_clicked(self):
-        printer =QPrinter(QPrinter.HighResolution)
+        printer = QPrinter(QPrinter.HighResolution)
         preview = QPrintPreviewDialog(printer, self)
-        preview.paintRequested.connect(self.plotPic)
+        preview.paintRequested.connect(self.plot_pic)
         preview.exec_()
 
-    def plotPic(self, printer):
+    def plot_pic(self, printer):
         painter = QPainter(printer)
-        image = QtGui.QPixmap("D:\\1.jpg")
+        image = QtGui.QPixmap(config.PATH_OF_INVOICE_TEMPLATE)
         rect = painter.viewport()
         # QSize
         size = image.size()
@@ -156,7 +155,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         painter.setViewport(rect.x(), rect.y(), size.width(), size.height())
         painter.setWindow(image.rect())
         painter.drawPixmap(0, 0, image)
-
 
     def excel_select_file_btn_clicked(self):
         excel_path = QtGui.QFileDialog.getOpenFileName(None, 'Excel', '../', 'Excel File (*.xls)')
@@ -189,8 +187,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def excel_gen_invoice_btn_clicked(self):
         excel_table = self.excel_table
-        row_count = excel_table.rowCount()
-        col_count = excel_table.columnCount()
+        row_count = excel_table.row_count()
 
         # TODO 判断表格中是否有数据
         if row_count <= 1:
@@ -239,7 +236,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             invoiceDetail_of_this.save()
 
             # TODO 计算税额
-            # invoiceDetail.caculate()
+            # invoice_detail.caculate()
             # invoiceDao.proofreadInvoince(invoice.id)
 
         QMessageBox.information(self.centralWidget(), "Information", u'数据已经保存到临时数据区！')
@@ -256,11 +253,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 查询数据
         invoice_list = list(Invoice.select().where(Invoice.status == 0))
 
-        rowCount = len(invoice_list)
-        self.invoice_table.setRowCount(rowCount)
+        row_count = len(invoice_list)
+        self.invoice_table.setRowCount(row_count)
 
         # 将数据加载到表格中
-        for i in range(rowCount):
+        for i in range(row_count):
             invoice = invoice_list[i]
 
             table_util.set_table_item_value(invoice_table, i, 0, invoice.id)
@@ -293,24 +290,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             invoice_table = self.invoice_table
 
             # 获取所有需要删除的行的ID
-            idList = []
+            id_list = []
             remove_rows = table_util.get_selected_row_number_list(invoice_table)
-            for rowCount in remove_rows:
-                invoice_id = table_util.str_to_unicode_str(invoice_table.item(rowCount, 0).text())
-                idList.append(invoice_id)
+            for row_count in remove_rows:
+                invoice_id = table_util.str_to_unicode_str(invoice_table.item(row_count, 0).text())
+                id_list.append(invoice_id)
 
             # 删除数据
-            q = Invoice.update(status=-1).where(Invoice.id << idList)
+            q = Invoice.update(status=-1).where(Invoice.id << id_list)
             q.execute()
 
             # 重新加载表格
             self.invoice_filter_btn_clicked()
 
     def invoice_import_xml_btn_clicked(self):
-        invoiceList = list(Invoice.select(Invoice.status == 0))
-        print invoiceList
-        isSuccess = invoice_exporter.export_as_file(invoiceList, "1.xml")
-        if isSuccess:
+        invoice_list = list(Invoice.select(Invoice.status == 0))
+        print invoice_list
+        is_success = invoice_exporter.export_as_file(invoice_list, "1.xml")
+        if is_success:
             QMessageBox.information(self.centralWidget(), "Information", u'导入成功！')
         else:
             QMessageBox.information(self.centralWidget(), "Information", u'导入失败，请重试！')
@@ -325,30 +322,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoice_detail_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         # 获取选中行的ID
-        invoiceId = self.invoice_table.item(item.row(), 0).text()
+        invoice_id = self.invoice_table.item(item.row(), 0).text()
 
         # 根据ID查询明细
-        invoiceDetailList = list(Invoice.get(id=invoiceId).invoiceDetails)
+        invoice_detail_list = list(Invoice.get(id=invoice_id).invoiceDetails)
 
-        rowCount = len(invoiceDetailList)
-        self.invoice_detail_table.setRowCount(rowCount)
+        row_count = len(invoice_detail_list)
+        self.invoice_detail_table.setRowCount(row_count)
 
         # 将数据加载到表格中
-        for i in range(rowCount):
-            invoiceDetail = invoiceDetailList[i]
+        for i in range(row_count):
+            invoice_detail = invoice_detail_list[i]
 
-            table_util.set_table_item_value(invoice_detail_table, i, 0, invoiceDetail.id)
-            table_util.set_table_item_value(invoice_detail_table, i, 1, invoiceDetail.product.code)
-            table_util.set_table_item_value(invoice_detail_table, i, 2, invoiceDetail.product.name)
-            table_util.set_table_item_value(invoice_detail_table, i, 3, invoiceDetail.product.type)
-            table_util.set_table_item_value(invoice_detail_table, i, 4, invoiceDetail.product.unit)
-            table_util.set_table_item_value(invoice_detail_table, i, 5, invoiceDetail.product.unit_price)
-            table_util.set_table_item_value(invoice_detail_table, i, 6, invoiceDetail.pro_num)
-            table_util.set_table_item_value(invoice_detail_table, i, 7, invoiceDetail.product.tax_price)
-            table_util.set_table_item_value(invoice_detail_table, i, 8, invoiceDetail.not_tax_price)
-            table_util.set_table_item_value(invoice_detail_table, i, 9, invoiceDetail.product.tax)
-            table_util.set_table_item_value(invoice_detail_table, i, 10, invoiceDetail.tax_price)
-            table_util.set_table_item_value(invoice_detail_table, i, 11, invoiceDetail.contain_tax_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 0, invoice_detail.id)
+            table_util.set_table_item_value(invoice_detail_table, i, 1, invoice_detail.product.code)
+            table_util.set_table_item_value(invoice_detail_table, i, 2, invoice_detail.product.name)
+            table_util.set_table_item_value(invoice_detail_table, i, 3, invoice_detail.product.type)
+            table_util.set_table_item_value(invoice_detail_table, i, 4, invoice_detail.product.unit)
+            table_util.set_table_item_value(invoice_detail_table, i, 5, invoice_detail.product.unit_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 6, invoice_detail.pro_num)
+            table_util.set_table_item_value(invoice_detail_table, i, 7, invoice_detail.product.tax_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 8, invoice_detail.not_tax_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 9, invoice_detail.product.tax)
+            table_util.set_table_item_value(invoice_detail_table, i, 10, invoice_detail.tax_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 11, invoice_detail.contain_tax_price)
 
     def custom_query_btn_clicked(self):
         custom_table = self.custom_table
@@ -401,9 +398,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             # 获取所有需要删除的行的ID
             id_list = []
-            for rowCount in selected_rows:
-                id = table_util.str_to_unicode_str(custom_table.item(rowCount, 0).text())
-                id_list.append(id)
+            for row_count in selected_rows:
+                custom_id = table_util.str_to_unicode_str(custom_table.item(row_count, 0).text())
+                id_list.append(custom_id)
 
             # 删除数据
             q = Custom.update(status=1).where(Custom.id << id_list)
@@ -464,8 +461,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             # 获取所有需要删除的行的ID
             id_list = []
-            for rowCount in selected_rows:
-                product_id = table_util.str_to_unicode_str(product_table.item(rowCount, 0).text())
+            for row_count in selected_rows:
+                product_id = table_util.str_to_unicode_str(product_table.item(row_count, 0).text())
                 id_list.append(product_id)
 
             # 删除数据
