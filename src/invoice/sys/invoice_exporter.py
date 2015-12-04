@@ -10,7 +10,7 @@ def export_as_str(invoice_list):
     :param invoice_list:发票信息列表
     :return:
     """
-    temp = Template(filename=config.XML_PATH, input_encoding='utf-8', output_encoding='utf-8')
+    temp = Template(filename=config.PATH_OF_XML, input_encoding='utf-8', output_encoding='utf-8')
     return temp.render(invoiceList=invoice_list)
 
 def export_as_file(invoice_list, file_name):

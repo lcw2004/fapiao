@@ -1,6 +1,8 @@
 # -*- coding: UTF-8 -*-
 
 import re
+import datetime
+
 
 def to_string_trim(input_str):
     """
@@ -12,10 +14,10 @@ def to_string_trim(input_str):
         output_str = str(input_str)
     elif isinstance(input_str, int):
         output_str = str(input_str)
+    elif isinstance(input_str, datetime.datetime):
+        output_str = time_to_str(input_str)
     else:
         output_str = input_str
-
-
 
     return output_str
 
@@ -77,3 +79,11 @@ def is_file_exists(path):
     """
     import os.path
     return os.path.exists(path)
+
+def time_to_str(time):
+    """
+    将时间按指定的格式转为字符串
+    :param time: 时间
+    :return:
+    """
+    return time.strftime("%Y-%m-%d %H:%M:%S")

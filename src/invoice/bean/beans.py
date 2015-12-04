@@ -5,7 +5,7 @@ from peewee import *
 from invoice.common import config
 
 
-db = SqliteDatabase(config.DATABASE_PATH)
+db = SqliteDatabase(config.PATH_OF_DATABASE)
 
 class BaseModel(Model):
     """

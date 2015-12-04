@@ -14,12 +14,12 @@ def init():
 
     # 加载日志配置文件
     from invoice.log import logging_set
-    logging_set.setup_logging(config.LOGGING_PATH)
+    logging_set.setup_logging(config.PATH_OF_LOGGING)
 
     # 打印配置信息
     logger = logging.getLogger(__name__)
-    logger.info(u"数据库文件:{0}".format(config.DATABASE_PATH))
-    logger.info(u"模板XML文件:{0}".format(config.XML_PATH))
+    logger.info(u"数据库文件:{0}".format(config.PATH_OF_DATABASE))
+    logger.info(u"模板XML文件:{0}".format(config.PATH_OF_XML))
 
 
 if __name__ == "__main__":
