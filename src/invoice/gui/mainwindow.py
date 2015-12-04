@@ -224,7 +224,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             invoice_of_this.save()
 
             # 保存发票详细信息
-            invoiceDetail_of_this = InvoiceDetail.create(
+            invoice_detail_of_this = InvoiceDetail.create(
                 pro_type=tbl_invoice_detail_pro_type,
                 pro_name=tbl_invoice_detail_pro_name,
                 not_tax_price=tbl_invoice_total_not_tax,
@@ -233,7 +233,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 invoice=invoice_of_this,
                 product=product_of_this
             )
-            invoiceDetail_of_this.save()
+            invoice_detail_of_this.save()
 
             # TODO 计算税额
             # invoice_detail.caculate()
