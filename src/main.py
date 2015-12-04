@@ -35,5 +35,3 @@ if __name__ == "__main__":
         logger = logging.getLogger(__name__)
         logger.exception(u"程序出现异常")
         logger.error(e)
-
-
