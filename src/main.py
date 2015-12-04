@@ -14,7 +14,7 @@ def init():
 
     # 加载日志配置文件
     from invoice.log import logging_set
-    logging_set.setup_logging()
+    logging_set.setup_logging(config.LOGGING_PATH)
 
     # 打印配置信息
     logger = logging.getLogger(__name__)
