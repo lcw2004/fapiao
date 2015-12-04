@@ -1,4 +1,6 @@
 # -*- coding: UTF-8 -*-
+from invoice.common import config
+
 
 class TextInfo:
     def __init__(self, font_name, font_size, font_color, x_pos, y_pos):
@@ -8,11 +10,12 @@ class TextInfo:
         self.x_pos = x_pos
         self.y_pos = y_pos
 
+
 class TextInfoFactory:
     def __init__(self):
-        default_font_name = "C:\\Windows\\Fonts\\simfang.ttf"
-        default_font_size = 38
-        default_font_color = (0,0,0,0)
+        default_font_name = config.DEFAULT_FONT_NAME
+        default_font_size = config.DEFAULT_FONT_SIZE
+        default_font_color = config.DEFAULT_FONT_COLOR
 
         self.text_info_map = {}
         self.text_info_map["default"] = TextInfo(default_font_name, default_font_size, default_font_color, 100, 100)

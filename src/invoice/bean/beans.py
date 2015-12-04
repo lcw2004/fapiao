@@ -4,8 +4,8 @@ import datetime
 from peewee import *
 from invoice.common import config
 
-
 db = SqliteDatabase(config.PATH_OF_DATABASE)
+
 
 class BaseModel(Model):
     """
@@ -41,7 +41,7 @@ class Custom(BaseModel):
     # 开票汇总名称
     summary_title = TextField(null=True)
     # 备注
-    remark=TextField(null=True)
+    remark = TextField(null=True)
     # 状态
     status = IntegerField(default=0)
 
@@ -155,4 +155,3 @@ class InvoiceDetail(BaseModel):
 
     class Meta:
         db_table = 'tbl_invoice_detail'
-

@@ -2,7 +2,8 @@
 
 
 from PyQt4 import QtGui
-from invoice.common.config import getConfigInDB as getConfigInDB
+
+from invoice.common import config
 
 
 def init_table_headers(excel_table_widget):
@@ -13,12 +14,12 @@ def init_table_headers(excel_table_widget):
     """
     # self.table.setHorizontalHeaderLabels(['SUN','MON','TUE','WED','THU','FIR','SAT'])
 
-    tbl_custom_name_label = getConfigInDB("tbl_custom_name").describe
-    tbl_invoice_invoice_num_label = getConfigInDB("tbl_invoice_invoice_num").describe
-    tbl_invoice_total_not_tax_label = getConfigInDB("tbl_invoice_total_not_tax").describe
-    tbl_invoice_detail_pro_type_label = getConfigInDB("tbl_invoice_detail_pro_type").describe
-    tbl_invoice_detail_pro_name_label = getConfigInDB("tbl_invoice_detail_pro_name").describe
-    tbl_invoice_remark_name_label = getConfigInDB("tbl_invoice_remark").describe
+    tbl_custom_name_label = config.get_config_from_database("tbl_custom_name").describe
+    tbl_invoice_invoice_num_label = config.get_config_from_database("tbl_invoice_invoice_num").describe
+    tbl_invoice_total_not_tax_label = config.get_config_from_database("tbl_invoice_total_not_tax").describe
+    tbl_invoice_detail_pro_type_label = config.get_config_from_database("tbl_invoice_detail_pro_type").describe
+    tbl_invoice_detail_pro_name_label = config.get_config_from_database("tbl_invoice_detail_pro_name").describe
+    tbl_invoice_remark_name_label = config.get_config_from_database("tbl_invoice_remark").describe
 
     set_header_text(excel_table_widget, 0, tbl_custom_name_label)
     set_header_text(excel_table_widget, 1, tbl_invoice_invoice_num_label)
@@ -91,6 +92,7 @@ def set_table_item_value(table_widget, row_num, col_num, input_str):
 
     if input_str:
         table_widget.setItem(row_num, col_num, QtGui.QTableWidgetItem(item_text))
+
 
 def get_edit_text(edit):
     """

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import logging
-from PyQt4.QtCore import Qt
 
-from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView, QPrinter, QPrintPreviewDialog, QPainter, QPixmap
+from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView, QPrinter, QPrintPreviewDialog, QPainter
 from PyQt4 import QtCore
 from PyQt4 import QtGui
+
 from invoice.gui.form_custom import CustomDialog
 from invoice.gui.form_product import ProductDialog
 from mainwindow_ui import Ui_MainWindow
@@ -21,14 +22,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
 
-        ###############
-        ## Excel导入
+        # =====================
+        # Excel导入
         self.connect(self.excel_selectl_file_btn, QtCore.SIGNAL("clicked()"), self.excel_select_file_btn_clicked)
         self.connect(self.excel_gen_invoice_btn, QtCore.SIGNAL("clicked()"), self.excel_gen_invoice_btn_clicked)
-        ###############
+        # =====================
 
-        ###############
-        ## 临时待处理数据
+        # =====================
+        # 临时待处理数据
         self.connect(self.invoice_filter_btn, QtCore.SIGNAL("clicked()"), self.invoice_filter_btn_clicked)
         self.connect(self.invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'),
                      self.invoice_table_item_clicked)
@@ -39,23 +40,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.invoice_merge_product_btn, QtCore.SIGNAL("clicked()"), self.invoice_merge_product_btn_clicked)
         self.connect(self.invoice_chaifeng_btn, QtCore.SIGNAL("clicked()"), self.invoice_chaifeng_btn_clicked)
         self.connect(self.invoice_print_btn, QtCore.SIGNAL("clicked()"), self.invoice_print_btn_clicked)
-        ###############
+        # =====================
 
-        ###############
-        ## 客户管理模块
+        # =====================
+        # 客户管理模块
         self.connect(self.custom_query_btn, QtCore.SIGNAL("clicked()"), self.custom_query_btn_clicked)
         self.connect(self.custom_add_btn, QtCore.SIGNAL("clicked()"), self.custom_add_btn_clicked)
         self.connect(self.custom_update_btn, QtCore.SIGNAL("clicked()"), self.custom_update_btn_clicked)
         self.connect(self.custom_delete_btn, QtCore.SIGNAL("clicked()"), self.custom_delete_btn_clicked)
-        ###############
+        # =====================
 
-        ###############
-        ## 产品管理模块
+        # =====================
+        # 产品管理模块
         self.connect(self.product_query_btn, QtCore.SIGNAL("clicked()"), self.product_query_btn_clicked)
         self.connect(self.product_add_btn, QtCore.SIGNAL("clicked()"), self.product_add_btn_clicked)
         self.connect(self.product_update_btn, QtCore.SIGNAL("clicked()"), self.product_update_btn_clicked)
         self.connect(self.product_delete_btn, QtCore.SIGNAL("clicked()"), self.product_delete_btn_clicked)
-        ###############
+        # =====================
 
     def invoice_merge_product_btn_clicked(self):
         pass

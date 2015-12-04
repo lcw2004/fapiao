@@ -8,6 +8,7 @@ from invoice.bean.beans import *
 from invoice.common import common_util
 from invoice.common import table_util
 
+
 class CustomDialog(QDialog, Ui_Dialog):
     def __init__(self, parent=None, custom_id=None):
         super(CustomDialog, self).__init__(parent)

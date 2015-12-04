@@ -9,6 +9,7 @@ from invoice.bean.beans import *
 from invoice.common import common_util
 from invoice.common import table_util
 
+
 class ProductDialog(QDialog, Ui_Dialog):
     def __init__(self, parent=None, product_id=None):
         super(ProductDialog, self).__init__(parent)
@@ -59,18 +60,17 @@ class ProductDialog(QDialog, Ui_Dialog):
             else:
                 # 添加
                 product = Product.create(code=code,
-                                   name=name,
-                                   type=type,
-                                   unit=unit,
-                                   unit_price=unit_price,
-                                   tax_price=tax_price,
-                                   tax=tax,
-                                   business_tax_num=business_tax_num,
-                                   erp_id=erp_id,
-                                   p_id=p_id
-                                   )
+                                         name=name,
+                                         type=type,
+                                         unit=unit,
+                                         unit_price=unit_price,
+                                         tax_price=tax_price,
+                                         tax=tax,
+                                         business_tax_num=business_tax_num,
+                                         erp_id=erp_id,
+                                         p_id=p_id
+                                         )
                 product.save()
-
 
             # 刷新父窗体
             self.parent.product_query_btn_clicked()

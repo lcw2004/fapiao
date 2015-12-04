@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import ImageEnhance
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageFont
+
 from invoice.common import common_util
 from invoice.image.text_position import TextInfoFactory
+
 
 def add_text_in_image(draw, text_name, text_value):
     """
@@ -25,6 +27,7 @@ def add_text_in_image(draw, text_name, text_value):
 
     draw.text((x_pos, y_pos), text_value_str, font=fnt, fill=font_color)
 
+
 def reduce_opacity(im, opacity):
     """
     返回一个指定的透明度的图片
@@ -32,7 +35,7 @@ def reduce_opacity(im, opacity):
     :param opacity: 图片透明度，1 - 不透明
     :return:
     """
-    assert opacity >= 0 and opacity <= 1
+    assert 0 <= opacity <= 1
     if im.mode != 'RGBA':
         im = im.convert('RGBA')
     else:
@@ -43,14 +46,15 @@ def reduce_opacity(im, opacity):
     im.putalpha(alpha)
     return im
 
+
 def add_watermark(base_image, mark_image, x_pos, y_pox, opacity=1):
     """
     往图片上添加水印图片
-    :param imagefile: 图片文件路径
-    :param markfile:水印文件路径
-    :param opacity:透明度
+    :param base_image: 基础图片
+    :param mark_image:水印图片
     :param x_pos:X坐标
     :param y_pox:Y坐标
+    :param opacity:透明度
     :return:
     """
     if opacity < 1:
@@ -59,9 +63,10 @@ def add_watermark(base_image, mark_image, x_pos, y_pox, opacity=1):
         base_image = base_image.convert('RGBA')
 
     new_image = Image.new('RGBA', base_image.size, (0, 0, 0, 0))
-    new_image.paste(mark_image,(x_pos, y_pox))
+    new_image.paste(mark_image, (x_pos, y_pox))
 
     return Image.composite(new_image, base_image, new_image)
+
 
 if __name__ == "__main__":
     img_path = "D:\\Invoice_template.png"
