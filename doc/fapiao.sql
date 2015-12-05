@@ -10,6 +10,8 @@ drop table tbl_invoice_detail;
 
 drop table tbl_product;
 
+drop table tbl_user;
+
 create table tbl_baseinfo (
 id                   INTEGER                        not null,
 company_name         TEXT,
@@ -97,5 +99,14 @@ foreign key (invoice_Id)
       references tbl_invoice (id),
 foreign key (product_id)
       references tbl_product (id)
+);
+
+create table tbl_user (
+id                   INTEGER,
+name                 TEXT,
+loing_name           TEXT,
+password             TEXT,
+status               INTEGER,
+is_admin             INTEGER
 );
 
