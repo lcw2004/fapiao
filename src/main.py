@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import sys
 import logging
+import sys
+
 from PyQt4 import QtGui
+
 from invoice.common import config
-from invoice.gui.mainwindow import MainWindow
 from invoice.gui.login import LoginDialog
+from invoice.gui.mainwindow import MainWindow
+
 
 def init():
     # 设置项目编码

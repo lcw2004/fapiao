@@ -12,6 +12,7 @@ from mainwindow_ui import Ui_MainWindow
 from invoice.sys import invoice_exporter
 from invoice.common import excel_parser
 from invoice.common import table_util
+from invoice.common.settings import Settings
 from invoice.bean.beans import *
 
 logger = logging.getLogger(__name__)
@@ -61,6 +62,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def init_ui(self):
         self.setWindowTitle(config.PRODUCT_ALL_NAME)
+
+        # =====================
+        # 状态栏信息
+        status = ""
+        user_id = Settings.value(Settings.USER_ID).toInt()[0]
+        user = User.get(id=user_id)
+        status += u"当前用户：" + user.name
+        self.main_status_label.setText(status)
+        # =====================
 
     def invoice_merge_product_btn_clicked(self):
         pass

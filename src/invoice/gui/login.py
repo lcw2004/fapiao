@@ -79,6 +79,7 @@ class LoginDialog(QDialog, Ui_DialogLogin):
             return
 
         # 登录成功
+        logger.info(u"用户[{0}]登录成功".format(user.name))
         Settings.set_value(Settings.USER_ID, user.id)
         self.accept()
 
