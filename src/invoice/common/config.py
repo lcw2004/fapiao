@@ -4,8 +4,7 @@
 # 日志配置文件路径
 PATH_OF_LOGGING = "resources/logging.json"
 # 数据库路径
-# PATH_OF_DATABASE = "resources/data.db"
-PATH_OF_DATABASE = r"E:\个人文档（需要整理）\OpenSource\fapiao\src\resources\data.db"
+PATH_OF_DATABASE = "resources/data.db"
 # ============ 程序基础配置 ============
 
 # ============ 模板配置 ============

@@ -155,3 +155,23 @@ class InvoiceDetail(BaseModel):
 
     class Meta:
         db_table = 'tbl_invoice_detail'
+
+
+class User(BaseModel):
+    """
+    用户表
+    """
+
+    # 姓名
+    name = TextField()
+    # 登录名
+    loing_name = TextField(null=True)
+    # 密码
+    password = TextField(null=True)
+    # 状态：0-启用；1-停用
+    status = TextField(null=True)
+    # 是否是管理员：0-普通用户；1-管理员用户
+    is_admin = TextField(null=True)
+
+    class Meta:
+        db_table = 'tbl_user'

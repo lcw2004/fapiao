@@ -4,7 +4,8 @@ import sys
 import logging
 from PyQt4 import QtGui
 from invoice.common import config
-
+from invoice.gui.mainwindow import MainWindow
+from invoice.gui.login import LoginDialog
 
 def init():
     # 设置项目编码
@@ -27,9 +28,13 @@ if __name__ == "__main__":
 
     try:
         app = QtGui.QApplication(sys.argv)
-        from invoice.gui.mainwindow import MainWindow
-        window = MainWindow()
-        window.show()
+
+        login_dialog = LoginDialog()
+        login_dialog.show()
+        if login_dialog.exec_():
+            window = MainWindow()
+            window.show()
+
         sys.exit(app.exec_())
     except Exception as e:
         logger = logging.getLogger(__name__)
