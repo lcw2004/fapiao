@@ -21,6 +21,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
+        self.init_ui()
 
         # =====================
         # Excel导入
@@ -57,6 +58,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.product_update_btn, QtCore.SIGNAL("clicked()"), self.product_update_btn_clicked)
         self.connect(self.product_delete_btn, QtCore.SIGNAL("clicked()"), self.product_delete_btn_clicked)
         # =====================
+
+    def init_ui(self):
+        self.setWindowTitle(config.PRODUCT_ALL_NAME)
 
     def invoice_merge_product_btn_clicked(self):
         pass

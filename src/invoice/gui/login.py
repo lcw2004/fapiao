@@ -5,6 +5,7 @@ from PyQt4.QtGui import QDialog
 
 from invoice.bean.beans import User
 from invoice.common import table_util
+from invoice.common import config
 from invoice.common.settings import Settings
 from invoice.gui.login_ui import Ui_DialogLogin
 
@@ -15,10 +16,16 @@ class LoginDialog(QDialog, Ui_DialogLogin):
     def __init__(self, parent=None):
         super(LoginDialog, self).__init__(parent)
         self.setupUi(self)
+        self.init_ui()
         self.init_from_setting()
 
         self.connect(self.login_login_btn, QtCore.SIGNAL("clicked()"), self.login_login_btn_clicked)
         self.connect(self.login_quit_btn, QtCore.SIGNAL("clicked()"), self.login_quit_btn_clicked)
+
+    def init_ui(self):
+        self.setWindowTitle(config.PRODUCT_ALL_NAME)
+        self.login_company_name_label.setText(config.PRODUCT_COMPANY)
+        self.login_product_name_label.setText(config.PRODUCT_ALL_NAME)
 
     def init_from_setting(self):
         logger.info(u"从Setting中加载配置")
@@ -72,6 +79,7 @@ class LoginDialog(QDialog, Ui_DialogLogin):
             return
 
         # 登录成功
+        Settings.set_value(Settings.USER_ID, user.id)
         self.accept()
 
     def login_quit_btn_clicked(self):

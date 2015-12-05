@@ -6,6 +6,7 @@ from PyQt4.QtCore import QSettings
 
 class Settings:
     AUTO_LOGIN = 'auto_login'
+    USER_ID = 'user_id'
     SAVE_PASSWORD = "save_password"
     LOGIN_NAME = 'login_name'
     PASSWORD = 'password'
