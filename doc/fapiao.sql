@@ -104,7 +104,7 @@ foreign key (product_id)
 create table tbl_user (
 id                   INTEGER,
 name                 TEXT,
-loing_name           TEXT,
+login_name           TEXT,
 password             TEXT,
 status               INTEGER,
 is_admin             INTEGER

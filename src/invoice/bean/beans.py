@@ -165,7 +165,7 @@ class User(BaseModel):
     # 姓名
     name = TextField()
     # 登录名
-    loing_name = TextField(null=True)
+    login_name = TextField(null=True)
     # 密码
     password = TextField(null=True)
     # 状态：0-启用；1-停用
