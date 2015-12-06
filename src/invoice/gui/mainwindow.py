@@ -67,6 +67,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.product_delete_btn, QtCore.SIGNAL("clicked()"), self.product_delete_btn_clicked)
         # =====================
 
+    def show_msg_at_rigth_label(self, msg):
+        self.right_status_label.setText(msg)
+
     def init_ui(self):
         self.setWindowTitle(config.PRODUCT_ALL_NAME)
 
@@ -76,7 +79,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         user_id = Settings.value(Settings.USER_ID).toInt()[0]
         user = User.get(id=user_id)
         status += u"当前用户：" + user.name
-        self.main_status_label.setText(status)
+        self.left_status_label.setText(status)
         # =====================
 
     def invoice_merge_product_btn_clicked(self):
@@ -350,6 +353,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elxs_exporter.add_invoice_sheet(u"已开发票", invoice_list)
         elxs_exporter.add_invoice_sheet(u"作废发票", zuofei_invoice_list)
         elxs_exporter.close()
+        self.show_msg_at_rigth_label(u"导出成功，文件路径：" + file_name)
 
     def invoice_update_btn_clicked(self):
         # dialog = FormInvoiceDialog(self)
