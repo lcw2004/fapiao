@@ -6,6 +6,7 @@ from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView, QPrinter, Q
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 
+from invoice.common.excel_writer import InvoiceElsxExporter
 from invoice.gui.form_custom import CustomDialog
 from invoice.gui.form_product import ProductDialog
 from mainwindow_ui import Ui_MainWindow
@@ -47,6 +48,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 已开发票管理
         self.connect(self.ok_invoice_filter_btn, QtCore.SIGNAL("clicked()"), self.ok_invoice_filter_btn_clicked)
         self.connect(self.ok_invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'),self.ok_invoice_table_item_clicked)
+        self.connect(self.ok_invoice_export_btn, QtCore.SIGNAL("clicked()"), self.ok_invoice_export_btn_clicked)
         # =====================
 
         # =====================
@@ -330,6 +332,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(invoice_table, i, 12, invoice.drawer)
             table_util.set_table_item_value(invoice_table, i, 13, invoice.beneficiary)
             table_util.set_table_item_value(invoice_table, i, 14, invoice.reviewer)
+
+    def ok_invoice_export_btn_clicked(self):
+        file_name = u'发票列表.xlsx'
+
+        invoice_list = list(Invoice.select().where(Invoice.status == 1))
+        zuofei_invoice_list = list(Invoice.select().where(Invoice.status == 0))
+
+        elxs_exporter = InvoiceElsxExporter(file_name)
+        elxs_exporter.add_invoice_sheet(u"已开发票", invoice_list)
+        elxs_exporter.add_invoice_sheet(u"作废发票", zuofei_invoice_list)
+        elxs_exporter.close()
+
+        pass
 
     def invoice_update_btn_clicked(self):
         # dialog = FormInvoiceDialog(self)
