@@ -9,6 +9,7 @@ from PyQt4 import QtGui
 from invoice.common.excel_writer import InvoiceElsxExporter
 from invoice.gui.form_custom import CustomDialog
 from invoice.gui.form_product import ProductDialog
+from invoice.image import add_text_in_invoice
 from mainwindow_ui import Ui_MainWindow
 from invoice.sys import invoice_exporter
 from invoice.common import excel_parser
@@ -49,6 +50,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.ok_invoice_filter_btn, QtCore.SIGNAL("clicked()"), self.ok_invoice_filter_btn_clicked)
         self.connect(self.ok_invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'),self.ok_invoice_table_item_clicked)
         self.connect(self.ok_invoice_export_btn, QtCore.SIGNAL("clicked()"), self.ok_invoice_export_btn_clicked)
+        self.connect(self.ok_invoice_print_btn, QtCore.SIGNAL("clicked()"), self.ok_invoice_print_btn_clicked())
         # =====================
 
         # =====================
@@ -164,14 +166,46 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.invoice_filter_btn_clicked()
 
     def invoice_print_btn_clicked(self):
+        invoice_table = self.invoice_table
+        self.print_select_invoice(invoice_table)
+
+    def ok_invoice_print_btn_clicked(self):
+        invoice_table = self.ok_invoice_table
+        self.print_select_invoice(invoice_table)
+
+    def print_select_invoice(self, invoice_table):
+        # 获得选中的合同的ID
+        selected_rows = table_util.get_selected_row_number_list(invoice_table)
+
+        if len(selected_rows) != 1:
+            QMessageBox.information(self, "Information", u'请选择需要打印的合同，每次只能打印一条！')
+            return
+
+        invoice_id = table_util.str_to_unicode_str(invoice_table.item(selected_rows[0], 0).text())
+
+        # 将合同信息填充到模板中
+        self.img_path = "D:\\123333.jpg"
+        add_text_in_invoice.add_text_in_image(self.img_path, invoice_id)
+
+
         printer = QPrinter(QPrinter.HighResolution)
         preview = QPrintPreviewDialog(printer, self)
+
+        preview.setMaximumWidth(800)
+        preview.setMinimumWidth(800)
+        preview.setMaximumHeight(800)
+        preview.setMinimumHeight(800)
+
+        printer.setPageSize(QPrinter.A8)
+        printer.setFullPage(False)
+
         preview.paintRequested.connect(self.plot_pic)
         preview.exec_()
 
     def plot_pic(self, printer):
         painter = QPainter(printer)
-        image = QtGui.QPixmap(config.PATH_OF_INVOICE_TEMPLATE)
+
+        image = QtGui.QPixmap(self.img_path)
         rect = painter.viewport()
         # QSize
         size = image.size()

@@ -7,8 +7,7 @@ from invoice.common import config
 from invoice.image import image_util
 
 
-def add_text_in_image(in_img_path, out_img_path):
-    invoice_id = 1
+def add_text_in_image(out_img_path, invoice_id, in_img_path="resources/Invoice_template.png"):
     invoice = Invoice.get(id=invoice_id)
     invoice_detail_list = list(Invoice.get(id=invoice_id).invoiceDetails)
 
@@ -41,11 +40,5 @@ def add_text_in_image(in_img_path, out_img_path):
     im = image_util.add_watermark(im, im_zuofei, zuofei_pos_x, zuofei_pos_y, opacity=0.7)
 
     # 显示
-    im.show()
+    # im.show()
     im.save(out_img_path)
-
-
-if __name__ == "__main__":
-    img_path = "D:\\Invoice_template.png"
-    out_img_path = "D:\\12_text.jpg"
-    add_text_in_image(img_path, out_img_path)

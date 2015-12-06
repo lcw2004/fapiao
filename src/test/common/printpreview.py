@@ -25,7 +25,7 @@ def on_picButton_clicked():
 
 def plotPic(printer):
     painter = QPainter(printer)
-    image = QtGui.QPixmap("D:\\1.jpg")
+    image = QtGui.QPixmap("D:\\Invoice_template.png")
 
 
     rect = painter.viewport()

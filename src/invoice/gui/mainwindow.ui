@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>792</width>
     <height>578</height>
    </rect>
   </property>
@@ -467,6 +467,17 @@
             <property name="icon">
              <iconset>
               <normaloff>image/034.png</normaloff>image/034.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="ok_invoice_print_btn">
+            <property name="text">
+             <string>打印</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>image/026.png</normaloff>image/026.png</iconset>
             </property>
            </widget>
           </item>
@@ -967,7 +978,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>792</width>
      <height>23</height>
     </rect>
    </property>
