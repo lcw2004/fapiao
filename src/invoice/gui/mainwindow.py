@@ -334,7 +334,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(invoice_table, i, 14, invoice.reviewer)
 
     def ok_invoice_export_btn_clicked(self):
-        file_name = u'发票列表.xlsx'
+        file_name_qstr = QtGui.QFileDialog.getSaveFileName(None, 'Excel', '../', 'Excel File (*.xlsx)')
+
+        if not file_name_qstr:
+            return
+
+        file_name = str(file_name_qstr)
+        if not file_name.endswith('.xlsx'):
+            file_name += '.xlsx'
 
         invoice_list = list(Invoice.select().where(Invoice.status == 1))
         zuofei_invoice_list = list(Invoice.select().where(Invoice.status == 0))
@@ -343,8 +350,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elxs_exporter.add_invoice_sheet(u"已开发票", invoice_list)
         elxs_exporter.add_invoice_sheet(u"作废发票", zuofei_invoice_list)
         elxs_exporter.close()
-
-        pass
 
     def invoice_update_btn_clicked(self):
         # dialog = FormInvoiceDialog(self)

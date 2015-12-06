@@ -1,17 +1,17 @@
 # -*- coding: UTF-8 -*-
 import xlsxwriter
-
 from invoice.bean.beans import Invoice
 
+
 class InvoiceElsxExporter:
-    def __init__(self, file_name):
-        self.workbook = xlsxwriter.Workbook(file_name)
+    def __init__(self, excel_file_name):
+        self.workbook = xlsxwriter.Workbook(excel_file_name)
         self.datetime_format = self.workbook.add_format({'num_format': 'yyyy-mm-dd hh:mm:ss'})
         self.money = self.workbook.add_format({'num_format': u'#,###元'})
         # 头部标题格式
-        header_format = self.workbook.add_format()
-        header_format.set_bold()
-        header_format.set_font_size(15)
+        self.header_format = self.workbook.add_format()
+        self.header_format.set_bold()
+        self.header_format.set_font_size(15)
 
     def add_invoice_sheet(self, sheet_name, invoice_list):
         worksheet = self.workbook.add_worksheet(sheet_name)
@@ -43,6 +43,7 @@ class InvoiceElsxExporter:
             worksheet.set_column(0, i, 20)
             worksheet.write(0, i, headers[i], self.header_format)
 
+
 if __name__ == "__main__":
     file_name = u'发票列表.xlsx'
     invoice_list = list(Invoice.select().where(Invoice.status == 1))
@@ -52,5 +53,3 @@ if __name__ == "__main__":
     elxs_exporter.add_invoice_sheet(u"已开发票", invoice_list)
     elxs_exporter.add_invoice_sheet(u"作废发票", zuofei_invoice_list)
     elxs_exporter.close()
-
-
