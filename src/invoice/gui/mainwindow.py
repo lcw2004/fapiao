@@ -33,8 +33,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # =====================
         # 临时待处理数据
         self.connect(self.invoice_filter_btn, QtCore.SIGNAL("clicked()"), self.invoice_filter_btn_clicked)
-        self.connect(self.invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'),
-                     self.invoice_table_item_clicked)
+        self.connect(self.invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'),self.invoice_table_item_clicked)
         self.connect(self.invoine_update_btn, QtCore.SIGNAL("clicked()"), self.invoice_update_btn_clicked)
         self.connect(self.invoice_delete_btn, QtCore.SIGNAL("clicked()"), self.invoice_delete_btn_clicked)
         self.connect(self.invoice_import_xml_btn, QtCore.SIGNAL("clicked()"), self.invoice_import_xml_btn_clicked)
@@ -42,6 +41,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.invoice_merge_product_btn, QtCore.SIGNAL("clicked()"), self.invoice_merge_product_btn_clicked)
         self.connect(self.invoice_chaifeng_btn, QtCore.SIGNAL("clicked()"), self.invoice_chaifeng_btn_clicked)
         self.connect(self.invoice_print_btn, QtCore.SIGNAL("clicked()"), self.invoice_print_btn_clicked)
+        # =====================
+
+        # =====================
+        # 已开发票管理
+        self.connect(self.ok_invoice_filter_btn, QtCore.SIGNAL("clicked()"), self.ok_invoice_filter_btn_clicked)
+        self.connect(self.ok_invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'),self.ok_invoice_table_item_clicked)
         # =====================
 
         # =====================
@@ -257,6 +262,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # TODO 导入成功之后清空数据
 
     def invoice_filter_btn_clicked(self):
+        invoice_list = list(Invoice.select().where(Invoice.status == 0))
         invoice_table = self.invoice_table
 
         # 设置整行选中
@@ -264,11 +270,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 设置不可编辑
         invoice_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
-        # 查询数据
-        invoice_list = list(Invoice.select().where(Invoice.status == 0))
+        row_count = len(invoice_list)
+        invoice_table.setRowCount(row_count)
+
+        # 将数据加载到表格中
+        for i in range(row_count):
+            invoice = invoice_list[i]
+
+            table_util.set_table_item_value(invoice_table, i, 0, invoice.id)
+            table_util.set_table_item_value(invoice_table, i, 1, invoice.invoice_num)
+            if invoice.custom:
+                table_util.set_table_item_value(invoice_table, i, 2, invoice.custom.name)
+                table_util.set_table_item_value(invoice_table, i, 7, invoice.custom.code)
+                table_util.set_table_item_value(invoice_table, i, 8, invoice.custom.tax_id)
+                table_util.set_table_item_value(invoice_table, i, 9, invoice.custom.addr)
+                table_util.set_table_item_value(invoice_table, i, 10, invoice.custom.bank_account)
+
+            table_util.set_table_item_value(invoice_table, i, 3, invoice.total_not_tax)
+            table_util.set_table_item_value(invoice_table, i, 4, invoice.total_tax)
+            table_util.set_table_item_value(invoice_table, i, 5, invoice.total_num)
+            table_util.set_table_item_value(invoice_table, i, 6, invoice.serial_number)
+
+            table_util.set_table_item_value(invoice_table, i, 11, invoice.remark)
+            table_util.set_table_item_value(invoice_table, i, 12, invoice.drawer)
+            table_util.set_table_item_value(invoice_table, i, 13, invoice.beneficiary)
+            table_util.set_table_item_value(invoice_table, i, 14, invoice.reviewer)
+
+    def ok_invoice_filter_btn_clicked(self):
+        invoice_list = list(Invoice.select().where(Invoice.status == 1))
+        invoice_table = self.ok_invoice_table
+
+        # 设置整行选中
+        invoice_table.setSelectionBehavior(QAbstractItemView.SelectRows)
+        # 设置不可编辑
+        invoice_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         row_count = len(invoice_list)
-        self.invoice_table.setRowCount(row_count)
+        invoice_table.setRowCount(row_count)
 
         # 将数据加载到表格中
         for i in range(row_count):
@@ -328,7 +366,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def invoice_table_item_clicked(self, item):
         invoice_detail_table = self.invoice_detail_table
+        invoice_table = self.invoice_table
+        self.show_invoice_detail_in_table(item, invoice_table, invoice_detail_table)
 
+    def ok_invoice_table_item_clicked(self, item):
+        invoice_detail_table = self.ok_invoice_detail_table
+        invoice_table = self.ok_invoice_table
+        self.show_invoice_detail_in_table(item, invoice_table, invoice_detail_table)
+
+    def show_invoice_detail_in_table(self, item, invoice_table, invoice_detail_table):
         # 设置整行选中
         invoice_detail_table.setSelectionBehavior(QAbstractItemView.SelectRows)
 
@@ -336,13 +382,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoice_detail_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         # 获取选中行的ID
-        invoice_id = self.invoice_table.item(item.row(), 0).text()
+        invoice_id = invoice_table.item(item.row(), 0).text()
 
         # 根据ID查询明细
         invoice_detail_list = list(Invoice.get(id=invoice_id).invoiceDetails)
 
         row_count = len(invoice_detail_list)
-        self.invoice_detail_table.setRowCount(row_count)
+        invoice_detail_table.setRowCount(row_count)
 
         # 将数据加载到表格中
         for i in range(row_count):
