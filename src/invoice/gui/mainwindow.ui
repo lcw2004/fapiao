@@ -283,7 +283,7 @@
            <number>0</number>
           </property>
           <property name="columnCount">
-           <number>14</number>
+           <number>15</number>
           </property>
           <column>
            <property name="text">
@@ -317,7 +317,22 @@
           </column>
           <column>
            <property name="text">
-            <string>系统流水号</string>
+            <string>开票人</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>收款人</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>复核人</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>备注</string>
            </property>
           </column>
           <column>
@@ -342,17 +357,7 @@
           </column>
           <column>
            <property name="text">
-            <string>备注</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>开票人</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>收款人</string>
+            <string>系统流水号</string>
            </property>
           </column>
          </widget>
@@ -505,7 +510,7 @@
            <number>0</number>
           </property>
           <property name="columnCount">
-           <number>14</number>
+           <number>15</number>
           </property>
           <column>
            <property name="text">
@@ -539,7 +544,22 @@
           </column>
           <column>
            <property name="text">
-            <string>系统流水号</string>
+            <string>开票人</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>收款人</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>复核人</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>备注</string>
            </property>
           </column>
           <column>
@@ -564,17 +584,7 @@
           </column>
           <column>
            <property name="text">
-            <string>备注</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>开票人</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>收款人</string>
+            <string>系统流水号</string>
            </property>
           </column>
          </widget>
@@ -585,16 +595,11 @@
            <number>0</number>
           </property>
           <property name="columnCount">
-           <number>12</number>
+           <number>11</number>
           </property>
           <column>
            <property name="text">
             <string>ID</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>新建列</string>
            </property>
           </column>
           <column>

@@ -320,20 +320,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(invoice_table, i, 1, invoice.invoice_num)
             if invoice.custom:
                 table_util.set_table_item_value(invoice_table, i, 2, invoice.custom.name)
-                table_util.set_table_item_value(invoice_table, i, 7, invoice.custom.code)
-                table_util.set_table_item_value(invoice_table, i, 8, invoice.custom.tax_id)
-                table_util.set_table_item_value(invoice_table, i, 9, invoice.custom.addr)
-                table_util.set_table_item_value(invoice_table, i, 10, invoice.custom.bank_account)
-
+                table_util.set_table_item_value(invoice_table, i, 10, invoice.custom.code)
+                table_util.set_table_item_value(invoice_table, i, 11, invoice.custom.tax_id)
+                table_util.set_table_item_value(invoice_table, i, 12, invoice.custom.addr)
+                table_util.set_table_item_value(invoice_table, i, 13, invoice.custom.bank_account)
             table_util.set_table_item_value(invoice_table, i, 3, invoice.total_not_tax)
             table_util.set_table_item_value(invoice_table, i, 4, invoice.total_tax)
             table_util.set_table_item_value(invoice_table, i, 5, invoice.total_num)
-            table_util.set_table_item_value(invoice_table, i, 6, invoice.serial_number)
-
-            table_util.set_table_item_value(invoice_table, i, 11, invoice.remark)
-            table_util.set_table_item_value(invoice_table, i, 12, invoice.drawer)
-            table_util.set_table_item_value(invoice_table, i, 13, invoice.beneficiary)
-            table_util.set_table_item_value(invoice_table, i, 14, invoice.reviewer)
+            table_util.set_table_item_value(invoice_table, i, 6, invoice.drawer)
+            table_util.set_table_item_value(invoice_table, i, 7, invoice.beneficiary)
+            table_util.set_table_item_value(invoice_table, i, 8, invoice.reviewer)
+            table_util.set_table_item_value(invoice_table, i, 9, invoice.remark)
+            table_util.set_table_item_value(invoice_table, i, 14, invoice.serial_number)
 
     def ok_invoice_filter_btn_clicked(self):
         invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1)))
@@ -350,25 +348,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 将数据加载到表格中
         for i in range(row_count):
             invoice = invoice_list[i]
-
             table_util.set_table_item_value(invoice_table, i, 0, invoice.id)
-            table_util.set_table_item_value(invoice_table, i, 1, invoice.invoice_num)
+            if invoice.status == -1:
+                table_util.set_table_item_value(invoice_table, i, 1, invoice.invoice_num + u"(作废)")
+            else:
+                table_util.set_table_item_value(invoice_table, i, 1, invoice.invoice_num)
             if invoice.custom:
                 table_util.set_table_item_value(invoice_table, i, 2, invoice.custom.name)
-                table_util.set_table_item_value(invoice_table, i, 7, invoice.custom.code)
-                table_util.set_table_item_value(invoice_table, i, 8, invoice.custom.tax_id)
-                table_util.set_table_item_value(invoice_table, i, 9, invoice.custom.addr)
-                table_util.set_table_item_value(invoice_table, i, 10, invoice.custom.bank_account)
-
+                table_util.set_table_item_value(invoice_table, i, 10, invoice.custom.code)
+                table_util.set_table_item_value(invoice_table, i, 11, invoice.custom.tax_id)
+                table_util.set_table_item_value(invoice_table, i, 12, invoice.custom.addr)
+                table_util.set_table_item_value(invoice_table, i, 13, invoice.custom.bank_account)
             table_util.set_table_item_value(invoice_table, i, 3, invoice.total_not_tax)
             table_util.set_table_item_value(invoice_table, i, 4, invoice.total_tax)
             table_util.set_table_item_value(invoice_table, i, 5, invoice.total_num)
-            table_util.set_table_item_value(invoice_table, i, 6, invoice.serial_number)
-
-            table_util.set_table_item_value(invoice_table, i, 11, invoice.remark)
-            table_util.set_table_item_value(invoice_table, i, 12, invoice.drawer)
-            table_util.set_table_item_value(invoice_table, i, 13, invoice.beneficiary)
-            table_util.set_table_item_value(invoice_table, i, 14, invoice.reviewer)
+            table_util.set_table_item_value(invoice_table, i, 6, invoice.drawer)
+            table_util.set_table_item_value(invoice_table, i, 7, invoice.beneficiary)
+            table_util.set_table_item_value(invoice_table, i, 8, invoice.reviewer)
+            table_util.set_table_item_value(invoice_table, i, 9, invoice.remark)
+            table_util.set_table_item_value(invoice_table, i, 14, invoice.serial_number)
 
     def ok_invoice_export_btn_clicked(self):
         file_name_qstr = QtGui.QFileDialog.getSaveFileName(None, 'Excel', '../', 'Excel File (*.xlsx)')
