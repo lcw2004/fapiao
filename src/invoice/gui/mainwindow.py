@@ -93,7 +93,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 判断选择的合并的发票数量
         selected_rows = table_util.get_selected_row_number_list(invoice_table)
         if len(selected_rows) <= 1:
-            QMessageBox.information(self.centralWidget(), "Information", u'请选择至少两个需要合并的发票！')
+            QMessageBox.information(self.parentWidget(), "Information", u'请选择至少两个需要合并的发票！')
             return
 
         # 获取所有需要合并的行的ID
@@ -109,7 +109,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 判断是否
         custom_name_set = set(custom_name_list)
         if len(custom_name_set) > 1:
-            QMessageBox.information(self.centralWidget(), "Information", u'所选发票中存在两个不同客户的发票！')
+            QMessageBox.information(self.parentWidget(), "Information", u'所选发票中存在两个不同客户的发票！')
             return
 
         # 将所选发票的详细信息合并到第一个中，并删除其他发票
@@ -124,7 +124,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # invoiceDao.proofreadInvoince(main_invoice_id)
 
         # 合并成功并刷新表格
-        QMessageBox.information(self.centralWidget(), "Information", u'合并成功！')
+        QMessageBox.information(self.parentWidget(), "Information", u'合并成功！')
         self.invoice_filter_btn_clicked()
 
     def invoice_chaifeng_btn_clicked(self):
@@ -133,7 +133,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 判断选择的合并的发票数量
         selected_rows = table_util.get_selected_row_number_list(invoice_detail_table)
         if len(selected_rows) < 1:
-            QMessageBox.information(self.centralWidget(), "Information", u'请选择至少一个需要拆分的发票明细！')
+            QMessageBox.information(self.parentWidget(), "Information", u'请选择至少一个需要拆分的发票明细！')
             return
 
         # 获取所有需要合并的行的ID
@@ -162,7 +162,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # TODO 重新统计税额
             # invoiceDao.proofreadInvoince(newInvoiceId)
             # invoiceDao.proofreadInvoince(oldInvoiceId)
-            QMessageBox.information(self.centralWidget(), "Information", u'拆分成功！')
+            QMessageBox.information(self.parentWidget(), "Information", u'拆分成功！')
             self.invoice_filter_btn_clicked()
 
     def invoice_print_btn_clicked(self):
@@ -249,7 +249,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # TODO 判断表格中是否有数据
         if row_count <= 1:
-            QMessageBox.information(self.centralWidget(), "Information", u'请先导入发票数据！')
+            QMessageBox.information(self.parentWidget(), "Information", u'请先导入发票数据！')
             return
 
         for i in range(row_count):
@@ -297,7 +297,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # invoice_detail.caculate()
             # invoiceDao.proofreadInvoince(invoice.id)
 
-        QMessageBox.information(self.centralWidget(), "Information", u'数据已经保存到临时数据区！')
+        QMessageBox.information(self.parentWidget(), "Information", u'数据已经保存到临时数据区！')
         # TODO 导入成功之后清空数据
 
     def invoice_filter_btn_clicked(self):
@@ -336,7 +336,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(invoice_table, i, 14, invoice.reviewer)
 
     def ok_invoice_filter_btn_clicked(self):
-        invoice_list = list(Invoice.select().where(Invoice.status == 1))
+        invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1)))
         invoice_table = self.ok_invoice_table
 
         # 设置整行选中
@@ -395,7 +395,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         pass
 
     def invoice_delete_btn_clicked(self):
-        reply = QMessageBox.question(self.centralWidget(), u'提示', u'确定要删除所选记录吗？', QMessageBox.Yes | QMessageBox.No)
+        reply = QMessageBox.question(self.parentWidget(), u'提示', u'确定要删除所选记录吗？', QMessageBox.Yes | QMessageBox.No)
         if reply == QMessageBox.Yes:
             invoice_table = self.invoice_table
 
@@ -418,9 +418,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print invoice_list
         is_success = invoice_exporter.export_as_file(invoice_list, "1.xml")
         if is_success:
-            QMessageBox.information(self.centralWidget(), "Information", u'导入成功！')
+            QMessageBox.information(self.parentWidget(), "Information", u'导入成功！')
         else:
-            QMessageBox.information(self.centralWidget(), "Information", u'导入失败，请重试！')
+            QMessageBox.information(self.parentWidget(), "Information", u'导入失败，请重试！')
 
     def invoice_table_item_clicked(self, item):
         invoice_detail_table = self.invoice_detail_table
@@ -497,7 +497,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         selected_rows = table_util.get_selected_row_number_list(custom_table)
 
         if len(selected_rows) != 1:
-            QMessageBox.information(self.centralWidget(), "Information", u'请选择一条数据进行修改！')
+            QMessageBox.information(self.parentWidget(), "Information", u'请选择一条数据进行修改！')
             return
 
         invoice_id = table_util.str_to_unicode_str(custom_table.item(selected_rows[0], 0).text())
@@ -509,7 +509,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dialog.show()
 
     def custom_delete_btn_clicked(self):
-        reply = QMessageBox.question(self.centralWidget(), u'提示', u'确定要删除所选记录吗？', QMessageBox.Yes | QMessageBox.No)
+        reply = QMessageBox.question(self.parentWidget(), u'提示', u'确定要删除所选记录吗？', QMessageBox.Yes | QMessageBox.No)
         if reply == QMessageBox.Yes:
             custom_table = self.custom_table
             selected_rows = table_util.get_selected_row_number_list(custom_table)
@@ -564,7 +564,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         selected_rows = table_util.get_selected_row_number_list(product_table)
 
         if len(selected_rows) != 1:
-            QMessageBox.information(self.centralWidget().centralWidget(), "Information", u'请选择一条数据进行修改！')
+            QMessageBox.information(self.parentWidget().parentWidget(), "Information", u'请选择一条数据进行修改！')
             return
 
         product_id = table_util.str_to_unicode_str(product_table.item(selected_rows[0], 0).text())
@@ -572,7 +572,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dialog.show()
 
     def product_delete_btn_clicked(self):
-        reply = QMessageBox.question(self.centralWidget(), u'提示', u'确定要删除所选记录吗？', QMessageBox.Yes | QMessageBox.No)
+        reply = QMessageBox.question(self.parentWidget(), u'提示', u'确定要删除所选记录吗？', QMessageBox.Yes | QMessageBox.No)
         if reply == QMessageBox.Yes:
             product_table = self.product_table
             selected_rows = table_util.get_selected_row_number_list(product_table)
