@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-
+import os
 import re
 import datetime
 
@@ -7,6 +7,7 @@ import datetime
 def to_string_trim(input_str):
     """
     将其他类型转为字符串
+    :param input_str 输入值
     """
     if input_str is None:
         output_str = ""
@@ -25,6 +26,7 @@ def to_string_trim(input_str):
 def float_to_string(input_str):
     u"""
     如果是浮点型，转为int类型再转字符串
+    :param input_str 输入值
     """
     output_str = input_str
     if isinstance(input_str, float):
@@ -36,6 +38,7 @@ def float_to_string(input_str):
 def is_blank_str(input_str):
     """
     判断是否是空字符串
+    :param input_str 输入值
     """
     if input_str and len(input_str) > 0:
         return False
@@ -86,6 +89,16 @@ def is_file_exists(path):
     import os.path
 
     return os.path.exists(path)
+
+
+def mkdir(file_path):
+    """
+    判断文件是否存在，如果不存在，则建立
+    :param file_path:文件路径
+    :return:
+    """
+    if not os.path.exists(file_path):
+        os.makedirs(file_path)
 
 
 def time_to_str(time):

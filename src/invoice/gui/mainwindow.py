@@ -50,7 +50,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.ok_invoice_filter_btn, QtCore.SIGNAL("clicked()"), self.ok_invoice_filter_btn_clicked)
         self.connect(self.ok_invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'),self.ok_invoice_table_item_clicked)
         self.connect(self.ok_invoice_export_btn, QtCore.SIGNAL("clicked()"), self.ok_invoice_export_btn_clicked)
-        self.connect(self.ok_invoice_print_btn, QtCore.SIGNAL("clicked()"), self.ok_invoice_print_btn_clicked())
+        self.connect(self.ok_invoice_print_btn, QtCore.SIGNAL("clicked()"), self.ok_invoice_print_btn_clicked)
         # =====================
 
         # =====================

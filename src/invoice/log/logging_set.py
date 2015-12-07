@@ -4,11 +4,16 @@ import os
 import json
 import logging.config
 
+from invoice.common import common_util
+
 
 def setup_logging(default_path='logging.json', default_level=logging.INFO, env_key='LOG_CFG'):
     """
     加载日志配置文件
     """
+    # 创建日志文件夹
+    common_util.mkdir("logs")
+
     path = default_path
     value = os.getenv(env_key, None)
     if value:
