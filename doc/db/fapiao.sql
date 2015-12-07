@@ -8,7 +8,13 @@ drop table tbl_invoice;
 
 drop table tbl_invoice_detail;
 
+drop table tbl_no_section;
+
+drop table tbl_no_section_assign;
+
 drop table tbl_product;
+
+drop table tbl_user;
 
 create table tbl_baseinfo (
 id                   INTEGER                        not null,
@@ -29,6 +35,8 @@ bank_account         TEXT,
 business_tax_id      TEXT,
 erp_id               TEXT,
 summary_title        TEXT,
+remark               TEXT,
+status               INTEGER,
 primary key (id)
 );
 
@@ -78,6 +86,7 @@ col2                 TEXT,
 col3                 TEXT,
 col4                 TEXT,
 p_id                 INTEGER,
+status               INTEGER,
 primary key (id)
 );
 
@@ -94,5 +103,36 @@ foreign key (invoice_Id)
       references tbl_invoice (id),
 foreign key (product_id)
       references tbl_product (id)
+);
+
+create table tbl_no_section (
+id                   INTEGER                        not null,
+start_num            INTEGER,
+end_num              INTEGER,
+user_name            INTEGER,
+status               INTEGER,
+primary key (id)
+);
+
+create table tbl_user (
+id                   INTEGER                        not null,
+name                 TEXT,
+login_name           TEXT,
+password             TEXT,
+status               INTEGER,
+is_admin             INTEGER,
+primary key (id)
+);
+
+create table tbl_no_section_assign (
+ID                   INTEGER                        not null,
+start_num            INTEGER,
+end_num              INTEGER,
+user_id              INTEGER,
+is_used              INTEGER,
+current_num          INTEGER,
+primary key (ID),
+foreign key (user_id)
+      references tbl_user (id)
 );
 
