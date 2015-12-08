@@ -26,6 +26,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.init_ui()
 
+
         # =====================
         # Excel导入
         self.connect(self.excel_selectl_file_btn, QtCore.SIGNAL("clicked()"), self.excel_select_file_btn_clicked)
@@ -74,6 +75,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def init_ui(self):
         self.setWindowTitle(config.PRODUCT_ALL_NAME)
+        self.init_time_edit(self.ok_invoice_start_time_edit)
+        self.init_time_edit(self.ok_invoice_end_time_edit)
 
         # =====================
         # 状态栏信息
@@ -83,6 +86,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         status += u"当前用户：" + user.name
         self.left_status_label.setText(status)
         # =====================
+
+    def init_time_edit(self, time_edit):
+        time_edit.setDate(QtCore.QDate.currentDate())
+        time_edit.setCalendarPopup(True)
+        time_edit.setDisplayFormat(u'yyyy年MM月dd日')
+        time_edit.cal = time_edit.calendarWidget()
+        time_edit.cal.setFirstDayOfWeek(QtCore.Qt.Monday)
+        time_edit.cal.setHorizontalHeaderFormat(QtGui.QCalendarWidget.SingleLetterDayNames)
+        time_edit.cal.setVerticalHeaderFormat(QtGui.QCalendarWidget.NoVerticalHeader)
+        time_edit.cal.setGridVisible(True)
 
     def invoice_merge_product_btn_clicked(self):
         pass

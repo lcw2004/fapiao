@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>792</width>
+    <width>759</width>
     <height>578</height>
    </rect>
   </property>
@@ -446,88 +446,72 @@
          <number>0</number>
         </property>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
-          <property name="spacing">
-           <number>1</number>
-          </property>
+         <layout class="QGridLayout" name="gridLayout_2">
           <property name="topMargin">
            <number>0</number>
           </property>
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>号段：</string>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <property name="topMargin">
+             <number>0</number>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="ok_invoice_start_num_edit">
-            <property name="toolTip">
-             <string/>
+            <property name="bottomMargin">
+             <number>0</number>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="ok_invoice_end_num_edit">
-            <property name="baseSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>状态：</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="comboBox">
             <item>
-             <property name="text">
-              <string>全部</string>
-             </property>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>号段：</string>
+              </property>
+             </widget>
             </item>
             <item>
-             <property name="text">
-              <string>正常发票</string>
-             </property>
+             <widget class="QLineEdit" name="ok_invoice_start_num_edit">
+              <property name="toolTip">
+               <string/>
+              </property>
+             </widget>
             </item>
             <item>
-             <property name="text">
-              <string>作废发票</string>
-             </property>
+             <widget class="QLineEdit" name="ok_invoice_end_num_edit">
+              <property name="baseSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+             </widget>
             </item>
-           </widget>
+           </layout>
           </item>
-          <item>
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>开票时间：</string>
+          <item row="0" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <property name="topMargin">
+             <number>0</number>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QDateEdit" name="ok_invoice_start_time_edit"/>
-          </item>
-          <item>
-           <widget class="QDateEdit" name="ok_invoice_end_time_edit"/>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_7">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+            <property name="rightMargin">
+             <number>0</number>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
+            <property name="bottomMargin">
+             <number>0</number>
             </property>
-           </spacer>
+            <item>
+             <widget class="QLabel" name="label_4">
+              <property name="text">
+               <string>开票时间：</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDateEdit" name="ok_invoice_start_time_edit"/>
+            </item>
+            <item>
+             <widget class="QDateEdit" name="ok_invoice_end_time_edit"/>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
@@ -1069,7 +1053,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>792</width>
+     <width>759</width>
      <height>23</height>
     </rect>
    </property>
