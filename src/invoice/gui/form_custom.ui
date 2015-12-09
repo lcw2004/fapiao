@@ -167,9 +167,6 @@
  <tabstops>
   <tabstop>buttonBox</tabstop>
  </tabstops>
- <resources>
-  <include location="pygrid.qrc"/>
- </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

@@ -9,6 +9,7 @@ from PyQt4 import QtGui
 from invoice.common.excel_writer import InvoiceElsxExporter
 from invoice.gui.form_custom import CustomDialog
 from invoice.gui.form_product import ProductDialog
+from invoice.gui.form_section import SectionDialog
 from invoice.image import add_text_in_invoice
 from mainwindow_ui import Ui_MainWindow
 from invoice.sys import invoice_exporter
@@ -68,6 +69,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.product_add_btn, QtCore.SIGNAL("clicked()"), self.product_add_btn_clicked)
         self.connect(self.product_update_btn, QtCore.SIGNAL("clicked()"), self.product_update_btn_clicked)
         self.connect(self.product_delete_btn, QtCore.SIGNAL("clicked()"), self.product_delete_btn_clicked)
+        # =====================
+
+        # =====================
+        # 号段管理表（管理员）
+        self.connect(self.section_query_btn, QtCore.SIGNAL("clicked()"), self.section_query_btn_clicked)
+        self.connect(self.section_add_btn, QtCore.SIGNAL("clicked()"), self.section_add_btn_clicked)
+        self.connect(self.section_update_btn, QtCore.SIGNAL("clicked()"), self.section_update_btn_clicked)
+        self.connect(self.section_delete_btn, QtCore.SIGNAL("clicked()"), self.section_delete_btn_clicked)
         # =====================
 
     def show_msg_at_rigth_label(self, msg):
@@ -600,3 +609,61 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             # 重新加载表格
             self.product_query_btn_clicked()
+
+    def section_query_btn_clicked(self):
+        table = self.section_table
+
+        # 设置整行选中
+        table.setSelectionBehavior(QAbstractItemView.SelectRows)
+        # 设置不可编辑
+        table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+
+        # 查询数据
+        data_list = list(NoSection.select())
+        row_count = len(data_list)
+        table.setRowCount(row_count)
+
+        # 将数据加载到表格中
+        for i in range(row_count):
+            no_section = data_list[i]
+            table_util.set_table_item_value(table, i, 0, no_section.id)
+            table_util.set_table_item_value(table, i, 1, no_section.start_num)
+            table_util.set_table_item_value(table, i, 2, no_section.end_num)
+            table_util.set_table_item_value(table, i, 3, no_section.user_name)
+            table_util.set_table_item_value(table, i, 4, no_section.start_time)
+            table_util.set_table_item_value(table, i, 5, no_section.status)
+
+    def section_add_btn_clicked(self):
+        dialog = SectionDialog(self)
+        dialog.show()
+
+    def section_update_btn_clicked(self):
+        table = self.section_table
+        selected_rows = table_util.get_selected_row_number_list(table)
+
+        if len(selected_rows) != 1:
+            QMessageBox.information(self.parentWidget(), "Information", u'请选择一条数据进行修改！')
+            return
+
+        id = table_util.str_to_unicode_str(table.item(selected_rows[0], 0).text())
+        dialog = SectionDialog(self, id)
+        dialog.show()
+
+    def section_delete_btn_clicked(self):
+        reply = QMessageBox.question(self.parentWidget(), u'提示', u'确定要删除所选记录吗？', QMessageBox.Yes | QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            table = self.section_table
+            selected_rows = table_util.get_selected_row_number_list(table)
+
+            # 获取所有需要删除的行的ID
+            id_list = []
+            for row_count in selected_rows:
+                id = table_util.str_to_unicode_str(table.item(row_count, 0).text())
+                id_list.append(id)
+
+            # 删除数据
+            q = NoSection.delete().where(Product.id << id_list)
+            q.execute()
+
+            # 重新加载表格
+            self.section_query_btn_clicked()
