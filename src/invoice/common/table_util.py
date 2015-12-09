@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-
-
+import datetime
 from PyQt4 import QtGui
 
 from invoice.common import config
+from invoice.common import common_util
 
 
 def init_table_headers(excel_table_widget):
@@ -85,10 +85,17 @@ def set_table_item_value(table_widget, row_num, col_num, input_str):
     :param input_str:填充的字符串
     :return:
     """
+
     if isinstance(input_str, unicode):
         item_text = input_str
+    elif isinstance(input_str, datetime.datetime):
+        item_text = common_util.time_to_str(input_str)
     else:
         item_text = str(input_str)
+
+    import logging
+    logger = logging.getLogger(__name__)
+    logger.info(str(input_str) + "[" + str(type(input_str)) + "] --> "  + item_text)
 
     if input_str:
         table_widget.setItem(row_num, col_num, QtGui.QTableWidgetItem(item_text))
