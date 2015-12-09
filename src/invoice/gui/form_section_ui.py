@@ -68,9 +68,13 @@ class Ui_Dialog(object):
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Dialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+        Dialog.setTabOrder(self.start_num_LineEdit, self.end_num_LineEdit)
+        Dialog.setTabOrder(self.end_num_LineEdit, self.user_name_LineEdit)
+        Dialog.setTabOrder(self.user_name_LineEdit, self.buttonBox)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(_translate("Dialog", "编辑客户信息", None))
+        Dialog.setWindowTitle(_translate("Dialog", "编辑号段信息", None))
         self.label_Number_2.setText(_translate("Dialog", "号段起始值：", None))
         self.label_Number.setText(_translate("Dialog", "使用人姓名：", None))
         self.label_Name.setText(_translate("Dialog", "号段结束值：", None))
+

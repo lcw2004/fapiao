@@ -27,7 +27,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.init_ui()
 
-
         # =====================
         # Excel导入
         self.connect(self.excel_selectl_file_btn, QtCore.SIGNAL("clicked()"), self.excel_select_file_btn_clicked)
@@ -78,6 +77,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.section_update_btn, QtCore.SIGNAL("clicked()"), self.section_update_btn_clicked)
         self.connect(self.section_delete_btn, QtCore.SIGNAL("clicked()"), self.section_delete_btn_clicked)
         # =====================
+
+        # =====================
+        # 号段管理表（管理员）
+        self.actionAbout.triggered.connect(self.action_about)
+        self.actionConfig.triggered.connect(self.action_config)
+        # =====================
+
+    def action_config(self):
+        pass
+
+    def action_about(self):
+        QtGui.QMessageBox.about(self, u"关于",
+                config.PRODUCT_ALL_NAME + "\n" +
+                "Copyright " + config.PRODUCT_COMPANY)
+
+
 
     def show_msg_at_rigth_label(self, msg):
         self.right_status_label.setText(msg)

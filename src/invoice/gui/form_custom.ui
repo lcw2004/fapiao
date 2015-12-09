@@ -165,8 +165,18 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>code_LineEdit</tabstop>
+  <tabstop>name_LineEdit</tabstop>
+  <tabstop>tax_id_LineEdit</tabstop>
+  <tabstop>bank_account_LineEdit</tabstop>
+  <tabstop>addr_LineEdit</tabstop>
+  <tabstop>business_tax_id_LineEdit</tabstop>
+  <tabstop>erp_id_LineEdit</tabstop>
+  <tabstop>summary_title_LineEdit</tabstop>
+  <tabstop>remark_PlainTextEdit</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

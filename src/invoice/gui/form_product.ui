@@ -16,7 +16,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>编辑客户信息</string>
+   <string>编辑产品信息</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -171,8 +171,19 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>code_LineEdit</tabstop>
+  <tabstop>name_LineEdit</tabstop>
+  <tabstop>type_LineEdit</tabstop>
+  <tabstop>unit_LineEdit</tabstop>
+  <tabstop>unit_price_LineEdit</tabstop>
+  <tabstop>tax_price_LineEdit</tabstop>
+  <tabstop>tax_LineEdit</tabstop>
+  <tabstop>business_tax_num_LineEdit</tabstop>
+  <tabstop>erp_id_LineEdit</tabstop>
+  <tabstop>p_id_LineEdit</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

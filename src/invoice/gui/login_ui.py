@@ -25,8 +25,9 @@ except AttributeError:
 class Ui_DialogLogin(object):
     def setupUi(self, DialogLogin):
         DialogLogin.setObjectName(_fromUtf8("DialogLogin"))
-        DialogLogin.resize(289, 229)
+        DialogLogin.resize(378, 228)
         self.horizontalLayout_2 = QtGui.QHBoxLayout(DialogLogin)
+        self.horizontalLayout_2.setContentsMargins(0, -1, -1, -1)
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
         self.labelGGPOLogo = QtGui.QLabel(DialogLogin)
         self.labelGGPOLogo.setText(_fromUtf8(""))
@@ -34,6 +35,7 @@ class Ui_DialogLogin(object):
         self.labelGGPOLogo.setObjectName(_fromUtf8("labelGGPOLogo"))
         self.horizontalLayout_2.addWidget(self.labelGGPOLogo)
         self.verticalLayout = QtGui.QVBoxLayout()
+        self.verticalLayout.setContentsMargins(5, -1, 5, -1)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
@@ -113,7 +115,9 @@ class Ui_DialogLogin(object):
         QtCore.QMetaObject.connectSlotsByName(DialogLogin)
         DialogLogin.setTabOrder(self.login_username_edit, self.login_password_edit)
         DialogLogin.setTabOrder(self.login_password_edit, self.login_save_password_chk)
-        DialogLogin.setTabOrder(self.login_save_password_chk, self.login_quit_btn)
+        DialogLogin.setTabOrder(self.login_save_password_chk, self.login_auto_login_chk)
+        DialogLogin.setTabOrder(self.login_auto_login_chk, self.login_login_btn)
+        DialogLogin.setTabOrder(self.login_login_btn, self.login_quit_btn)
 
     def retranslateUi(self, DialogLogin):
         DialogLogin.setWindowTitle(_translate("DialogLogin", "发票助手 V2.0", None))

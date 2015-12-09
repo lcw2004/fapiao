@@ -1204,11 +1204,17 @@
     <property name="title">
      <string>配置</string>
     </property>
+    <addaction name="actionConfig"/>
    </widget>
    <widget class="QMenu" name="menu_help">
     <property name="title">
      <string>帮助</string>
     </property>
+    <addaction name="actionHelp"/>
+    <addaction name="separator"/>
+    <addaction name="actionCheckUpdate"/>
+    <addaction name="actionRegist"/>
+    <addaction name="actionAbout"/>
    </widget>
    <addaction name="menu_file"/>
    <addaction name="menu_config"/>
@@ -1222,6 +1228,31 @@
   <action name="actionClose">
    <property name="text">
     <string>关闭</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>关于</string>
+   </property>
+  </action>
+  <action name="actionCheckUpdate">
+   <property name="text">
+    <string>检查更新</string>
+   </property>
+  </action>
+  <action name="actionRegist">
+   <property name="text">
+    <string>注册</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>帮助</string>
+   </property>
+  </action>
+  <action name="actionConfig">
+   <property name="text">
+    <string>系统设置</string>
    </property>
   </action>
  </widget>

@@ -110,9 +110,19 @@ class Ui_Dialog(object):
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Dialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+        Dialog.setTabOrder(self.code_LineEdit, self.name_LineEdit)
+        Dialog.setTabOrder(self.name_LineEdit, self.type_LineEdit)
+        Dialog.setTabOrder(self.type_LineEdit, self.unit_LineEdit)
+        Dialog.setTabOrder(self.unit_LineEdit, self.unit_price_LineEdit)
+        Dialog.setTabOrder(self.unit_price_LineEdit, self.tax_price_LineEdit)
+        Dialog.setTabOrder(self.tax_price_LineEdit, self.tax_LineEdit)
+        Dialog.setTabOrder(self.tax_LineEdit, self.business_tax_num_LineEdit)
+        Dialog.setTabOrder(self.business_tax_num_LineEdit, self.erp_id_LineEdit)
+        Dialog.setTabOrder(self.erp_id_LineEdit, self.p_id_LineEdit)
+        Dialog.setTabOrder(self.p_id_LineEdit, self.buttonBox)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(_translate("Dialog", "编辑客户信息", None))
+        Dialog.setWindowTitle(_translate("Dialog", "编辑产品信息", None))
         self.label.setText(_translate("Dialog", "产品单价：", None))
         self.label_Number.setText(_translate("Dialog", "产品型号：", None))
         self.label_Name.setText(_translate("Dialog", "产品名称：", None))
@@ -123,3 +133,4 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "含税单价：", None))
         self.label_3.setText(_translate("Dialog", "税率：", None))
         self.label_6.setText(_translate("Dialog", "父ID：", None))
+

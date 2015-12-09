@@ -105,6 +105,15 @@ class Ui_Dialog(object):
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Dialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+        Dialog.setTabOrder(self.code_LineEdit, self.name_LineEdit)
+        Dialog.setTabOrder(self.name_LineEdit, self.tax_id_LineEdit)
+        Dialog.setTabOrder(self.tax_id_LineEdit, self.bank_account_LineEdit)
+        Dialog.setTabOrder(self.bank_account_LineEdit, self.addr_LineEdit)
+        Dialog.setTabOrder(self.addr_LineEdit, self.business_tax_id_LineEdit)
+        Dialog.setTabOrder(self.business_tax_id_LineEdit, self.erp_id_LineEdit)
+        Dialog.setTabOrder(self.erp_id_LineEdit, self.summary_title_LineEdit)
+        Dialog.setTabOrder(self.summary_title_LineEdit, self.remark_PlainTextEdit)
+        Dialog.setTabOrder(self.remark_PlainTextEdit, self.buttonBox)
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(_translate("Dialog", "编辑客户信息", None))
@@ -117,3 +126,4 @@ class Ui_Dialog(object):
         self.label_5.setText(_translate("Dialog", "备注：", None))
         self.label_2.setText(_translate("Dialog", "企业税号：", None))
         self.label_3.setText(_translate("Dialog", "ERP对照值：", None))
+
