@@ -10,6 +10,7 @@ from invoice.common.excel_writer import InvoiceElsxExporter
 from invoice.gui.form_custom import CustomDialog
 from invoice.gui.form_product import ProductDialog
 from invoice.gui.form_section import SectionDialog
+from invoice.gui.menu_config import MenuConfigDialog
 from invoice.image import add_text_in_invoice
 from mainwindow_ui import Ui_MainWindow
 from invoice.sys import invoice_exporter
@@ -85,7 +86,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # =====================
 
     def action_config(self):
-        pass
+        dialog = MenuConfigDialog(self)
+        dialog.show()
 
     def action_about(self):
         QtGui.QMessageBox.about(self, u"关于",
