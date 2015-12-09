@@ -175,3 +175,43 @@ class User(BaseModel):
 
     class Meta:
         db_table = 'tbl_user'
+
+
+class NoSection(BaseModel):
+    """
+    号段管理表：用于库存管理员管理所有已分配的号段
+    """
+
+    # 号段起始值
+    start_num = IntegerField(null=True)
+    # 号段结束值
+    end_num = IntegerField(null=True)
+    # 使用人姓名
+    user_name = TextField(null=True)
+    # 状态
+    status = IntegerField(default=0)
+    # 录入时间
+    start_time = DateTimeField(default=datetime.datetime.now)
+
+    class Meta:
+        db_table = 'tbl_no_section'
+
+
+class NoSectionAssign(BaseModel):
+    """
+    号段管理表：用于库存管理员管理所有已分配的号段
+    """
+
+    # 号段起始值
+    start_num = IntegerField(null=True)
+    # 号段结束值
+    end_num = IntegerField(null=True)
+    # 是否用完
+    is_used = IntegerField(default=0)
+    # 录入时间
+    start_time = DateTimeField(default=datetime.datetime.now)
+    # 使用人
+    user = ForeignKeyField(User, db_column='user_id')
+
+    class Meta:
+        db_table = 'tbl_no_section_assign'

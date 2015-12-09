@@ -37,9 +37,13 @@ def testInvoiceDetail():
     pass
 
 
+def testNoSection():
+    list = NoSection.select()
+    for i in list:
+        print i.id, i.pro_num
+
 if __name__ == "__main__":
-    testInvoiceDetail()
-    # testInvoiceDetail()
+    testNoSection()
 
 
 
