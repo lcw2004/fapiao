@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+import sys
 import logging
 from PyQt4 import QtCore
 from PyQt4.QtGui import QDialog
@@ -84,4 +86,17 @@ class LoginDialog(QDialog, Ui_DialogLogin):
         self.accept()
 
     def login_quit_btn_clicked(self):
-        pass
+        """
+        关闭Dialog的同时关闭程序
+        :return:
+        """
+        self.close()
+        sys.exit()
+
+    def closeEvent(self, event):
+        """
+        重写关闭事件
+        :param event:
+        :return:
+        """
+        self.login_quit_btn_clicked()
