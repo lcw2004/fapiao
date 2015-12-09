@@ -1,0 +1,1 @@
+C:\Python27\Lib\site-packages\PyQt4\uic\pyuic.py form_section.ui > form_section_ui.py
