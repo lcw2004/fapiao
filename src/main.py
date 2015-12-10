@@ -4,6 +4,7 @@ import logging
 import sys
 
 from PyQt4 import QtGui
+from PyQt4.QtCore import QTranslator, QLocale
 
 from invoice.common import config
 from invoice.gui.login import LoginDialog
@@ -29,9 +30,17 @@ def init():
 if __name__ == "__main__":
     init()
 
+    logger = logging.getLogger(__name__)
     try:
         app = QtGui.QApplication(sys.argv)
 
+        # 加载I18N文件
+        qtTranslator = QTranslator()
+        if qtTranslator.load(config.PATH_OF_I18N_CH_CN):
+            logger.info(u"加载QLocale文件：" + config.PATH_OF_I18N_CH_CN)
+            app.installTranslator(qtTranslator)
+
+        # 加载登录界面
         login_dialog = LoginDialog()
         login_dialog.show()
         if login_dialog.exec_():
@@ -40,6 +49,6 @@ if __name__ == "__main__":
 
         sys.exit(app.exec_())
     except Exception as e:
-        logger = logging.getLogger(__name__)
+
         logger.exception(u"程序出现异常")
         logger.error(e)

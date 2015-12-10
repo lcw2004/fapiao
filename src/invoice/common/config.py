@@ -12,6 +12,7 @@ PRODUCT_ALL_NAME = PRODUCT_NAME + " " + PRODUCT_VERSION
 PATH_OF_LOGGING = "resources/logging.json"
 # 数据库路径
 PATH_OF_DATABASE = "resources/data.db"
+PATH_OF_I18N_CH_CN = "resources/i18n/qt_zh_CN.qm"
 # ============ 程序基础配置 ============
 
 # ============ 模板配置 ============
