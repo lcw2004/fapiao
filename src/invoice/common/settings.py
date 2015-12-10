@@ -33,6 +33,11 @@ class Settings:
     INVOICE_END_NUM = "invoice_end_num"
     # ============ 模板配置 ============
 
+    # ============ 模板配置 ============
+    BENEFICIARY_NAME = "beneficiary_name"
+    REVIEWER_NAME = "reviewer_name"
+    # ============ 模板配置 ============
+
     _settings = QSettings(os.path.join(os.path.expanduser("~"), 'invoice_helper.ini'), QSettings.IniFormat)
 
     def __init__(self):

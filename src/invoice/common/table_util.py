@@ -4,6 +4,7 @@ from PyQt4 import QtGui
 
 from invoice.common import config
 from invoice.common import common_util
+from invoice.common.settings import Settings
 
 
 def init_table_headers(excel_table_widget):
@@ -127,3 +128,25 @@ def get_paint_context(edit):
     """
     text = edit.toPlainText()
     return str(text).decode("GBK")
+
+
+def load_data_setting(line_edit, set_key):
+    """
+    将文本框中的值存到指定的键中
+    :param line_edit:文本框
+    :param set_key:键
+    :return:
+    """
+    value = common_util.to_string_trim(Settings.value_str(set_key))
+    line_edit.setText(value)
+
+
+def save_data_setting(line_edit, set_key):
+    """
+    将指定的键中的值存到文本框中
+    :param line_edit:文本框
+    :param set_key:键
+    :return:
+    """
+    value = get_edit_text(line_edit)
+    Settings.set_value(set_key, value)

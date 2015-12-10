@@ -8,6 +8,7 @@ from PyQt4 import QtGui
 
 from invoice.common.excel_writer import InvoiceElsxExporter
 from invoice.gui.form_custom import CustomDialog
+from invoice.gui.form_invoice import InvoiceDialog
 from invoice.gui.form_product import ProductDialog
 from invoice.gui.form_section import SectionDialog
 from invoice.gui.menu_config import MenuConfigDialog
@@ -38,6 +39,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 临时待处理数据
         self.connect(self.invoice_filter_btn, QtCore.SIGNAL("clicked()"), self.invoice_filter_btn_clicked)
         self.connect(self.invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'),self.invoice_table_item_clicked)
+        self.connect(self.invoice_add_btn, QtCore.SIGNAL("clicked()"), self.invoice_add_btn_clicked)
         self.connect(self.invoine_update_btn, QtCore.SIGNAL("clicked()"), self.invoice_update_btn_clicked)
         self.connect(self.invoice_delete_btn, QtCore.SIGNAL("clicked()"), self.invoice_delete_btn_clicked)
         self.connect(self.invoice_import_xml_btn, QtCore.SIGNAL("clicked()"), self.invoice_import_xml_btn_clicked)
@@ -351,8 +353,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row_count = len(invoice_list)
         invoice_table.setRowCount(row_count)
 
-        invoice_table.item(1, 1).setBackgroundColor()
-
         # 将数据加载到表格中
         for i in range(row_count):
             invoice = invoice_list[i]
@@ -432,9 +432,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.show_msg_at_rigth_label(u"导出成功，文件路径：" + file_name)
 
     def invoice_update_btn_clicked(self):
-        # dialog = FormInvoiceDialog(self)
-        # dialog.show()
-        pass
+        table = self.invoice_table
+        selected_rows = table_util.get_selected_row_number_list(table)
+
+        if len(selected_rows) != 1:
+            QMessageBox.information(self.parentWidget(), "Information", u'请选择一条数据进行修改！')
+            return
+
+        id = table_util.str_to_unicode_str(table.item(selected_rows[0], 0).text())
+        dialog = InvoiceDialog(self, id)
+        dialog.show()
+
+    def invoice_add_btn_clicked(self):
+        dialog = InvoiceDialog(self)
+        dialog.show()
 
     def invoice_delete_btn_clicked(self):
         reply = QMessageBox.question(self.parentWidget(), u'提示', u'确定要删除所选记录吗？', QMessageBox.Yes | QMessageBox.No)
