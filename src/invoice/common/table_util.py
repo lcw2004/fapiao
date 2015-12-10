@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
 from PyQt4 import QtGui
-
 from invoice.common import config
 from invoice.common import common_util
 from invoice.common.settings import Settings
@@ -96,10 +95,11 @@ def set_table_item_value(table_widget, row_num, col_num, input_str):
 
     import logging
     logger = logging.getLogger(__name__)
-    logger.info(str(input_str) + "[" + str(type(input_str)) + "] --> "  + item_text)
+    logger.info(str(input_str) + "[" + str(type(input_str)) + "] --> " + item_text)
 
     if input_str:
         table_widget.setItem(row_num, col_num, QtGui.QTableWidgetItem(item_text))
+
 
 def set_table_item_color(table_widget, row_num, col_num, color):
     """
@@ -110,7 +110,8 @@ def set_table_item_color(table_widget, row_num, col_num, color):
     :param color:填充的颜色
     :return:
     """
-    table_widget.item(row_num,col_num).setBackground(color)
+    table_widget.item(row_num, col_num).setBackground(color)
+
 
 def get_edit_text(edit):
     """
@@ -150,3 +151,11 @@ def save_data_setting(line_edit, set_key):
     """
     value = get_edit_text(line_edit)
     Settings.set_value(set_key, value)
+
+
+def get_item_value(table, row_num, col_num):
+    item = table.item(row_num, col_num)
+    if item:
+        return str(item.text()).decode("GBK")
+    else:
+        return ""

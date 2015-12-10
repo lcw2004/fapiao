@@ -40,6 +40,33 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             beneficiary = table_util.get_edit_text(self.beneficiary_lineEdit)
             reviewer = table_util.get_edit_text(self.reviewer_lineEdit)
 
+            table = self.invoice_detail_tableWidget
+            row_count = table.rowCount()
+            col_count = table.columnCount()
+            for i in range(row_count):
+                id = table_util.get_item_value(table, i, 0)
+                product_code = table_util.get_item_value(table, i, 1)
+                product_name = table_util.get_item_value(table, i, 2)
+                pro_num = table_util.get_item_value(table, i, 3)
+                product_unit_price = table_util.get_item_value(table, i, 4)
+                contain_tax_price = table_util.get_item_value(table, i, 5)
+
+                if product_name:
+                     # 保存商品信息
+                    try:
+                        product_of_this = Product.get(name=product_name)
+                    except Exception:
+                        product_of_this = Product.create(name=product_name, code=product_code, unit_price=product_unit_price)
+                        product_of_this.save()
+
+                    # invoice_detail = InvoiceDetail.create(
+                        # pro_num=pro_num,
+                        # contain_tax_price=contain_tax_price
+                        # product=product_of_this
+                    # )
+                    # invoice_detail.save()
+
+
             # 保存用户信息
             try:
                 custom_of_this = Custom.get(name=custom_name)
