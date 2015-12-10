@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 from invoice.common import config
+from invoice.common.settings import Settings
 
 
 class TextInfo:
@@ -12,9 +13,9 @@ class TextInfo:
 
 
 class TextInfoFactory:
-    def __init__(self):
-        default_font_name = config.DEFAULT_FONT_NAME
-        default_font_size = config.DEFAULT_FONT_SIZE
+    def __init_(self):
+        default_font_name = Settings.value_str(Settings.TEMP_FONT_NAME)
+        default_font_size = config.TEMP_FONT_SIZE(Settings.TEMP_FONT_SIZE)
         default_font_color = config.DEFAULT_FONT_COLOR
 
         self.text_info_map = {}

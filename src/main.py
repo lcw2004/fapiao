@@ -7,6 +7,7 @@ from PyQt4 import QtGui
 from PyQt4.QtCore import QTranslator, QLocale
 
 from invoice.common import config
+from invoice.common.settings import Settings
 from invoice.gui.login import LoginDialog
 from invoice.gui.mainwindow import MainWindow
 
@@ -25,6 +26,13 @@ def init():
     logger = logging.getLogger(__name__)
     logger.info(u"数据库文件:{0}".format(config.PATH_OF_DATABASE))
     logger.info(u"模板XML文件:{0}".format(config.PATH_OF_XML))
+
+    # 初始化默认配置
+    Settings.set_value(Settings.TEMP_FONT_NAME, config.TEMP_FONT_NAME)
+    Settings.set_value(Settings.TEMP_FONT_SIZE, config.TEMP_FONT_SIZE)
+    Settings.set_value(Settings.INTERFACE_INPUT_PATH, config.INTERFACE_INPUT_PATH)
+    Settings.set_value(Settings.INTERFACE_OUTPUT_PATH, config.INTERFACE_OUTPUT_PATH)
+    Settings.set_value(Settings.INTERFACE_TEMP_PATH, config.INTERFACE_TEMP_PATH)
 
 
 if __name__ == "__main__":
@@ -49,6 +57,5 @@ if __name__ == "__main__":
 
         sys.exit(app.exec_())
     except Exception as e:
-
         logger.exception(u"程序出现异常")
         logger.error(e)

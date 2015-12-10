@@ -22,7 +22,7 @@ def export_as_file(invoice_list, file_name):
     :param file_name:文件名称
     :return:
     """
-    path = config.INPUT_PATH + file_name
+    path = config.INTERFACE_INPUT_PATH + file_name
     content = export_as_str(invoice_list)
     common_util.save_to_file(content, path)
     return common_util.is_file_exists(path)

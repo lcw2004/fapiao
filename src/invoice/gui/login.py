@@ -30,11 +30,10 @@ class LoginDialog(QDialog, Ui_DialogLogin):
         self.login_product_name_label.setText(config.PRODUCT_ALL_NAME)
 
     def init_from_setting(self):
-        logger.info(u"从Setting中加载配置")
-        save_password = Settings.value(Settings.SAVE_PASSWORD).toBool()
-        auto_login = Settings.value(Settings.AUTO_LOGIN).toBool()
-        login_name = Settings.value(Settings.LOGIN_NAME).toString()
-        password = Settings.value(Settings.PASSWORD).toString()
+        save_password = Settings.value_bool(Settings.SAVE_PASSWORD)
+        auto_login = Settings.value_bool(Settings.AUTO_LOGIN)
+        login_name = Settings.value_str(Settings.LOGIN_NAME)
+        password = Settings.value_str(Settings.PASSWORD)
 
         self.login_save_password_chk.setChecked(save_password)
         self.login_auto_login_chk.setChecked(auto_login)
@@ -42,6 +41,7 @@ class LoginDialog(QDialog, Ui_DialogLogin):
         self.login_password_edit.setText(password)
 
         # 如果选择了自动登录
+        # TODO 自动登录没有生效
         if auto_login:
             self.login_login_btn_clicked()
 
