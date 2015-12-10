@@ -21,6 +21,8 @@ def add_text_in_image(draw, text_name, text_value):
     font_color = text_info.font_color
     x_pos = text_info.x_pos
     y_pos = text_info.y_pos
+    print type(font_name), type(font_size)
+    print font_name, font_size
     fnt = ImageFont.truetype(font_name, font_size)
 
     text_value_str = common_util.to_string_trim(text_value)

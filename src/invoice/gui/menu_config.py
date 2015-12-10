@@ -31,7 +31,9 @@ class MenuConfigDialog(QDialog, Ui_Dialog):
             interface_input_path = table_util.get_edit_text(self.interface_input_lineEdit)
             interface_output_path = table_util.get_edit_text(self.interface_output_lineEdit)
             interface_temp_path = table_util.get_edit_text(self.interface_temp_lineEdit)
-            temp_font_name = self.temp_img_font_ComboBox.currentFont().family()
+            # TODO Font选择之后获取不到字体文件路径
+            # temp_font_name = self.temp_img_font_ComboBox.currentFont().family()
+            temp_font_name = table_util.get_edit_text(self.temp_img_font_lineEdit)
 
             Settings.set_value(Settings.INVOICE_START_NUM, invoice_start_num)
             Settings.set_value(Settings.INVOICE_END_NUM, invoice_end_num)
@@ -59,9 +61,12 @@ class MenuConfigDialog(QDialog, Ui_Dialog):
             interface_output_path = common_util.to_string_trim(Settings.value_str(Settings.INTERFACE_OUTPUT_PATH))
             interface_temp_path = common_util.to_string_trim(Settings.value_str(Settings.INTERFACE_TEMP_PATH))
 
+            # TODO Font选择之后获取不到字体文件路径
+            # self.temp_img_font_ComboBox.setCurrentFont(QFont(temp_font_name))
+
             self.start_num_lineEdit.setText(invoice_start_num)
             self.end_num_lineEdit.setText(invoice_end_num)
-            self.temp_img_font_ComboBox.setCurrentFont(QFont(temp_font_name))
+            self.temp_img_font_lineEdit.setText(temp_font_name)
             self.temp_img_font_size_lineEdit.setText(temp_font_size)
             self.interface_input_lineEdit.setText(interface_input_path)
             self.interface_output_lineEdit.setText(interface_output_path)

@@ -20,7 +20,7 @@ PATH_OF_I18N_CH_CN = "resources/i18n/qt_zh_CN.qm"
 PATH_OF_INVOICE_TEMPLATE = "resources/Invoice_template.png"
 # 作废章路径
 PATH_OF_ZUOFEI_IMG = "resources/zuofei.png"
-TEMP_FONT_NAME = u"宋体"
+TEMP_FONT_NAME = "C:\\Windows\\Fonts\\simfang.ttf"
 TEMP_FONT_SIZE = 38
 DEFAULT_FONT_COLOR = (0, 0, 0, 0)
 # ============ 模板配置 ============

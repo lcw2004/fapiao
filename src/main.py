@@ -4,12 +4,13 @@ import logging
 import sys
 
 from PyQt4 import QtGui
-from PyQt4.QtCore import QTranslator, QLocale
+from PyQt4.QtCore import QTranslator
 
 from invoice.common import config
 from invoice.common.settings import Settings
 from invoice.gui.login import LoginDialog
 from invoice.gui.mainwindow import MainWindow
+from invoice.log import logging_set
 
 
 def init():
@@ -19,7 +20,6 @@ def init():
     sys.setdefaultencoding('GBK')
 
     # 加载日志配置文件
-    from invoice.log import logging_set
     logging_set.setup_logging(config.PATH_OF_LOGGING)
 
     # 打印配置信息

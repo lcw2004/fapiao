@@ -45,7 +45,7 @@ class Settings:
 
     @staticmethod
     def set_value_if_null(key, val):
-        if not Settings.value(key):
+        if not Settings.value_str(key):
             Settings.set_value(key, val)
 
     @staticmethod
@@ -56,8 +56,12 @@ class Settings:
 
     @staticmethod
     def value_str(key):
-        return Settings.value(key).toString()
+        return str(Settings.value(key).toString())
 
     @staticmethod
     def value_bool(key):
-        return Settings.value(key).toBool()
+        return bool(Settings.value_str(key))
+
+    @staticmethod
+    def value_int(key):
+        return int(Settings.value_str(key))

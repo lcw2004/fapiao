@@ -13,9 +13,9 @@ class TextInfo:
 
 
 class TextInfoFactory:
-    def __init_(self):
+    def __init__(self):
         default_font_name = Settings.value_str(Settings.TEMP_FONT_NAME)
-        default_font_size = config.TEMP_FONT_SIZE(Settings.TEMP_FONT_SIZE)
+        default_font_size = Settings.value_int(Settings.TEMP_FONT_SIZE)
         default_font_color = config.DEFAULT_FONT_COLOR
 
         self.text_info_map = {}
