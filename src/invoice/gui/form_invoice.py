@@ -133,11 +133,11 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             for i in range(row_count):
                 invoice_detail = invoice_detail_list[i]
 
-                table_util.set_table_item_value(invoice_detail_table, i, 0, invoice_detail.id)
-                table_util.set_table_item_value(invoice_detail_table, i, 1, invoice_detail.product.code)
+                table_util.set_table_item_value_editable(invoice_detail_table, i, 0, invoice_detail.id, True)
+                table_util.set_table_item_value_editable(invoice_detail_table, i, 1, invoice_detail.product.code, True)
                 table_util.set_table_item_value(invoice_detail_table, i, 2, invoice_detail.product.name)
                 table_util.set_table_item_value(invoice_detail_table, i, 3, invoice_detail.pro_num)
-                table_util.set_table_item_value(invoice_detail_table, i, 4, invoice_detail.product.unit_price)
+                table_util.set_table_item_value_editable(invoice_detail_table, i, 4, invoice_detail.product.unit_price, True)
                 table_util.set_table_item_value(invoice_detail_table, i, 5, invoice_detail.contain_tax_price)
         except Invoice.DoesNotExist:
             logger = logging.getLogger(__name__)

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import datetime
 from PyQt4 import QtGui
+from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QTableWidgetItem
+
 from invoice.common import config
 from invoice.common import common_util
 from invoice.common.settings import Settings
@@ -98,8 +101,36 @@ def set_table_item_value(table_widget, row_num, col_num, input_str):
     logger.info(str(input_str) + "[" + str(type(input_str)) + "] --> " + item_text)
 
     if input_str:
-        table_widget.setItem(row_num, col_num, QtGui.QTableWidgetItem(item_text))
+        item = QTableWidgetItem(item_text)
+        table_widget.setItem(row_num, col_num, item)
 
+def set_table_item_value_editable(table_widget, row_num, col_num, input_str, editable):
+    """
+    往表格里面填值。如果是其他类型，将其转换为str，再进行填充
+    :param table_widget:表格
+    :param row_num:行号
+    :param col_num:列号
+    :param input_str:填充的字符串
+    :param editable:表格是否能编辑
+    :return:
+    """
+
+    if isinstance(input_str, unicode):
+        item_text = input_str
+    elif isinstance(input_str, datetime.datetime):
+        item_text = common_util.time_to_str(input_str)
+    else:
+        item_text = str(input_str)
+
+    import logging
+    logger = logging.getLogger(__name__)
+    logger.info(str(input_str) + "[" + str(type(input_str)) + "] --> " + item_text)
+
+    if input_str:
+        item = QTableWidgetItem(item_text)
+        if editable:
+            item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+        table_widget.setItem(row_num, col_num, item)
 
 def set_table_item_color(table_widget, row_num, col_num, color):
     """
