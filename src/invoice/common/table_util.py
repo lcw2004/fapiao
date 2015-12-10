@@ -100,6 +100,16 @@ def set_table_item_value(table_widget, row_num, col_num, input_str):
     if input_str:
         table_widget.setItem(row_num, col_num, QtGui.QTableWidgetItem(item_text))
 
+def set_table_item_color(table_widget, row_num, col_num, color):
+    """
+    设置表格单元的背景色
+    :param table_widget:表格
+    :param row_num:行号
+    :param col_num:列号
+    :param color:填充的颜色
+    :return:
+    """
+    table_widget.item(row_num,col_num).setBackground(color)
 
 def get_edit_text(edit):
     """

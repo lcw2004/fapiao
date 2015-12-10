@@ -351,6 +351,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row_count = len(invoice_list)
         invoice_table.setRowCount(row_count)
 
+        invoice_table.item(1, 1).setBackgroundColor()
+
         # 将数据加载到表格中
         for i in range(row_count):
             invoice = invoice_list[i]
@@ -384,12 +386,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row_count = len(invoice_list)
         invoice_table.setRowCount(row_count)
 
+
+
         # 将数据加载到表格中
         for i in range(row_count):
             invoice = invoice_list[i]
             table_util.set_table_item_value(invoice_table, i, 0, invoice.id)
             if invoice.status == -1:
                 table_util.set_table_item_value(invoice_table, i, 1, invoice.invoice_num + u"(作废)")
+                table_util.set_table_item_color(invoice_table, i, 1, QtGui.QColor(199, 220, 252))
             else:
                 table_util.set_table_item_value(invoice_table, i, 1, invoice.invoice_num)
             if invoice.custom:
