@@ -33,43 +33,41 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         :return:
         """
         try:
-            code = table_util.get_edit_text(self.code_LineEdit)
-            name = table_util.get_edit_text(self.name_LineEdit)
-            tax_id = table_util.get_edit_text(self.tax_id_LineEdit)
-            bank_account = table_util.get_edit_text(self.bank_account_LineEdit)
-            addr = table_util.get_edit_text(self.addr_LineEdit)
-            business_tax_id = table_util.get_edit_text(self.business_tax_id_LineEdit)
-            erp_id = table_util.get_edit_text(self.erp_id_LineEdit)
-            summary_title = table_util.get_edit_text(self.summary_title_LineEdit)
-            remark = table_util.get_paint_context(self.remark_PlainTextEdit)
+            invoice_num = table_util.get_edit_text(self.invoice_num_lineEdit)
+            custom_name = table_util.get_edit_text(self.custom_name_lineEdit)
+            total_num = table_util.get_edit_text(self.total_num_lineEdit)
+            drawer = table_util.get_edit_text(self.drawer_lineEdit)
+            beneficiary = table_util.get_edit_text(self.beneficiary_lineEdit)
+            reviewer = table_util.get_edit_text(self.reviewer_lineEdit)
+
+            # 保存用户信息
+            try:
+                custom_of_this = Custom.get(name=custom_name)
+            except Exception:
+                custom_of_this = Custom.create(name=custom_name)
+                custom_of_this.save()
 
             if self.id:
                 # 修改
-                q = Custom.update(code=code,
-                                  name=name,
-                                  tax_id=tax_id,
-                                  bank_account=bank_account,
-                                  addr=addr,
-                                  business_tax_id=business_tax_id,
-                                  erp_id=erp_id,
-                                  summary_title=summary_title,
-                                  remark=remark).where(Custom.id == self.id)
+                q = Invoice.update(invoice_num=invoice_num,
+                                   total_num=total_num,
+                                   drawer=drawer,
+                                   beneficiary=beneficiary,
+                                   reviewer=reviewer,
+                                   custom=custom_of_this).where(Invoice.id == self.id)
                 q.execute()
             else:
                 # 添加
-                custom = Custom.create(code=code,
-                                       name=name,
-                                       tax_id=tax_id,
-                                       bank_account=bank_account,
-                                       addr=addr,
-                                       business_tax_id=business_tax_id,
-                                       erp_id=erp_id,
-                                       summary_title=summary_title,
-                                       remark=remark)
-                custom.save()
+                invoice = Invoice.create(invoice_num=invoice_num,
+                                         total_num=total_num,
+                                         drawer=drawer,
+                                         beneficiary=beneficiary,
+                                         reviewer=reviewer,
+                                         custom=custom_of_this)
+                invoice.save()
 
             # 刷新父窗体
-            self.parent.custom_query_btn_clicked()
+            self.parent.invoice_filter_btn_clicked()
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.exception(u"报错客户信息出错！")
@@ -80,8 +78,6 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         user_id = Settings.value(Settings.USER_ID).toInt()[0]
         user = User.get(id=user_id)
         self.drawer_lineEdit.setText(user.name)
-
-
 
     def init_data(self, id):
         """

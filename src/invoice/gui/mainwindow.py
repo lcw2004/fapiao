@@ -359,12 +359,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             table_util.set_table_item_value(invoice_table, i, 0, invoice.id)
             table_util.set_table_item_value(invoice_table, i, 1, invoice.invoice_num)
-            if invoice.custom:
-                table_util.set_table_item_value(invoice_table, i, 2, invoice.custom.name)
-                table_util.set_table_item_value(invoice_table, i, 10, invoice.custom.code)
-                table_util.set_table_item_value(invoice_table, i, 11, invoice.custom.tax_id)
-                table_util.set_table_item_value(invoice_table, i, 12, invoice.custom.addr)
-                table_util.set_table_item_value(invoice_table, i, 13, invoice.custom.bank_account)
             table_util.set_table_item_value(invoice_table, i, 3, invoice.total_not_tax)
             table_util.set_table_item_value(invoice_table, i, 4, invoice.total_tax)
             table_util.set_table_item_value(invoice_table, i, 5, invoice.total_num)
@@ -373,6 +367,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(invoice_table, i, 8, invoice.reviewer)
             table_util.set_table_item_value(invoice_table, i, 9, invoice.remark)
             table_util.set_table_item_value(invoice_table, i, 14, invoice.serial_number)
+
+            try:
+                if invoice.custom:
+                    table_util.set_table_item_value(invoice_table, i, 2, invoice.custom.name)
+                    table_util.set_table_item_value(invoice_table, i, 10, invoice.custom.code)
+                    table_util.set_table_item_value(invoice_table, i, 11, invoice.custom.tax_id)
+                    table_util.set_table_item_value(invoice_table, i, 12, invoice.custom.addr)
+                    table_util.set_table_item_value(invoice_table, i, 13, invoice.custom.bank_account)
+            except Exception:
+                pass
 
     def ok_invoice_filter_btn_clicked(self):
         invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1)))
