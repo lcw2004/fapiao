@@ -28,11 +28,11 @@ def init():
     logger.info(u"模板XML文件:{0}".format(config.PATH_OF_XML))
 
     # 初始化默认配置
-    Settings.set_value(Settings.TEMP_FONT_NAME, config.TEMP_FONT_NAME)
-    Settings.set_value(Settings.TEMP_FONT_SIZE, config.TEMP_FONT_SIZE)
-    Settings.set_value(Settings.INTERFACE_INPUT_PATH, config.INTERFACE_INPUT_PATH)
-    Settings.set_value(Settings.INTERFACE_OUTPUT_PATH, config.INTERFACE_OUTPUT_PATH)
-    Settings.set_value(Settings.INTERFACE_TEMP_PATH, config.INTERFACE_TEMP_PATH)
+    Settings.set_value_if_null(Settings.TEMP_FONT_NAME, config.TEMP_FONT_NAME)
+    Settings.set_value_if_null(Settings.TEMP_FONT_SIZE, config.TEMP_FONT_SIZE)
+    Settings.set_value_if_null(Settings.INTERFACE_INPUT_PATH, config.INTERFACE_INPUT_PATH)
+    Settings.set_value_if_null(Settings.INTERFACE_OUTPUT_PATH, config.INTERFACE_OUTPUT_PATH)
+    Settings.set_value_if_null(Settings.INTERFACE_TEMP_PATH, config.INTERFACE_TEMP_PATH)
 
 
 if __name__ == "__main__":

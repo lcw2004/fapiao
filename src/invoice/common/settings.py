@@ -44,6 +44,11 @@ class Settings:
         Settings._settings.setValue(key, val)
 
     @staticmethod
+    def set_value_if_null(key, val):
+        if not Settings.value(key):
+            Settings.set_value(key, val)
+
+    @staticmethod
     def value(key):
         val = Settings._settings.value(key)
         logging.info("Get:" + str(key) + " -> " + str(val))
