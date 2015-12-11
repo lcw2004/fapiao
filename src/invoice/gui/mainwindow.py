@@ -105,6 +105,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setWindowTitle(config.PRODUCT_ALL_NAME)
         self.init_time_edit(self.ok_invoice_start_time_edit)
         self.init_time_edit(self.ok_invoice_end_time_edit)
+        day_before_30 = datetime.date.today() - datetime.timedelta(days=30)
+        self.ok_invoice_start_time_edit.setDate(day_before_30)
 
         # =====================
         # 状态栏信息
