@@ -207,3 +207,10 @@ def get_item_value_float(table, row_num, col_num):
         return 0
     else:
         return float(value)
+
+def get_item_value_int(table, row_num, col_num):
+    value = get_item_value(table, row_num, col_num)
+    if value is None or len(value) == 0:
+        return 0
+    else:
+        return int(value)

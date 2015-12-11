@@ -41,6 +41,11 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         user = User.get(id=user_id)
         self.drawer_lineEdit.setText(user.name)
 
+        table = self.invoice_detail_tableWidget
+        row_count = table.rowCount()
+        for i in range(row_count):
+            table_util.set_table_item_value(table, i, 3, "1")
+
     def init_data(self, data_id):
         """
         根据发票ID，将发票的信息初始化到Dialog中
@@ -93,8 +98,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         # 将数据加载到表格中
         for i in range(row_count):
             product = product_list[i]
-            combo_model.setData(combo_model.index(i, 0, QModelIndex()), QVariant(product.id))
-            combo_model.setData(combo_model.index(i, 1, QModelIndex()), QVariant(product.name))
+            combo_model.setData(combo_model.index(i, 0, QModelIndex()), QVariant(product.name))
+            combo_model.setData(combo_model.index(i, 1, QModelIndex()), QVariant(product.id))
             combo_model.setData(combo_model.index(i, 2, QModelIndex()), QVariant(product.unit_price))
 
         combo_box = DBComboBoxDelegate(combo_model, self.invoice_detail_tableWidget)
@@ -132,6 +137,26 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             # 更新表格
             table_util.set_table_item_value_editable(table, row_num, 2, product.name, False)
             table_util.set_table_item_value_editable(table, row_num, 4, product.unit_price,True)
+
+        if col_num == 3 or col_num == 4:
+            self.caculate_price()
+
+    def caculate_price(self):
+        table = self.invoice_detail_tableWidget
+        row_count = table.rowCount()
+
+        total_num = 0
+        for i in range(row_count):
+            pro_num = table_util.get_item_value_int(table, i, 3)
+            product_unit_price = table_util.get_item_value_float(table, i, 4)
+
+            product_price = pro_num * product_unit_price
+            table_util.set_table_item_value(table, i, 5, str(product_price))
+
+            total_num+=product_price
+
+        self.total_num_lineEdit.setText(str(total_num))
+
 
     def add_invoice(self):
         """
