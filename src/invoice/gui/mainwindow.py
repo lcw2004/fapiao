@@ -102,7 +102,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def init_home_page(self):
         invoice_start_num = Settings.value_str(Settings.INVOICE_START_NUM)
         invoice_end_num = Settings.value_str(Settings.INVOICE_END_NUM)
-        invoice_current_num = Settings.value_str(Settings.INVOICE_CURRENT_NUM)
+
+        invoice_list = Invoice.select(Invoice.invoice_num).where(Invoice.invoice_num.between(invoice_start_num, invoice_end_num)).order_by(Invoice.invoice_num.asc())
+        invoice = list(invoice_list)[-1]
+        invoice_current_num = invoice.invoice_num + 1
 
         if invoice_start_num and len(invoice_start_num) > 0:
 
@@ -113,7 +116,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # 普通用户使用情况
             current_section = u"{0} -> {1} , 共计{2}张".format(invoice_start_num, invoice_end_num, all_count)
             self.home_page_current_section_lable.setText(current_section)
-            self.home_page_next_num_lable.setText(invoice_current_num)
+            self.home_page_next_num_lable.setText(QString.number(invoice_current_num))
             self.home_page_used_count_lable.setText(QString.number(used_count))
             self.home_page_last_count_lable.setText(QString.number(last_count))
 
