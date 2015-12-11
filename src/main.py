@@ -33,6 +33,10 @@ def init():
     Settings.set_value_if_null(Settings.INTERFACE_INPUT_PATH, config.INTERFACE_INPUT_PATH)
     Settings.set_value_if_null(Settings.INTERFACE_OUTPUT_PATH, config.INTERFACE_OUTPUT_PATH)
     Settings.set_value_if_null(Settings.INTERFACE_TEMP_PATH, config.INTERFACE_TEMP_PATH)
+    Settings.set_value_if_null(Settings.INVOICE_START_NUM, "0")
+    Settings.set_value_if_null(Settings.INVOICE_END_NUM, "0")
+    Settings.set_value_if_null(Settings.INVOICE_CURRENT_NUM, "0")
+
 
 
 if __name__ == "__main__":
@@ -49,11 +53,11 @@ if __name__ == "__main__":
             app.installTranslator(qtTranslator)
 
         # 加载登录界面
-        # login_dialog = LoginDialog()
-        # login_dialog.show()
-        # if login_dialog.exec_():
-        window = MainWindow()
-        window.show()
+        login_dialog = LoginDialog()
+        login_dialog.show()
+        if login_dialog.exec_():
+            window = MainWindow()
+            window.show()
 
         sys.exit(app.exec_())
     except Exception as e:

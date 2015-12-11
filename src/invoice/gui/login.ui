@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>发票助手 V2.0</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>image/main_logo.ico</normaloff>image/main_logo.ico</iconset>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <property name="leftMargin">
     <number>0</number>
@@ -178,7 +182,7 @@
        <item>
         <widget class="QLabel" name="login_company_name_label">
          <property name="text">
-          <string>长沙瑞财科技有限公司</string>
+          <string>长沙瑞财信息科技有限公司</string>
          </property>
         </widget>
        </item>
@@ -212,5 +216,6 @@
   <tabstop>login_login_btn</tabstop>
   <tabstop>login_quit_btn</tabstop>
  </tabstops>
+ <resources/>
  <connections/>
 </ui>

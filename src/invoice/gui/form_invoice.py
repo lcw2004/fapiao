@@ -70,9 +70,9 @@ class InvoiceDialog(QDialog, Ui_Dialog):
 
                 table_util.set_table_item_value_editable(invoice_detail_table, i, 0, invoice_detail.id, True)
                 table_util.set_table_item_value_editable(invoice_detail_table, i, 1, invoice_detail.product.code, False)
-                table_util.set_table_item_value_editable(invoice_detail_table, i, 2, invoice_detail.product.name, True)
+                table_util.set_table_item_value_editable(invoice_detail_table, i, 2, invoice_detail.product.name, False)
                 table_util.set_table_item_value(invoice_detail_table, i, 3, invoice_detail.pro_num)
-                table_util.set_table_item_value_editable(invoice_detail_table, i, 4, invoice_detail.product.unit_price, True)
+                table_util.set_table_item_value_editable(invoice_detail_table, i, 4, invoice_detail.product.unit_price, False)
                 table_util.set_table_item_value(invoice_detail_table, i, 5, invoice_detail.contain_tax_price)
         except Invoice.DoesNotExist:
             logger = logging.getLogger(__name__)
