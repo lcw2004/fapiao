@@ -96,9 +96,9 @@ def set_table_item_value(table_widget, row_num, col_num, input_str):
     else:
         item_text = str(input_str)
 
-    import logging
-    logger = logging.getLogger(__name__)
-    logger.info(str(input_str) + "[" + str(type(input_str)) + "] --> " + item_text)
+    # import logging
+    # logger = logging.getLogger(__name__)
+    # logger.info(str(input_str) + "[" + str(type(input_str)) + "] --> " + item_text)
 
     if input_str:
         item = QTableWidgetItem(item_text)

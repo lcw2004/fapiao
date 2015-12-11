@@ -8,6 +8,7 @@ def to_rmb_upper(num):
     cap_unit = [u'万', u'亿', u'万', u'圆', '']
     cap_digit = {2: [u'角', u'分', ''], 4: [u'仟', u'佰', u'拾', '']}
     cap_num = [u'零', u'壹', u'贰', u'叁', u'肆', u'伍', u'陆', u'柒', u'捌', u'玖']
+    last = u'整'
     s_num = str('%019.02f') % num
     if s_num.index('.') > 16:
         return ''
@@ -30,8 +31,8 @@ def to_rmb_upper(num):
         sub_chr = [sub_ret, sub_ret + cap_unit[i]][sub_ret != '']
         if not ((sub_chr == cap_num[0]) and (ret == '')):
             ret += sub_chr
-    rmb_cn = [ret, cap_num[0] + cap_unit[3]][ret == '']
+    rmb_cn = [ret, cap_num[0] + cap_unit[3]][ret == ''] + last
 
-    logger = logging.getLogger(__name__)
-    logger.info(u"RMB:{0} -> {1}".format(num, rmb_cn))
+    # logger = logging.getLogger(__name__)
+    # logger.info(u"RMB:{0} -> {1}".format(num, rmb_cn))
     return rmb_cn

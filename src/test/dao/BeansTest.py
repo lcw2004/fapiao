@@ -17,7 +17,8 @@ def testDict():
         printObject(dict)
 
 def testInvoice():
-    for invoice in Invoice.select():
+    invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1), Invoice.start_time.between(start_num, end_time)))
+    for invoice in invoice_list:
         print "=================================================="
         printObject(invoice)
         printObject(invoice.custom)
@@ -43,7 +44,7 @@ def testNoSection():
         print i.id, i.pro_num
 
 if __name__ == "__main__":
-    testNoSection()
+    testInvoice()
 
 
 

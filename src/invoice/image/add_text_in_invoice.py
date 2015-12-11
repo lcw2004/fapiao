@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw
 
 from invoice.bean.beans import Invoice
 from invoice.common import config
+from invoice.common import money_convert
 from invoice.image import image_util
 
 
@@ -22,15 +23,18 @@ def add_text_in_image(out_img_path, invoice_id, in_img_path="resources/Invoice_t
     image_util.add_text_in_image(draw, "drawer", invoice.drawer)
     image_util.add_text_in_image(draw, "beneficiary", invoice.beneficiary)
     image_util.add_text_in_image(draw, "reviewer", invoice.reviewer)
-    # add_text(draw, "total_num_cn", invoice.total_num)
-    # add_text(draw, "total_num", invoice.total_num)
+    image_util.add_text_in_image(draw, "total_num", invoice.total_num)
+    total_num_cn = money_convert.to_rmb_upper(invoice.total_num)
+    image_util.add_text_in_image(draw, "total_num_cn", total_num_cn)
 
+    up_offset = 0
     for invoice_detail in invoice_detail_list:
-        image_util.add_text_in_image(draw, "code", invoice_detail.product.code)
-        image_util.add_text_in_image(draw, "name", invoice_detail.product.name)
-        image_util.add_text_in_image(draw, "pro_num", invoice_detail.pro_num)
-        image_util.add_text_in_image(draw, "unit_price", invoice_detail.product.unit_price)
-        image_util.add_text_in_image(draw, "contain_tax_price", invoice_detail.contain_tax_price)
+        image_util.add_text_in_image(draw, "code", invoice_detail.product.code, up_offset)
+        image_util.add_text_in_image(draw, "name", invoice_detail.product.name, up_offset)
+        image_util.add_text_in_image(draw, "pro_num", invoice_detail.pro_num, up_offset)
+        image_util.add_text_in_image(draw, "unit_price", invoice_detail.product.unit_price, up_offset)
+        image_util.add_text_in_image(draw, "contain_tax_price", invoice_detail.contain_tax_price, up_offset)
+        up_offset += 60
 
     if invoice.status == -1:
         im_zuofei = Image.open(config.PATH_OF_ZUOFEI_IMG)
@@ -43,3 +47,10 @@ def add_text_in_image(out_img_path, invoice_id, in_img_path="resources/Invoice_t
     # 显示
     # im.show()
     im.save(out_img_path)
+
+
+if __name__ == "__main__":
+    img_path = "D:\\Invoice_template.png"
+    out_img_path = "D:\\12_text.jpg"
+    mark_img_path = "D:\\zuofei.png"
+    add_text_in_image(out_img_path, 22, img_path)

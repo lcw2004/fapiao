@@ -7,7 +7,7 @@ from invoice.common import common_util
 from invoice.image.text_position import TextInfoFactory
 
 
-def add_text_in_image(draw, text_name, text_value):
+def add_text_in_image(draw, text_name, text_value, up_offset=0):
     """
     往图片中添加文本
     :param draw:画笔
@@ -20,9 +20,7 @@ def add_text_in_image(draw, text_name, text_value):
     font_size = text_info.font_size
     font_color = text_info.font_color
     x_pos = text_info.x_pos
-    y_pos = text_info.y_pos
-    print type(font_name), type(font_size)
-    print font_name, font_size
+    y_pos = text_info.y_pos + up_offset
     fnt = ImageFont.truetype(font_name, font_size)
 
     text_value_str = common_util.to_string_trim(text_value)
