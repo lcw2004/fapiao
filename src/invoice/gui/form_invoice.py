@@ -2,12 +2,13 @@
 import logging
 
 from PyQt4.QtCore import QModelIndex, QVariant
-from PyQt4.QtGui import QDialog, QStandardItemModel
+from PyQt4.QtGui import QDialog, QStandardItemModel, QMessageBox
 
 from form_invoice_ui import *
 from invoice.bean.beans import *
 from invoice.common import common_util
 from invoice.common import table_util
+from invoice.common import money_convert
 from invoice.common.settings import Settings
 from invoice.gui.common_ui import DBComboBoxDelegate
 
@@ -29,6 +30,15 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         # 绑定事件
         self.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), self.accepted)
         self.connect(self.invoice_detail_tableWidget, QtCore.SIGNAL('cellChanged(int,int)'), self.cell_changed)
+        self.total_num_lineEdit.textChanged.connect(self.total_num_text_changed)
+
+    def total_num_text_changed(self, string):
+        try:
+            total_num = float(string)
+            total_num_cn = money_convert.to_rmb_upper(total_num)
+            self.total_num_cn_lineEdit.setText(common_util.to_string_trim(total_num_cn))
+        except ValueError:
+            QMessageBox.information(self.parentWidget(), u"错误", u'请输入数字金额！')
 
     def cell_changed(self, row_num, col_num):
         table = self.invoice_detail_tableWidget
@@ -157,8 +167,6 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         user_id = Settings.value(Settings.USER_ID).toInt()[0]
         user = User.get(id=user_id)
         self.drawer_lineEdit.setText(user.name)
-
-
 
     def init_data(self, data_id):
         """
