@@ -108,12 +108,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         used_count = int(invoice_current_num) - int(invoice_start_num)
         last_count = int(invoice_end_num) - int(invoice_current_num) + 1
 
+        # 普通用户使用情况
         current_section = u"{0} -> {1} , 共计{2}张".format(invoice_start_num, invoice_end_num, all_count)
-
         self.home_page_current_section_lable.setText(current_section)
         self.home_page_next_num_lable.setText(invoice_current_num)
         self.home_page_used_count_lable.setText(QString.number(used_count))
         self.home_page_last_count_lable.setText(QString.number(last_count))
+
+        # 库存管理员使用情况
+        use_num = 0
+        for no_section in NoSection.select():
+            use_num += no_section.end_num - no_section.start_num + 1
+        last_num = all_count - use_num
+        section_use_status = u"当前号段：{0} -> {1} 共计 {2} 张 ".format(invoice_start_num, invoice_end_num, all_count)
+        section_use_status += u" 已经分配 {0} 张，剩余 {1} 张发票".format(use_num, last_num)
+        self.section_use_status_label.setText(section_use_status)
 
     def init_ui(self):
         self.setWindowTitle(config.PRODUCT_ALL_NAME)

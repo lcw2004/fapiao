@@ -43,11 +43,17 @@ def testInvoiceDetail():
 
 def testNoSection():
     list = NoSection.select()
-    for i in list:
-        print i.id, i.pro_num
+
+    use_num = 0
+
+    for no_section in list:
+        use_num += no_section.end_num - no_section.start_num + 1
+        print no_section.start_num, no_section.end_num
+
+    print use_num
 
 if __name__ == "__main__":
-    testInvoice()
+    testNoSection()
 
 
 
