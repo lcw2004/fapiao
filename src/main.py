@@ -37,8 +37,6 @@ def init():
     Settings.set_value_if_null(Settings.INVOICE_END_NUM, "0")
     Settings.set_value_if_null(Settings.INVOICE_CURRENT_NUM, "0")
 
-
-
 if __name__ == "__main__":
     init()
 

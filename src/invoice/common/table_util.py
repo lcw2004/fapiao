@@ -136,6 +136,14 @@ def set_table_item_value_editable(table_widget, row_num, col_num, input_str, edi
             set_table_item_color(table_widget, row_num, col_num, QtGui.QColor(224, 224, 224))
 
 
+def set_table_item_un_editable(table_widget, row_num, col_num):
+    # 设置不可编辑
+    item = table_widget.item(row_num, col_num)
+    if item:
+        item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+        set_table_item_color(table_widget, row_num, col_num, QtGui.QColor(224, 224, 224))
+
+
 def set_table_item_color(table_widget, row_num, col_num, color):
     """
     设置表格单元的背景色

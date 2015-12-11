@@ -35,7 +35,7 @@ class DBComboBoxDelegate(QItemDelegate):
 
     def setModelData(self, editor, model, index):
         if editor.currentIndex() >= 0:
-            real_index = editor.model().index(editor.currentIndex(), 0)
+            real_index = editor.model().index(editor.currentIndex(), 1)
             value = editor.model().data(real_index)
             model.setData(index, value)
 

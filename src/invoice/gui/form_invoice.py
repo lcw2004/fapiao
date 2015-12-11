@@ -45,6 +45,9 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         row_count = table.rowCount()
         for i in range(row_count):
             table_util.set_table_item_value(table, i, 3, "1")
+            # table_util.set_table_item_value_editable(table, i, 0, "", True)
+            # TODO ID不可编辑
+            # table_util.set_table_item_un_editable(table, i, 0)
 
     def init_data(self, data_id):
         """
@@ -74,10 +77,10 @@ class InvoiceDialog(QDialog, Ui_Dialog):
                 invoice_detail = invoice_detail_list[i]
 
                 table_util.set_table_item_value_editable(invoice_detail_table, i, 0, invoice_detail.id, True)
-                table_util.set_table_item_value_editable(invoice_detail_table, i, 1, invoice_detail.product.code, False)
-                table_util.set_table_item_value_editable(invoice_detail_table, i, 2, invoice_detail.product.name, False)
+                table_util.set_table_item_value(invoice_detail_table, i, 1, invoice_detail.product.code)
+                table_util.set_table_item_value(invoice_detail_table, i, 2, invoice_detail.product.name)
                 table_util.set_table_item_value(invoice_detail_table, i, 3, invoice_detail.pro_num)
-                table_util.set_table_item_value_editable(invoice_detail_table, i, 4, invoice_detail.product.unit_price, False)
+                table_util.set_table_item_value(invoice_detail_table, i, 4, invoice_detail.product.unit_price)
                 table_util.set_table_item_value(invoice_detail_table, i, 5, invoice_detail.contain_tax_price)
         except Invoice.DoesNotExist:
             logger = logging.getLogger(__name__)
@@ -135,8 +138,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             product = Product.get(code=product_code)
 
             # 更新表格
-            table_util.set_table_item_value_editable(table, row_num, 2, product.name, False)
-            table_util.set_table_item_value_editable(table, row_num, 4, product.unit_price,True)
+            table_util.set_table_item_value(table, row_num, 2, product.name)
+            table_util.set_table_item_value(table, row_num, 4, product.unit_price)
 
         if col_num == 3 or col_num == 4:
             self.caculate_price()
