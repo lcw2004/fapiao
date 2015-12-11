@@ -379,7 +379,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 pass
 
     def ok_invoice_filter_btn_clicked(self):
-        invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1)))
+        start_num = self.ok_invoice_start_num_edit.text()
+        end_num = self.ok_invoice_end_num_edit.text()
+        start_time = self.ok_invoice_start_time_edit.date().toPyDate()
+        end_time = self.ok_invoice_end_time_edit.date().toPyDate()
+
+        # TODO 查询条件中无法根据编号查询
+        invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1),
+                                                   Invoice.start_time.between(start_time, end_time)))
         invoice_table = self.ok_invoice_table
 
         # 设置整行选中
@@ -390,14 +397,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row_count = len(invoice_list)
         invoice_table.setRowCount(row_count)
 
-
-
         # 将数据加载到表格中
         for i in range(row_count):
             invoice = invoice_list[i]
             table_util.set_table_item_value(invoice_table, i, 0, invoice.id)
             if invoice.status == -1:
-                table_util.set_table_item_value(invoice_table, i, 1, invoice.invoice_num + u"(作废)")
+                table_util.set_table_item_value(invoice_table, i, 1, str(invoice.invoice_num) + u"(作废)")
                 table_util.set_table_item_color(invoice_table, i, 1, QtGui.QColor(199, 220, 252))
             else:
                 table_util.set_table_item_value(invoice_table, i, 1, invoice.invoice_num)
