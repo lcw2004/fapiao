@@ -427,14 +427,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 pass
 
     def ok_invoice_filter_btn_clicked(self):
+        # 获取查询条件
         start_num = self.ok_invoice_start_num_edit.text()
         end_num = self.ok_invoice_end_num_edit.text()
         start_time = self.ok_invoice_start_time_edit.date().toPyDate()
         end_time = self.ok_invoice_end_time_edit.date().toPyDate()
+        logging.info("start_num:" + start_num)
+        logging.info("end_num:" + end_num)
 
-        # TODO 查询条件中无法根据编号查询
-        invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1),
-                                                   Invoice.start_time.between(start_time, end_time)))
+        # 查询数据
+        if start_num.isEmpty() and not end_num.isEmpty():
+            invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1),
+                                                       Invoice.start_time.between(start_time, end_time),
+                                                       Invoice.invoice_num <= end_num))
+        elif not start_num.isEmpty() and end_num.isEmpty():
+            invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1),
+                                                       Invoice.start_time.between(start_time, end_time),
+                                                       Invoice.invoice_num >= start_num))
+        elif start_num.isEmpty() and end_num.isEmpty():
+            invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1),
+                                                       Invoice.start_time.between(start_time, end_time)))
+        else:
+            invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1),
+                                                       Invoice.start_time.between(start_time, end_time),
+                                                       Invoice.invoice_num.between(start_num, end_num)))
         invoice_table = self.ok_invoice_table
 
         # 设置整行选中
