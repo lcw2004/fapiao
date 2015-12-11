@@ -128,9 +128,13 @@ def set_table_item_value_editable(table_widget, row_num, col_num, input_str, edi
 
     if input_str:
         item = QTableWidgetItem(item_text)
+        table_widget.setItem(row_num, col_num, item)
+
+        # 设置不可编辑
         if editable:
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-        table_widget.setItem(row_num, col_num, item)
+            set_table_item_color(table_widget, row_num, col_num, QtGui.QColor(224, 224, 224))
+
 
 def set_table_item_color(table_widget, row_num, col_num, color):
     """

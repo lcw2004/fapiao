@@ -1,47 +1,16 @@
 # -*- coding: utf-8 -*-
 import logging
-from PyQt4 import Qt
+
 from PyQt4.QtCore import QModelIndex, QVariant
-from PyQt4.QtGui import QDialog, QComboBox, QTableView, QAbstractItemView, QItemDelegate, QStandardItemModel
+from PyQt4.QtGui import QDialog, QStandardItemModel
+
 from form_invoice_ui import *
 from invoice.bean.beans import *
 from invoice.common import common_util
 from invoice.common import table_util
 from invoice.common.settings import Settings
-from invoice.image import image_util
+from invoice.gui.common_ui import DBComboBoxDelegate
 
-
-class DBComboBoxDelegate(QItemDelegate):
-    def __init__(self, comboModel, parent=None):
-        QItemDelegate.__init__(self, parent)
-        self.comboModel = comboModel
-
-    def __createComboView(self, parent):
-        view = QTableView(parent)
-        view.setModel(self.comboModel)
-        view.setAutoScroll(False)
-        view.setSelectionMode(QAbstractItemView.SingleSelection)
-        view.setSelectionBehavior(QAbstractItemView.SelectRows)
-        view.resizeColumnsToContents()
-        view.resizeRowsToContents()
-        view.setMinimumWidth(view.horizontalHeader().length())
-        return view
-
-    def createEditor(self, parent, option, index):
-        combo = QComboBox(parent)
-        combo.setModel(self.comboModel)
-        combo.setView(self.__createComboView(parent))
-        return combo
-
-    def setEditorData(self, editor, index):
-        value = index.model().data(index).toString()
-        editor.setCurrentIndex(editor.findText(value))
-
-    def setModelData(self, editor, model, index):
-        if editor.currentIndex() >= 0:
-            realidx = editor.model().index(editor.currentIndex(), 0)
-            value = editor.model().data(realidx)
-            model.setData(index, value)
 
 class InvoiceDialog(QDialog, Ui_Dialog):
     def __init__(self, parent=None, id=None):
@@ -49,6 +18,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.parent = parent
         self.id = id
+        self.init_combo_data()
 
         # 初始化数据
         if id:
@@ -56,11 +26,23 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         else:
             self.init_default_data()
 
-        # 加载下拉框的数据
-
-
         # 绑定事件
         self.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), self.accepted)
+        self.connect(self.invoice_detail_tableWidget, QtCore.SIGNAL('cellChanged(int,int)'), self.cell_changed)
+
+    def cell_changed(self, row_num, col_num):
+        table = self.invoice_detail_tableWidget
+
+        # 如果产品编码更新
+        if col_num == 1:
+            product_code = table.item(row_num, col_num).text()
+
+            # 查询数据
+            product = Product.get(code=product_code)
+
+            # 更新表格
+            table_util.set_table_item_value_editable(table, row_num, 2, product.name, False)
+            table_util.set_table_item_value_editable(table, row_num, 4, product.unit_price,True)
 
     def accepted(self):
         """
@@ -87,21 +69,20 @@ class InvoiceDialog(QDialog, Ui_Dialog):
                 contain_tax_price = table_util.get_item_value(table, i, 5)
 
                 if product_name:
-                     # 保存商品信息
+                    # 保存商品信息
                     try:
                         product_of_this = Product.get(name=product_name)
                     except Exception:
-                        product_of_this = Product.create(name=product_name, code=product_code, unit_price=product_unit_price)
+                        product_of_this = Product.create(name=product_name, code=product_code,
+                                                         unit_price=product_unit_price)
                         product_of_this.save()
 
-                    # invoice_detail = InvoiceDetail.create(
+                        # invoice_detail = InvoiceDetail.create(
                         # pro_num=pro_num,
                         # contain_tax_price=contain_tax_price
                         # product=product_of_this
-                    # )
-                    # invoice_detail.save()
-
-
+                        # )
+                        # invoice_detail.save()
             # 保存用户信息
             try:
                 custom_of_this = Custom.get(name=custom_name)
@@ -142,11 +123,6 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         self.drawer_lineEdit.setText(user.name)
 
     def init_data(self, id):
-
-
-        self.invoice_detail_tableWidget.setItemDelegateForColumn(2, DBComboBoxDelegate(combo_,Model, self.invoice_detail_tableWidget))
-
-
         """
         根据发票ID，将发票的信息初始化到Dialog中
         :param id:客户ID
@@ -174,8 +150,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
                 invoice_detail = invoice_detail_list[i]
 
                 table_util.set_table_item_value_editable(invoice_detail_table, i, 0, invoice_detail.id, True)
-                table_util.set_table_item_value_editable(invoice_detail_table, i, 1, invoice_detail.product.code, True)
-                table_util.set_table_item_value(invoice_detail_table, i, 2, invoice_detail.product.name)
+                table_util.set_table_item_value_editable(invoice_detail_table, i, 1, invoice_detail.product.code, False)
+                table_util.set_table_item_value_editable(invoice_detail_table, i, 2, invoice_detail.product.name, True)
                 table_util.set_table_item_value(invoice_detail_table, i, 3, invoice_detail.pro_num)
                 table_util.set_table_item_value_editable(invoice_detail_table, i, 4, invoice_detail.product.unit_price, True)
                 table_util.set_table_item_value(invoice_detail_table, i, 5, invoice_detail.contain_tax_price)
@@ -185,7 +161,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
 
     def init_combo_data(self):
         combo_model = QStandardItemModel(4, 3, self.invoice_detail_tableWidget)
-        combo_model.setHorizontalHeaderLabels([u'名称', u'代码',  u'单价'])
+        combo_model.setHorizontalHeaderLabels([u'名称', u'ID', u'单价'])
 
         product_list = list(Product.select().where(Product.status == 0))
         row_count = len(product_list)
@@ -194,6 +170,11 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         # 将数据加载到表格中
         for i in range(row_count):
             product = product_list[i]
-            combo_model.setData(combo_model.index(i, 0, QModelIndex()), QVariant(product.name))
-            combo_model.setData(combo_model.index(i, 1, QModelIndex()), QVariant(product.code))
+            combo_model.setData(combo_model.index(i, 0, QModelIndex()), QVariant(product.id))
+            combo_model.setData(combo_model.index(i, 1, QModelIndex()), QVariant(product.name))
             combo_model.setData(combo_model.index(i, 2, QModelIndex()), QVariant(product.unit_price))
+
+        combo_box = DBComboBoxDelegate(combo_model, self.invoice_detail_tableWidget)
+        self.invoice_detail_tableWidget.setItemDelegateForColumn(1, combo_box)
+
+
