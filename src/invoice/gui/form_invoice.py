@@ -47,7 +47,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
     def add_invoice(self):
         invoice_num = table_util.get_edit_text(self.invoice_num_lineEdit)
         custom_name = table_util.get_edit_text(self.custom_name_lineEdit)
-        total_num = table_util.get_edit_text(self.total_num_lineEdit)
+        total_num = table_util.get_edit_text_float(self.total_num_lineEdit)
         drawer = table_util.get_edit_text(self.drawer_lineEdit)
         beneficiary = table_util.get_edit_text(self.beneficiary_lineEdit)
         reviewer = table_util.get_edit_text(self.reviewer_lineEdit)
@@ -73,8 +73,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         row_count = table.rowCount()
         for i in range(row_count):
             product_code = table_util.get_item_value(table, i, 1)
-            pro_num = table_util.get_item_value(table, i, 3)
-            contain_tax_price = table_util.get_item_value(table, i, 5)
+            pro_num = table_util.get_item_value_float(table, i, 3)
+            contain_tax_price = table_util.get_item_value_float(table, i, 5)
 
             if product_code:
                 # 获取产品信息
@@ -82,7 +82,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
 
                 invoice_detail = InvoiceDetail.create(
                     pro_num=pro_num,
-                    # contain_tax_price=contain_tax_price
+                    contain_tax_price=contain_tax_price,
                     product=product_of_this,
                     invoice=invoice
                 )
@@ -91,7 +91,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
     def update_invoice(self):
         invoice_num = table_util.get_edit_text(self.invoice_num_lineEdit)
         custom_name = table_util.get_edit_text(self.custom_name_lineEdit)
-        total_num = table_util.get_edit_text(self.total_num_lineEdit)
+        total_num = table_util.get_edit_text_float(self.total_num_lineEdit)
         drawer = table_util.get_edit_text(self.drawer_lineEdit)
         beneficiary = table_util.get_edit_text(self.beneficiary_lineEdit)
         reviewer = table_util.get_edit_text(self.reviewer_lineEdit)
@@ -119,9 +119,9 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             detail_id = table_util.get_item_value(table, i, 0)
             product_code = table_util.get_item_value(table, i, 1)
             product_name = table_util.get_item_value(table, i, 2)
-            pro_num = table_util.get_item_value(table, i, 3)
-            product_unit_price = table_util.get_item_value(table, i, 4)
-            contain_tax_price = table_util.get_item_value(table, i, 5)
+            pro_num = table_util.get_item_value_float(table, i, 3)
+            product_unit_price = table_util.get_item_value_float(table, i, 4)
+            contain_tax_price = table_util.get_item_value_float(table, i, 5)
 
             if product_code:
                 # 获取产品信息
@@ -157,6 +157,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         user_id = Settings.value(Settings.USER_ID).toInt()[0]
         user = User.get(id=user_id)
         self.drawer_lineEdit.setText(user.name)
+
+
 
     def init_data(self, data_id):
         """

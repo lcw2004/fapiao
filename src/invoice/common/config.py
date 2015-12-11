@@ -24,6 +24,7 @@ TEMP_FONT_NAME = "C:\\Windows\\Fonts\\simfang.ttf"
 TEMP_FONT_SIZE = 38
 DEFAULT_FONT_COLOR = (0, 0, 0, 0)
 ZUOFEI_FONT_COLOR = 100, 100, 100
+DEFAULT_PRODUCT_ID = "100"
 # ============ 模板配置 ============
 
 # ============ 航空金税接口配置 ============

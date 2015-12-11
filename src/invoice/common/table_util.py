@@ -156,6 +156,12 @@ def get_edit_text(edit):
     text = edit.text()
     return str(text).decode("GBK")
 
+def get_edit_text_float(edit):
+    """
+    获取指定编辑框中的文本，并转为GBK编码，再转为数字类型
+    :param edit: 编辑框
+    """
+    return float(get_edit_text(edit))
 
 def get_paint_context(edit):
     """
@@ -194,3 +200,10 @@ def get_item_value(table, row_num, col_num):
         return str(item.text()).decode("GBK")
     else:
         return ""
+
+def get_item_value_float(table, row_num, col_num):
+    value = get_item_value(table, row_num, col_num)
+    if value is None or len(value) == 0:
+        return 0
+    else:
+        return float(value)
