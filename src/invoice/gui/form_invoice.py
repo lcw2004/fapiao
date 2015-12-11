@@ -44,70 +44,106 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             table_util.set_table_item_value_editable(table, row_num, 2, product.name, False)
             table_util.set_table_item_value_editable(table, row_num, 4, product.unit_price,True)
 
+    def add_invoice(self):
+        invoice_num = table_util.get_edit_text(self.invoice_num_lineEdit)
+        custom_name = table_util.get_edit_text(self.custom_name_lineEdit)
+        total_num = table_util.get_edit_text(self.total_num_lineEdit)
+        drawer = table_util.get_edit_text(self.drawer_lineEdit)
+        beneficiary = table_util.get_edit_text(self.beneficiary_lineEdit)
+        reviewer = table_util.get_edit_text(self.reviewer_lineEdit)
+
+        # 保存用户信息
+        try:
+            custom_of_this = Custom.get(name=custom_name)
+        except Exception:
+            custom_of_this = Custom.create(name=custom_name)
+            custom_of_this.save()
+
+        # 保存发票信息
+        invoice = Invoice.create(invoice_num=invoice_num,
+                                 total_num=total_num,
+                                 drawer=drawer,
+                                 beneficiary=beneficiary,
+                                 reviewer=reviewer,
+                                 custom=custom_of_this)
+        invoice.save()
+
+        # 保存发票明细
+        table = self.invoice_detail_tableWidget
+        row_count = table.rowCount()
+        for i in range(row_count):
+            product_code = table_util.get_item_value(table, i, 1)
+            pro_num = table_util.get_item_value(table, i, 3)
+            contain_tax_price = table_util.get_item_value(table, i, 5)
+
+            if product_code:
+                # 获取产品信息
+                product_of_this = Product.get(code=product_code)
+
+                invoice_detail = InvoiceDetail.create(
+                    pro_num=pro_num,
+                    # contain_tax_price=contain_tax_price
+                    product=product_of_this,
+                    invoice=invoice
+                )
+                invoice_detail.save()
+
+    def update_invoice(self):
+        invoice_num = table_util.get_edit_text(self.invoice_num_lineEdit)
+        custom_name = table_util.get_edit_text(self.custom_name_lineEdit)
+        total_num = table_util.get_edit_text(self.total_num_lineEdit)
+        drawer = table_util.get_edit_text(self.drawer_lineEdit)
+        beneficiary = table_util.get_edit_text(self.beneficiary_lineEdit)
+        reviewer = table_util.get_edit_text(self.reviewer_lineEdit)
+
+        # 保存用户信息
+        try:
+            custom_of_this = Custom.get(name=custom_name)
+        except Exception:
+            custom_of_this = Custom.create(name=custom_name)
+            custom_of_this.save()
+
+        # 保存发票信息
+        q = Invoice.update(invoice_num=invoice_num,
+                           total_num=total_num,
+                           drawer=drawer,
+                           beneficiary=beneficiary,
+                           reviewer=reviewer,
+                           custom=custom_of_this).where(Invoice.id == self.id)
+        q.execute()
+
+        # 保存发票明细
+        table = self.invoice_detail_tableWidget
+        row_count = table.rowCount()
+        for i in range(row_count):
+            detail_id = table_util.get_item_value(table, i, 0)
+            product_code = table_util.get_item_value(table, i, 1)
+            product_name = table_util.get_item_value(table, i, 2)
+            pro_num = table_util.get_item_value(table, i, 3)
+            product_unit_price = table_util.get_item_value(table, i, 4)
+            contain_tax_price = table_util.get_item_value(table, i, 5)
+
+            if product_code:
+                # 获取产品信息
+                product_of_this = Product.get(code=product_code)
+
+                if detail_id:
+                    q = InvoiceDetail.update(pro_num=pro_num,
+                                             contain_tax_price=contain_tax_price,
+                                             product=product_of_this
+                                             ).where(InvoiceDetail.id == detail_id)
+                    q.execute()
+
     def accepted(self):
         """
         确定按钮事件
         :return:
         """
         try:
-            invoice_num = table_util.get_edit_text(self.invoice_num_lineEdit)
-            custom_name = table_util.get_edit_text(self.custom_name_lineEdit)
-            total_num = table_util.get_edit_text(self.total_num_lineEdit)
-            drawer = table_util.get_edit_text(self.drawer_lineEdit)
-            beneficiary = table_util.get_edit_text(self.beneficiary_lineEdit)
-            reviewer = table_util.get_edit_text(self.reviewer_lineEdit)
-
-            table = self.invoice_detail_tableWidget
-            row_count = table.rowCount()
-            col_count = table.columnCount()
-            for i in range(row_count):
-                id = table_util.get_item_value(table, i, 0)
-                product_code = table_util.get_item_value(table, i, 1)
-                product_name = table_util.get_item_value(table, i, 2)
-                pro_num = table_util.get_item_value(table, i, 3)
-                product_unit_price = table_util.get_item_value(table, i, 4)
-                contain_tax_price = table_util.get_item_value(table, i, 5)
-
-                if product_name:
-                    # 保存商品信息
-                    try:
-                        product_of_this = Product.get(name=product_name)
-                    except Exception:
-                        product_of_this = Product.create(name=product_name, code=product_code,
-                                                         unit_price=product_unit_price)
-                        product_of_this.save()
-
-                        # invoice_detail = InvoiceDetail.create(
-                        # pro_num=pro_num,
-                        # contain_tax_price=contain_tax_price
-                        # product=product_of_this
-                        # )
-                        # invoice_detail.save()
-            # 保存用户信息
-            try:
-                custom_of_this = Custom.get(name=custom_name)
-            except Exception:
-                custom_of_this = Custom.create(name=custom_name)
-                custom_of_this.save()
-
             if self.id:
-                # 修改
-                q = Invoice.update(invoice_num=invoice_num,
-                                   total_num=total_num,
-                                   drawer=drawer,
-                                   beneficiary=beneficiary,
-                                   reviewer=reviewer,
-                                   custom=custom_of_this).where(Invoice.id == self.id)
-                q.execute()
+                self.update_invoice()
             else:
-                # 添加
-                invoice = Invoice.create(invoice_num=invoice_num,
-                                         total_num=total_num,
-                                         drawer=drawer,
-                                         beneficiary=beneficiary,
-                                         reviewer=reviewer,
-                                         custom=custom_of_this)
-                invoice.save()
+                self.add_invoice()
 
             # 刷新父窗体
             self.parent.invoice_filter_btn_clicked()
@@ -122,15 +158,15 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         user = User.get(id=user_id)
         self.drawer_lineEdit.setText(user.name)
 
-    def init_data(self, id):
+    def init_data(self, data_id):
         """
         根据发票ID，将发票的信息初始化到Dialog中
-        :param id:客户ID
+        :param data_id:发票ID
         :return:
         """
         try:
             # 设置发票信息
-            invoice = Invoice.get(id=id)
+            invoice = Invoice.get(id=data_id)
             self.invoice_num_lineEdit.setText(common_util.to_string_trim(invoice.invoice_num))
             self.custom_name_lineEdit.setText(common_util.to_string_trim(invoice.custom.name))
             self.total_num_lineEdit.setText(common_util.to_string_trim(invoice.total_num))
@@ -140,7 +176,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             self.reviewer_lineEdit.setText(common_util.to_string_trim(invoice.reviewer))
 
             # 根据ID查询明细
-            invoice_detail_list = list(Invoice.get(id=id).invoiceDetails)
+            invoice_detail_list = list(Invoice.get(id=data_id).invoiceDetails)
             row_count = len(invoice_detail_list)
             invoice_detail_table = self.invoice_detail_tableWidget
             invoice_detail_table.setRowCount(row_count)
@@ -176,5 +212,3 @@ class InvoiceDialog(QDialog, Ui_Dialog):
 
         combo_box = DBComboBoxDelegate(combo_model, self.invoice_detail_tableWidget)
         self.invoice_detail_tableWidget.setItemDelegateForColumn(1, combo_box)
-
-
