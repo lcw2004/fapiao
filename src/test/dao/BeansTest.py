@@ -1,6 +1,9 @@
 # -*- coding: UTF-8 -*-
 
 from invoice.bean.beans import *
+from invoice.common.settings import Settings
+
+
 def printObject(obj):
     for property, value in vars(obj).iteritems():
         if property == "_data":
@@ -17,14 +20,14 @@ def testDict():
         printObject(dict)
 
 def testInvoice():
-    # invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1), Invoice.start_time.between(start_num, end_time)))
-    # for invoice in invoice_list:
-    #     print "=================================================="
-    #     printObject(invoice)
-    #     printObject(invoice.custom)
+    invoice_start_num = Settings.value_str(Settings.INVOICE_START_NUM)
+    invoice_end_num = Settings.value_str(Settings.INVOICE_END_NUM)
+    invoice_list = Invoice.select(Invoice.invoice_num).where(Invoice.invoice_num.between(invoice_start_num, invoice_end_num)).order_by(Invoice.invoice_num.asc())
+    printObject( list(invoice_list)[-1])
+    for invoice in invoice_list:
+        print "=================================================="
+        printObject(invoice)
 
-    q = Invoice.update(status=1, start_time=datetime.datetime.now()).where(Invoice.id == 1)
-    q.execute()
 
 def testInvoiceDetail():
     idList = [1, 2, 3, 4]
@@ -53,7 +56,7 @@ def testNoSection():
     print use_num
 
 if __name__ == "__main__":
-    testNoSection()
+    testInvoice()
 
 
 

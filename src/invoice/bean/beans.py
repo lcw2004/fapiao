@@ -107,7 +107,7 @@ class Invoice(BaseModel):
     """
 
     # 发票号码
-    invoice_num = TextField()
+    invoice_num = IntegerField()
     # 备注
     remark = TextField(null=True)
     # 开票日期

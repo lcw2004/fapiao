@@ -13,7 +13,7 @@ def to_string_trim(input_str):
         output_str = ""
     elif isinstance(input_str, float):
         output_str = str(input_str)
-    elif isinstance(input_str, int):
+    elif isinstance(input_str, int) or isinstance(input_str, long):
         output_str = str(input_str)
     elif isinstance(input_str, datetime.datetime):
         output_str = time_to_str(input_str)

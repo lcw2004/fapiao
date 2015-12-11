@@ -41,6 +41,18 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         user = User.get(id=user_id)
         self.drawer_lineEdit.setText(user.name)
 
+
+        # 设置发票号码
+        # TODO 性能优化
+        invoice_start_num = Settings.value_str(Settings.INVOICE_START_NUM)
+        invoice_end_num = Settings.value_str(Settings.INVOICE_END_NUM)
+        invoice_list = Invoice.select(Invoice.invoice_num).where(Invoice.invoice_num.between(invoice_start_num, invoice_end_num)).order_by(Invoice.invoice_num.asc())
+        invoice = list(invoice_list)[-1]
+        next_num = invoice.invoice_num + 1
+        self.invoice_num_lineEdit.setText(str(next_num))
+        Settings.set_value(Settings.INVOICE_CURRENT_NUM, next_num)
+
+
         table = self.invoice_detail_tableWidget
         row_count = table.rowCount()
         for i in range(row_count):
@@ -107,6 +119,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
 
         combo_box = DBComboBoxDelegate(combo_model, self.invoice_detail_tableWidget)
         self.invoice_detail_tableWidget.setItemDelegateForColumn(1, combo_box)
+
+
 
     def total_num_text_changed(self, string):
         """

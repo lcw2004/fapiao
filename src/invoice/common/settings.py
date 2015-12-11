@@ -71,3 +71,7 @@ class Settings:
     @staticmethod
     def value_int(key):
         return int(Settings.value_str(key))
+
+    @staticmethod
+    def value_long(key):
+        return long(Settings.value_str(key))
