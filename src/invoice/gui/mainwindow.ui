@@ -1170,7 +1170,11 @@
          <font>
           <weight>75</weight>
           <bold>true</bold>
+          <underline>false</underline>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel { color : red; font-weight: bold}</string>
         </property>
         <property name="text">
          <string/>

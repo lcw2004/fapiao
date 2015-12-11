@@ -17,11 +17,14 @@ def testDict():
         printObject(dict)
 
 def testInvoice():
-    invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1), Invoice.start_time.between(start_num, end_time)))
-    for invoice in invoice_list:
-        print "=================================================="
-        printObject(invoice)
-        printObject(invoice.custom)
+    # invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1), Invoice.start_time.between(start_num, end_time)))
+    # for invoice in invoice_list:
+    #     print "=================================================="
+    #     printObject(invoice)
+    #     printObject(invoice.custom)
+
+    q = Invoice.update(status=1, start_time=datetime.datetime.now()).where(Invoice.id == 1)
+    q.execute()
 
 def testInvoiceDetail():
     idList = [1, 2, 3, 4]

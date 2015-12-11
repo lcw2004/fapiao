@@ -227,9 +227,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoice_id = table_util.str_to_unicode_str(invoice_table.item(selected_rows[0], 0).text())
 
         # 将合同信息填充到模板中
+        # TODO 文件路径写死了
         self.img_path = "D:\\123333.jpg"
         add_text_in_invoice.add_text_in_image(self.img_path, invoice_id)
-
 
         printer = QPrinter(QPrinter.HighResolution)
         preview = QPrintPreviewDialog(printer, self)
@@ -243,7 +243,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         printer.setFullPage(False)
 
         preview.paintRequested.connect(self.plot_pic)
-        preview.exec_()
+        result = preview.exec_()
+        if result:
+            # 打印成功
+            # 修改合同状态和打印的时间
+            invoice = Invoice.get(id=invoice_id)
+            if invoice.status == 0:
+                # 如果合同是未开票状态，将其改为开票状态，并记录开票时间
+                q = Invoice.update(status=1, start_time=datetime.datetime.now()).where(Invoice.id == invoice_id)
+                q.execute()
+                self.show_msg_at_rigth_label(u"开票成功！")
+            elif invoice.status == -1 or invoice.status == 1:
+                # 如果合同是作废状态或者开票状态，状态不变
+                self.show_msg_at_rigth_label(u"补打成功！")
+        else:
+            # 打印失败
+            self.show_msg_at_rigth_label(u"打印失败，请重试！")
 
     def plot_pic(self, printer):
         painter = QPainter(printer)

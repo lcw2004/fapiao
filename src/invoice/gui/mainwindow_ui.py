@@ -530,6 +530,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.right_status_label.setFont(font)
+        self.right_status_label.setStyleSheet(_fromUtf8("QLabel { color : red; font-weight: bold}"))
         self.right_status_label.setText(_fromUtf8(""))
         self.right_status_label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.right_status_label.setObjectName(_fromUtf8("right_status_label"))
