@@ -131,8 +131,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 初始化时间查询条件
         self.init_time_edit(self.ok_invoice_start_time_edit)
         self.init_time_edit(self.ok_invoice_end_time_edit)
-        day_before_30 = datetime.date.today() - datetime.timedelta(days=30)
-        self.ok_invoice_start_time_edit.setDate(day_before_30)
+        self.ok_invoice_start_time_edit.setDate(datetime.date.today() - datetime.timedelta(days=30))
+        self.ok_invoice_end_time_edit.setDate(datetime.date.today() + datetime.timedelta(days=1))
 
         # 加载首页
         self.init_home_page()
@@ -440,17 +440,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1),
                                                        Invoice.start_time.between(start_time, end_time),
                                                        Invoice.invoice_num <= end_num))
+            logging.info(u"查询")
         elif not start_num.isEmpty() and end_num.isEmpty():
             invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1),
                                                        Invoice.start_time.between(start_time, end_time),
                                                        Invoice.invoice_num >= start_num))
+            logging.info(u"查询")
         elif start_num.isEmpty() and end_num.isEmpty():
             invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1),
                                                        Invoice.start_time.between(start_time, end_time)))
+            logging.info(u"查询")
         else:
             invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1),
                                                        Invoice.start_time.between(start_time, end_time),
                                                        Invoice.invoice_num.between(start_num, end_num)))
+            logging.info(u"查询")
         invoice_table = self.ok_invoice_table
 
         # 设置整行选中
