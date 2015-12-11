@@ -19,7 +19,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.parent = parent
         self.id = id
-        self.init_combo_data()
+        self.init_product_combo_data()
 
         # 初始化数据
         if id:
@@ -32,7 +32,80 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         self.connect(self.invoice_detail_tableWidget, QtCore.SIGNAL('cellChanged(int,int)'), self.cell_changed)
         self.total_num_lineEdit.textChanged.connect(self.total_num_text_changed)
 
+    def init_default_data(self):
+        """'
+        新建发票的时候，在系统中设置默认的数据
+        """
+        # 将当前登录用户作为开票人
+        user_id = Settings.value(Settings.USER_ID).toInt()[0]
+        user = User.get(id=user_id)
+        self.drawer_lineEdit.setText(user.name)
+
+    def init_data(self, data_id):
+        """
+        根据发票ID，将发票的信息初始化到Dialog中
+        :param data_id:发票ID
+        :return:
+        """
+        try:
+            # 设置发票信息
+            invoice = Invoice.get(id=data_id)
+            self.invoice_num_lineEdit.setText(common_util.to_string_trim(invoice.invoice_num))
+            self.custom_name_lineEdit.setText(common_util.to_string_trim(invoice.custom.name))
+            self.total_num_lineEdit.setText(common_util.to_string_trim(invoice.total_num))
+            self.total_num_cn_lineEdit.setText(common_util.to_string_trim(invoice.total_num))
+            self.drawer_lineEdit.setText(common_util.to_string_trim(invoice.drawer))
+            self.beneficiary_lineEdit.setText(common_util.to_string_trim(invoice.beneficiary))
+            self.reviewer_lineEdit.setText(common_util.to_string_trim(invoice.reviewer))
+
+            # 根据ID查询明细
+            invoice_detail_list = list(Invoice.get(id=data_id).invoiceDetails)
+            row_count = len(invoice_detail_list)
+            invoice_detail_table = self.invoice_detail_tableWidget
+            invoice_detail_table.setRowCount(row_count)
+
+            # 将数据加载到表格中
+            for i in range(row_count):
+                invoice_detail = invoice_detail_list[i]
+
+                table_util.set_table_item_value_editable(invoice_detail_table, i, 0, invoice_detail.id, True)
+                table_util.set_table_item_value_editable(invoice_detail_table, i, 1, invoice_detail.product.code, False)
+                table_util.set_table_item_value_editable(invoice_detail_table, i, 2, invoice_detail.product.name, True)
+                table_util.set_table_item_value(invoice_detail_table, i, 3, invoice_detail.pro_num)
+                table_util.set_table_item_value_editable(invoice_detail_table, i, 4, invoice_detail.product.unit_price, True)
+                table_util.set_table_item_value(invoice_detail_table, i, 5, invoice_detail.contain_tax_price)
+        except Invoice.DoesNotExist:
+            logger = logging.getLogger(__name__)
+            logger.exception(u"程序出现异常")
+
+    def init_product_combo_data(self):
+        """
+        初始产品下拉选择框
+        :return:
+        """
+        combo_model = QStandardItemModel(4, 3, self.invoice_detail_tableWidget)
+        combo_model.setHorizontalHeaderLabels([u'名称', u'ID', u'单价'])
+
+        product_list = list(Product.select().where(Product.status == 0))
+        row_count = len(product_list)
+        combo_model.setRowCount(row_count)
+
+        # 将数据加载到表格中
+        for i in range(row_count):
+            product = product_list[i]
+            combo_model.setData(combo_model.index(i, 0, QModelIndex()), QVariant(product.id))
+            combo_model.setData(combo_model.index(i, 1, QModelIndex()), QVariant(product.name))
+            combo_model.setData(combo_model.index(i, 2, QModelIndex()), QVariant(product.unit_price))
+
+        combo_box = DBComboBoxDelegate(combo_model, self.invoice_detail_tableWidget)
+        self.invoice_detail_tableWidget.setItemDelegateForColumn(1, combo_box)
+
     def total_num_text_changed(self, string):
+        """
+        绑定数字金额修改事件
+        :param string:数字金额
+        :return:
+        """
         try:
             total_num = float(string)
             total_num_cn = money_convert.to_rmb_upper(total_num)
@@ -41,6 +114,12 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             QMessageBox.information(self.parentWidget(), u"错误", u'请输入数字金额！')
 
     def cell_changed(self, row_num, col_num):
+        """
+        绑定表格中元素修改事件
+        :param row_num:行数
+        :param col_num:列数
+        :return:
+        """
         table = self.invoice_detail_tableWidget
 
         # 如果产品编码更新
@@ -55,6 +134,10 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             table_util.set_table_item_value_editable(table, row_num, 4, product.unit_price,True)
 
     def add_invoice(self):
+        """
+        添加发票信息
+        :return:
+        """
         invoice_num = table_util.get_edit_text(self.invoice_num_lineEdit)
         custom_name = table_util.get_edit_text(self.custom_name_lineEdit)
         total_num = table_util.get_edit_text_float(self.total_num_lineEdit)
@@ -99,6 +182,10 @@ class InvoiceDialog(QDialog, Ui_Dialog):
                 invoice_detail.save()
 
     def update_invoice(self):
+        """
+        修改发票信息
+        :return:
+        """
         invoice_num = table_util.get_edit_text(self.invoice_num_lineEdit)
         custom_name = table_util.get_edit_text(self.custom_name_lineEdit)
         total_num = table_util.get_edit_text_float(self.total_num_lineEdit)
@@ -162,63 +249,3 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             logger.exception(u"报错客户信息出错！")
             logger.error(e)
 
-    def init_default_data(self):
-        # 将当前登录用户作为开票人
-        user_id = Settings.value(Settings.USER_ID).toInt()[0]
-        user = User.get(id=user_id)
-        self.drawer_lineEdit.setText(user.name)
-
-    def init_data(self, data_id):
-        """
-        根据发票ID，将发票的信息初始化到Dialog中
-        :param data_id:发票ID
-        :return:
-        """
-        try:
-            # 设置发票信息
-            invoice = Invoice.get(id=data_id)
-            self.invoice_num_lineEdit.setText(common_util.to_string_trim(invoice.invoice_num))
-            self.custom_name_lineEdit.setText(common_util.to_string_trim(invoice.custom.name))
-            self.total_num_lineEdit.setText(common_util.to_string_trim(invoice.total_num))
-            self.total_num_cn_lineEdit.setText(common_util.to_string_trim(invoice.total_num))
-            self.drawer_lineEdit.setText(common_util.to_string_trim(invoice.drawer))
-            self.beneficiary_lineEdit.setText(common_util.to_string_trim(invoice.beneficiary))
-            self.reviewer_lineEdit.setText(common_util.to_string_trim(invoice.reviewer))
-
-            # 根据ID查询明细
-            invoice_detail_list = list(Invoice.get(id=data_id).invoiceDetails)
-            row_count = len(invoice_detail_list)
-            invoice_detail_table = self.invoice_detail_tableWidget
-            invoice_detail_table.setRowCount(row_count)
-
-            # 将数据加载到表格中
-            for i in range(row_count):
-                invoice_detail = invoice_detail_list[i]
-
-                table_util.set_table_item_value_editable(invoice_detail_table, i, 0, invoice_detail.id, True)
-                table_util.set_table_item_value_editable(invoice_detail_table, i, 1, invoice_detail.product.code, False)
-                table_util.set_table_item_value_editable(invoice_detail_table, i, 2, invoice_detail.product.name, True)
-                table_util.set_table_item_value(invoice_detail_table, i, 3, invoice_detail.pro_num)
-                table_util.set_table_item_value_editable(invoice_detail_table, i, 4, invoice_detail.product.unit_price, True)
-                table_util.set_table_item_value(invoice_detail_table, i, 5, invoice_detail.contain_tax_price)
-        except Invoice.DoesNotExist:
-            logger = logging.getLogger(__name__)
-            logger.exception(u"程序出现异常")
-
-    def init_combo_data(self):
-        combo_model = QStandardItemModel(4, 3, self.invoice_detail_tableWidget)
-        combo_model.setHorizontalHeaderLabels([u'名称', u'ID', u'单价'])
-
-        product_list = list(Product.select().where(Product.status == 0))
-        row_count = len(product_list)
-        combo_model.setRowCount(row_count)
-
-        # 将数据加载到表格中
-        for i in range(row_count):
-            product = product_list[i]
-            combo_model.setData(combo_model.index(i, 0, QModelIndex()), QVariant(product.id))
-            combo_model.setData(combo_model.index(i, 1, QModelIndex()), QVariant(product.name))
-            combo_model.setData(combo_model.index(i, 2, QModelIndex()), QVariant(product.unit_price))
-
-        combo_box = DBComboBoxDelegate(combo_model, self.invoice_detail_tableWidget)
-        self.invoice_detail_tableWidget.setItemDelegateForColumn(1, combo_box)
