@@ -31,6 +31,7 @@ class Settings:
     # ============ 模板配置 ============
     INVOICE_START_NUM = "invoice_start_num"
     INVOICE_END_NUM = "invoice_end_num"
+    INVOICE_CURRENT_NUM = "invoice_current_num"
     # ============ 模板配置 ============
 
     # ============ 模板配置 ============

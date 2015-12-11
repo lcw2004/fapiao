@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from PyQt4.QtCore import Qt
+from PyQt4.QtCore import Qt, QString
 from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView, QPrinter, QPrintPreviewDialog, QPainter
 from PyQt4 import QtCore
 from PyQt4 import QtGui
@@ -96,10 +96,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 config.PRODUCT_ALL_NAME + "\n" +
                 "Copyright " + config.PRODUCT_COMPANY)
 
-
-
     def show_msg_at_rigth_label(self, msg):
         self.right_status_label.setText(msg)
+
+    def init_home_page(self):
+        invoice_start_num = Settings.value_str(Settings.INVOICE_START_NUM)
+        invoice_end_num = Settings.value_str(Settings.INVOICE_END_NUM)
+        invoice_current_num = Settings.value_str(Settings.INVOICE_CURRENT_NUM)
+
+        all_count = int(invoice_end_num) - int(invoice_start_num) + 1
+        used_count = int(invoice_current_num) - int(invoice_start_num)
+        last_count = int(invoice_end_num) - int(invoice_current_num) + 1
+
+        current_section = u"{0} -> {1} , 共计{2}张".format(invoice_start_num, invoice_end_num, all_count)
+
+        self.home_page_current_section_lable.setText(current_section)
+        self.home_page_next_num_lable.setText(invoice_current_num)
+        self.home_page_used_count_lable.setText(QString.number(used_count))
+        self.home_page_last_count_lable.setText(QString.number(last_count))
 
     def init_ui(self):
         self.setWindowTitle(config.PRODUCT_ALL_NAME)
@@ -107,6 +121,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.init_time_edit(self.ok_invoice_end_time_edit)
         day_before_30 = datetime.date.today() - datetime.timedelta(days=30)
         self.ok_invoice_start_time_edit.setDate(day_before_30)
+
+        # 首页
+        self.init_home_page()
 
         # =====================
         # 状态栏信息
@@ -211,10 +228,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def invoice_print_btn_clicked(self):
         invoice_table = self.invoice_table
         self.print_select_invoice(invoice_table)
+        self.invoice_filter_btn_clicked()
 
     def ok_invoice_print_btn_clicked(self):
         invoice_table = self.ok_invoice_table
         self.print_select_invoice(invoice_table)
+        self.ok_invoice_filter_btn_clicked()
 
     def print_select_invoice(self, invoice_table):
         # 获得选中的合同的ID
