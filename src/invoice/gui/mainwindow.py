@@ -126,12 +126,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def init_ui(self):
         self.setWindowTitle(config.PRODUCT_ALL_NAME)
+        self.tabWidget.setCurrentIndex(0)
+
+        # 初始化时间查询条件
         self.init_time_edit(self.ok_invoice_start_time_edit)
         self.init_time_edit(self.ok_invoice_end_time_edit)
         day_before_30 = datetime.date.today() - datetime.timedelta(days=30)
         self.ok_invoice_start_time_edit.setDate(day_before_30)
 
-        # 首页
+        # 加载首页
         self.init_home_page()
 
         # =====================
