@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from PyQt4.QtCore import Qt, QString
+from PyQt4.QtCore import Qt, QString, QSize, QSizeF
 from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView, QPrinter, QPrintPreviewDialog, QPainter
 from PyQt4 import QtCore
 from PyQt4 import QtGui
@@ -268,7 +268,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 将合同信息填充到模板中
         # TODO 文件路径写死了
         self.img_path = "D:\\123333.jpg"
-        add_text_in_invoice.add_text_in_image(self.img_path, invoice_id, in_img_path=config.PATH_OF_INVOICE_TEMPLATE_BLANK)
+        add_text_in_invoice.add_text_in_image(self.img_path, invoice_id, in_img_path=config.PATH_OF_INVOICE_TEMPLATE)
 
         printer = QPrinter(QPrinter.HighResolution)
         preview = QPrintPreviewDialog(printer, self)
@@ -278,7 +278,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         preview.setMaximumHeight(800)
         preview.setMinimumHeight(800)
 
-        printer.setPageSize(QPrinter.A8)
+        width = 7.59
+        height = 4.13
+        qsize = QSizeF(width, height)
+        printer.setPaperSize(qsize, QPrinter.Inch)
         printer.setFullPage(False)
 
         preview.paintRequested.connect(self.plot_pic)
@@ -302,7 +305,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def plot_pic(self, printer):
         painter = QPainter(printer)
 
-        image = QtGui.QPixmap(self.img_path)
+        image = QtGui.QPixmap("D:\\123333.jpg")
         rect = painter.viewport()
         # QSize
         size = image.size()
