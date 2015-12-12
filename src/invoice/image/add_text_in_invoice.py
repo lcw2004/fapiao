@@ -50,7 +50,7 @@ def add_text_in_image(out_img_path, invoice_id, in_img_path=config.PATH_OF_INVOI
 
 
 if __name__ == "__main__":
-    img_path = "D:\\Invoice_template.png"
+    img_path = "D:\\Invoice_template_1.png"
     out_img_path = "D:\\12_text.jpg"
     mark_img_path = "D:\\zuofei.png"
-    add_text_in_image(out_img_path, 22, img_path)
+    add_text_in_image(out_img_path, 1, img_path)
