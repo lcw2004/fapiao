@@ -21,27 +21,27 @@ class TextInfoFactory:
         self.text_info_map = {}
         self.text_info_map["default"] = TextInfo(default_font_name, default_font_size, default_font_color, 100, 100)
         # 客户名称
-        self.text_info_map["custom_name"] = TextInfo(default_font_name, default_font_size, default_font_color, 520, 475)
+        self.text_info_map["custom_name"] = TextInfo(default_font_name, default_font_size, default_font_color, 376, 343)
         # 开票日期
-        self.text_info_map["start_time"] = TextInfo(default_font_name, default_font_size, default_font_color, 1260, 475)
+        self.text_info_map["start_time"] = TextInfo(default_font_name, default_font_size, default_font_color, 1120, 343)
         # 发票号码
-        self.text_info_map["invoice_num"] = TextInfo(default_font_name, default_font_size, default_font_color, 1834, 411)
+        self.text_info_map["invoice_num"] = TextInfo(default_font_name, default_font_size, default_font_color, 1690, 280)
         # 开票人
-        self.text_info_map["drawer"] = TextInfo(default_font_name, default_font_size, default_font_color, 466, 1152)
+        self.text_info_map["drawer"] = TextInfo(default_font_name, default_font_size, default_font_color, 372, 1021)
         # 收款人
-        self.text_info_map["beneficiary"] = TextInfo(default_font_name, default_font_size, default_font_color, 887, 1152)
+        self.text_info_map["beneficiary"] = TextInfo(default_font_name, default_font_size, default_font_color, 737, 1021)
         # 复核人
-        self.text_info_map["reviewer"] = TextInfo(default_font_name, default_font_size, default_font_color, 1306, 1152)
+        self.text_info_map["reviewer"] = TextInfo(default_font_name, default_font_size, default_font_color, 1165, 1021)
         # 总金额
-        self.text_info_map["total_num_cn"] = TextInfo(default_font_name, default_font_size, default_font_color, 628, 1034)
-        self.text_info_map["total_num"] = TextInfo(default_font_name, default_font_size, default_font_color, 1870, 1034)
+        self.text_info_map["total_num_cn"] = TextInfo(default_font_name, default_font_size, default_font_color, 501, 919)
+        self.text_info_map["total_num"] = TextInfo(default_font_name, default_font_size, default_font_color, 1724, 916)
         # 产品代码
-        self.text_info_map["code"] = TextInfo(default_font_name, default_font_size, default_font_color, 356, 720)
+        self.text_info_map["code"] = TextInfo(default_font_name, default_font_size, default_font_color, 193, 604)
         # 产品名称
-        self.text_info_map["name"] = TextInfo(default_font_name, default_font_size, default_font_color, 680, 720)
-        self.text_info_map["pro_num"] = TextInfo(default_font_name, default_font_size, default_font_color, 1260, 720)
-        self.text_info_map["unit_price"] = TextInfo(default_font_name, default_font_size, default_font_color, 1504, 720)
-        self.text_info_map["contain_tax_price"] = TextInfo(default_font_name, default_font_size, default_font_color, 1820, 720)
+        self.text_info_map["name"] = TextInfo(default_font_name, default_font_size, default_font_color, 487, 604)
+        self.text_info_map["pro_num"] = TextInfo(default_font_name, default_font_size, default_font_color, 1080, 604)
+        self.text_info_map["unit_price"] = TextInfo(default_font_name, default_font_size, default_font_color, 1323, 604)
+        self.text_info_map["contain_tax_price"] = TextInfo(default_font_name, default_font_size, default_font_color, 1640, 604)
 
 
 if __name__ == "__main__":

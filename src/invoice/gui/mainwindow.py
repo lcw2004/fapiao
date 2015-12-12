@@ -267,8 +267,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # 将合同信息填充到模板中
         # TODO 文件路径写死了
-        self.img_path = "D:\\123333.jpg"
-        add_text_in_invoice.add_text_in_image(self.img_path, invoice_id, in_img_path=config.PATH_OF_INVOICE_TEMPLATE)
+        img_path = "D:\\123333.jpg"
+        add_text_in_invoice.add_text_in_image(img_path, invoice_id, in_img_path=config.PATH_OF_INVOICE_TEMPLATE)
 
         printer = QPrinter(QPrinter.HighResolution)
         preview = QPrintPreviewDialog(printer, self)
@@ -307,7 +307,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         image = QtGui.QPixmap("D:\\123333.jpg")
         rect = painter.viewport()
-        # QSize
+
         size = image.size()
         size.scale(rect.size(), Qt.KeepAspectRatio)  # //此处保证图片显示完整
         painter.setViewport(rect.x(), rect.y(), size.width(), size.height())
