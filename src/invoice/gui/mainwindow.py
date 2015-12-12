@@ -104,8 +104,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoice_end_num = Settings.value_str(Settings.INVOICE_END_NUM)
 
         invoice_list = Invoice.select(Invoice.invoice_num).where(Invoice.invoice_num.between(invoice_start_num, invoice_end_num)).order_by(Invoice.invoice_num.asc())
-        invoice = list(invoice_list)[-1]
-        invoice_current_num = invoice.invoice_num + 1
+        if invoice_list and len(invoice_list) > 0:
+            invoice = list(invoice_list)[-1]
+            invoice_current_num = invoice.invoice_num + 1
+        else:
+            invoice_current_num = 0
 
         if invoice_start_num and len(invoice_start_num) > 0:
 
@@ -265,7 +268,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 将合同信息填充到模板中
         # TODO 文件路径写死了
         self.img_path = "D:\\123333.jpg"
-        add_text_in_invoice.add_text_in_image(self.img_path, invoice_id)
+        add_text_in_invoice.add_text_in_image(self.img_path, invoice_id, in_img_path=config.PATH_OF_INVOICE_TEMPLATE_BLANK)
 
         printer = QPrinter(QPrinter.HighResolution)
         preview = QPrintPreviewDialog(printer, self)

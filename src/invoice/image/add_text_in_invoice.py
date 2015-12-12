@@ -8,7 +8,7 @@ from invoice.common import money_convert
 from invoice.image import image_util
 
 
-def add_text_in_image(out_img_path, invoice_id, in_img_path="resources/Invoice_template.png"):
+def add_text_in_image(out_img_path, invoice_id, in_img_path=config.PATH_OF_INVOICE_TEMPLATE):
     invoice = Invoice.get(id=invoice_id)
     invoice_detail_list = list(Invoice.get(id=invoice_id).invoiceDetails)
 

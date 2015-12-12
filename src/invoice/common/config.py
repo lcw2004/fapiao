@@ -18,6 +18,7 @@ PATH_OF_I18N_CH_CN = "resources/i18n/qt_zh_CN.qm"
 # ============ 模板配置 ============
 # 模板图片路径
 PATH_OF_INVOICE_TEMPLATE = "resources/Invoice_template.png"
+PATH_OF_INVOICE_TEMPLATE_BLANK = "resources/Invoice_template_blank.png"
 # 作废章路径
 PATH_OF_ZUOFEI_IMG = "resources/zuofei.png"
 TEMP_FONT_NAME = "C:\\Windows\\Fonts\\simfang.ttf"
