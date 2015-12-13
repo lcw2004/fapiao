@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>759</width>
-    <height>481</height>
+    <height>462</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,7 +31,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>6</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -129,120 +129,9 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_0">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <attribute name="icon">
-        <iconset>
-         <normaloff>C:/Users/Administrator/.designer/backup/image/tab_import.ico</normaloff>C:/Users/Administrator/.designer/backup/image/tab_import.ico</iconset>
-       </attribute>
-       <attribute name="title">
-        <string>数据导入</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="sizeConstraint">
-         <enum>QLayout::SetMaximumSize</enum>
-        </property>
-        <property name="margin">
-         <number>0</number>
-        </property>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <property name="margin">
-           <number>3</number>
-          </property>
-          <item>
-           <widget class="QPushButton" name="excel_gen_invoice_btn">
-            <property name="text">
-             <string>保存到临时数据区</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>image/op_gen_invoince.png</normaloff>image/op_gen_invoince.png</iconset>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <property name="margin">
-           <number>3</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>文件</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="excel_SelectFilePathEdit"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="excel_selectl_file_btn">
-            <property name="text">
-             <string>选择</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>image/excel.ico</normaloff>image/excel.ico</iconset>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QTableWidget" name="excel_table">
-          <property name="rowCount">
-           <number>0</number>
-          </property>
-          <property name="columnCount">
-           <number>0</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
       <widget class="QWidget" name="tab_1">
        <attribute name="title">
-        <string>临时待处理数据</string>
+        <string>开具发票</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <property name="spacing">
@@ -295,7 +184,7 @@
           <item>
            <widget class="QPushButton" name="invoice_delete_btn">
             <property name="text">
-             <string>删除</string>
+             <string>作废</string>
             </property>
             <property name="icon">
              <iconset>
@@ -317,7 +206,7 @@
           <item>
            <widget class="QPushButton" name="invoice_import_xml_btn">
             <property name="text">
-             <string>开票</string>
+             <string>增票</string>
             </property>
             <property name="icon">
              <iconset>
@@ -1229,6 +1118,117 @@
            </widget>
           </item>
          </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_0">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <attribute name="icon">
+        <iconset>
+         <normaloff>C:/Users/Administrator/.designer/backup/image/tab_import.ico</normaloff>C:/Users/Administrator/.designer/backup/image/tab_import.ico</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>赠票数据导入</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="sizeConstraint">
+         <enum>QLayout::SetMaximumSize</enum>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="spacing">
+           <number>1</number>
+          </property>
+          <property name="margin">
+           <number>3</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="excel_gen_invoice_btn">
+            <property name="text">
+             <string>保存到临时数据区</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>image/op_gen_invoince.png</normaloff>image/op_gen_invoince.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="spacing">
+           <number>1</number>
+          </property>
+          <property name="margin">
+           <number>3</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>文件</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="excel_SelectFilePathEdit"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="excel_selectl_file_btn">
+            <property name="text">
+             <string>选择</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>image/excel.ico</normaloff>image/excel.ico</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="excel_table">
+          <property name="rowCount">
+           <number>0</number>
+          </property>
+          <property name="columnCount">
+           <number>0</number>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
