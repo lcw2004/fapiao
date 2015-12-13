@@ -41,6 +41,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         user_id = Settings.value(Settings.USER_ID).toInt()[0]
         user = User.get(id=user_id)
         self.drawer_lineEdit.setText(user.name)
+        self.beneficiary_lineEdit.setText(Settings.value_str(Settings.BENEFICIARY_NAME))
+        self.reviewer_lineEdit.setText(Settings.value_str(Settings.REVIEWER_NAME))
         # --------------------------
 
         # --------------------------
