@@ -38,7 +38,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # =====================
         # 临时待处理数据
         self.connect(self.invoice_filter_btn, QtCore.SIGNAL("clicked()"), self.invoice_filter_btn_clicked)
-        self.connect(self.invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'),self.invoice_table_item_clicked)
+        self.connect(self.invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'), self.invoice_table_item_clicked)
         self.connect(self.invoice_add_btn, QtCore.SIGNAL("clicked()"), self.invoice_add_btn_clicked)
         self.connect(self.invoine_update_btn, QtCore.SIGNAL("clicked()"), self.invoice_update_btn_clicked)
         self.connect(self.invoice_delete_btn, QtCore.SIGNAL("clicked()"), self.invoice_delete_btn_clicked)
@@ -275,11 +275,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def print_select_invoice(self, invoice_table):
         # 获得选中的合同的ID
         selected_rows = table_util.get_selected_row_number_list(invoice_table)
-
         if len(selected_rows) != 1:
             QMessageBox.information(self, "Information", u'请选择需要打印的合同，每次只能打印一条！')
             return
-
         invoice_id = table_util.str_to_unicode_str(invoice_table.item(selected_rows[0], 0).text())
 
         # 将合同信息填充到模板中
@@ -288,21 +286,39 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         add_text_in_invoice.add_text_in_image(img_path, invoice_id, in_img_path=config.PATH_OF_INVOICE_TEMPLATE)
         logger.info(u"生成图片成功，路径{0}".format(img_path))
 
+        # TODO 处理打印失败的情况
+        # 弹出打印框
+        printer = QPrinter(QPrinter.HighResolution)
+        print_dialog = QtGui.QPrintDialog(printer, self)
+        print_dialog.setWindowTitle("打印发票")
+
+        if print_dialog.exec_() == QtGui.QDialog.Accepted:
+            # 如果在弹出的打印界面中选择了打印
+            self.print_invoice_pic(printer)
+        del print_dialog
+
+    def print_preview_select_invoice(self, invoice_table):
+        # 获得选中的合同的ID
+        selected_rows = table_util.get_selected_row_number_list(invoice_table)
+        if len(selected_rows) != 1:
+            QMessageBox.information(self, "Information", u'请选择需要打印的合同，每次只能打印一条！')
+            return
+        invoice_id = table_util.str_to_unicode_str(invoice_table.item(selected_rows[0], 0).text())
+
+        # 将合同信息填充到模板中
+        # TODO 文件路径写死了
+        img_path = "D:\\123333.jpg"
+        add_text_in_invoice.add_text_in_image(img_path, invoice_id, in_img_path=config.PATH_OF_INVOICE_TEMPLATE)
+        logger.info(u"生成图片成功，路径{0}".format(img_path))
+
+        # 生成打印预览界面
         printer = QPrinter(QPrinter.HighResolution)
         preview = QPrintPreviewDialog(printer, self)
-
         preview.setMaximumWidth(800)
         preview.setMinimumWidth(800)
         preview.setMaximumHeight(800)
         preview.setMinimumHeight(800)
-
-        width = 7.59
-        height = 4.13
-        qsize = QSizeF(width, height)
-        printer.setPaperSize(qsize, QPrinter.Inch)
-        printer.setFullPage(False)
-
-        preview.paintRequested.connect(self.plot_pic)
+        preview.paintRequested.connect(self.print_invoice_pic)
         result = preview.exec_()
         if result:
             # 打印成功
@@ -320,16 +336,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # 打印失败
             self.show_msg_at_rigth_label(u"打印失败，请重试！")
 
-    def plot_pic(self, printer):
+    def print_invoice_pic(self, printer):
+        logger.info(u"开始打印图片")
+        img_path = "D:\\123333.jpg"
+
+        # 设置纸张宽度高度
+        width = 7.59
+        height = 4.13
+        qsize = QSizeF(width, height)
+        printer.setPaperSize(qsize, QPrinter.Inch)
+        printer.setFullPage(False)
+
+        # 构建Qpainter对象，用于将图片传到打印机上
         painter = QPainter(printer)
-
-        logger.info(u"打印预览开始加载图片")
-        image = QtGui.QPixmap("D:\\123333.jpg")
         rect = painter.viewport()
-
-        size = image.size()
-        size.scale(rect.size(), Qt.KeepAspectRatio)  # //此处保证图片显示完整
-        painter.setViewport(rect.x(), rect.y(), size.width(), size.height())
+        image = QtGui.QPixmap(img_path)
+        img_size = image.size()
+        img_size.scale(rect.size(), Qt.KeepAspectRatio)  # //此处保证图片显示完整
+        painter.setViewport(rect.x(), rect.y(), img_size.width(), img_size.height())
         painter.setWindow(image.rect())
         painter.drawPixmap(0, 0, image)
         logger.info(u"成功加载图片成加载图片")
