@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>759</width>
-    <height>462</height>
+    <height>474</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,7 +31,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -268,7 +268,7 @@
            <number>0</number>
           </property>
           <property name="columnCount">
-           <number>15</number>
+           <number>16</number>
           </property>
           <column>
            <property name="text">
@@ -282,17 +282,12 @@
           </column>
           <column>
            <property name="text">
+            <string>发票代码</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
             <string>客户名称</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>总不含税金额</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>总税额</string>
            </property>
           </column>
           <column>
@@ -313,6 +308,16 @@
           <column>
            <property name="text">
             <string>复核人</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>总税额</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>总不含税金额</string>
            </property>
           </column>
           <column>
@@ -372,22 +377,27 @@
           </column>
           <column>
            <property name="text">
-            <string>产品型号</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>产品单位</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
             <string>产品单价</string>
            </property>
           </column>
           <column>
            <property name="text">
             <string>产品数量</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>含税金额</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>产品型号</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>产品单位</string>
            </property>
           </column>
           <column>
@@ -408,11 +418,6 @@
           <column>
            <property name="text">
             <string>税额</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>含税金额</string>
            </property>
           </column>
          </widget>
@@ -565,7 +570,7 @@
            <number>0</number>
           </property>
           <property name="columnCount">
-           <number>15</number>
+           <number>16</number>
           </property>
           <column>
            <property name="text">
@@ -579,17 +584,12 @@
           </column>
           <column>
            <property name="text">
+            <string>发票代码</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
             <string>客户名称</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>总不含税金额</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>总税额</string>
            </property>
           </column>
           <column>
@@ -610,6 +610,16 @@
           <column>
            <property name="text">
             <string>复核人</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>总税额</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>总不含税金额</string>
            </property>
           </column>
           <column>
@@ -650,7 +660,7 @@
            <number>0</number>
           </property>
           <property name="columnCount">
-           <number>11</number>
+           <number>12</number>
           </property>
           <column>
            <property name="text">
@@ -669,22 +679,27 @@
           </column>
           <column>
            <property name="text">
-            <string>产品型号</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>产品单位</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
             <string>产品单价</string>
            </property>
           </column>
           <column>
            <property name="text">
             <string>产品数量</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>含税金额</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>产品型号</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>产品单位</string>
            </property>
           </column>
           <column>
@@ -704,7 +719,7 @@
           </column>
           <column>
            <property name="text">
-            <string>含税金额</string>
+            <string>税额</string>
            </property>
           </column>
          </widget>

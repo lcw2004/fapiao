@@ -438,22 +438,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             table_util.set_table_item_value(invoice_table, i, 0, invoice.id)
             table_util.set_table_item_value(invoice_table, i, 1, invoice.invoice_num)
-            table_util.set_table_item_value(invoice_table, i, 3, invoice.total_not_tax)
-            table_util.set_table_item_value(invoice_table, i, 4, invoice.total_tax)
-            table_util.set_table_item_value(invoice_table, i, 5, invoice.total_num)
-            table_util.set_table_item_value(invoice_table, i, 6, invoice.drawer)
-            table_util.set_table_item_value(invoice_table, i, 7, invoice.beneficiary)
-            table_util.set_table_item_value(invoice_table, i, 8, invoice.reviewer)
-            table_util.set_table_item_value(invoice_table, i, 9, invoice.remark)
+            table_util.set_table_item_value(invoice_table, i, 2, invoice.invoice_code)
+            table_util.set_table_item_value(invoice_table, i, 4, invoice.total_num)
+            table_util.set_table_item_value(invoice_table, i, 5, invoice.drawer)
+            table_util.set_table_item_value(invoice_table, i, 6, invoice.beneficiary)
+            table_util.set_table_item_value(invoice_table, i, 7, invoice.reviewer)
+            table_util.set_table_item_value(invoice_table, i, 8, invoice.total_not_tax)
+            table_util.set_table_item_value(invoice_table, i, 9, invoice.total_tax)
+            table_util.set_table_item_value(invoice_table, i, 10, invoice.remark)
             table_util.set_table_item_value(invoice_table, i, 14, invoice.serial_number)
 
             try:
                 if invoice.custom:
-                    table_util.set_table_item_value(invoice_table, i, 2, invoice.custom.name)
-                    table_util.set_table_item_value(invoice_table, i, 10, invoice.custom.code)
-                    table_util.set_table_item_value(invoice_table, i, 11, invoice.custom.tax_id)
-                    table_util.set_table_item_value(invoice_table, i, 12, invoice.custom.addr)
-                    table_util.set_table_item_value(invoice_table, i, 13, invoice.custom.bank_account)
+                    table_util.set_table_item_value(invoice_table, i, 3, invoice.custom.name)
+                    table_util.set_table_item_value(invoice_table, i, 11, invoice.custom.code)
+                    table_util.set_table_item_value(invoice_table, i, 12, invoice.custom.tax_id)
+                    table_util.set_table_item_value(invoice_table, i, 13, invoice.custom.addr)
+                    table_util.set_table_item_value(invoice_table, i, 14, invoice.custom.bank_account)
             except Exception:
                 pass
 
@@ -499,26 +500,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 将数据加载到表格中
         for i in range(row_count):
             invoice = invoice_list[i]
+
             table_util.set_table_item_value(invoice_table, i, 0, invoice.id)
             if invoice.status == -1:
                 table_util.set_table_item_value(invoice_table, i, 1, str(invoice.invoice_num) + u"(作废)")
                 table_util.set_table_item_color(invoice_table, i, 1, QtGui.QColor(199, 220, 252))
             else:
                 table_util.set_table_item_value(invoice_table, i, 1, invoice.invoice_num)
-            if invoice.custom:
-                table_util.set_table_item_value(invoice_table, i, 2, invoice.custom.name)
-                table_util.set_table_item_value(invoice_table, i, 10, invoice.custom.code)
-                table_util.set_table_item_value(invoice_table, i, 11, invoice.custom.tax_id)
-                table_util.set_table_item_value(invoice_table, i, 12, invoice.custom.addr)
-                table_util.set_table_item_value(invoice_table, i, 13, invoice.custom.bank_account)
-            table_util.set_table_item_value(invoice_table, i, 3, invoice.total_not_tax)
-            table_util.set_table_item_value(invoice_table, i, 4, invoice.total_tax)
-            table_util.set_table_item_value(invoice_table, i, 5, invoice.total_num)
-            table_util.set_table_item_value(invoice_table, i, 6, invoice.drawer)
-            table_util.set_table_item_value(invoice_table, i, 7, invoice.beneficiary)
-            table_util.set_table_item_value(invoice_table, i, 8, invoice.reviewer)
-            table_util.set_table_item_value(invoice_table, i, 9, invoice.remark)
+            table_util.set_table_item_value(invoice_table, i, 2, invoice.invoice_code)
+            table_util.set_table_item_value(invoice_table, i, 4, invoice.total_num)
+            table_util.set_table_item_value(invoice_table, i, 5, invoice.drawer)
+            table_util.set_table_item_value(invoice_table, i, 6, invoice.beneficiary)
+            table_util.set_table_item_value(invoice_table, i, 7, invoice.reviewer)
+            table_util.set_table_item_value(invoice_table, i, 8, invoice.total_not_tax)
+            table_util.set_table_item_value(invoice_table, i, 9, invoice.total_tax)
+            table_util.set_table_item_value(invoice_table, i, 10, invoice.remark)
             table_util.set_table_item_value(invoice_table, i, 14, invoice.serial_number)
+
+            try:
+                if invoice.custom:
+                    table_util.set_table_item_value(invoice_table, i, 3, invoice.custom.name)
+                    table_util.set_table_item_value(invoice_table, i, 11, invoice.custom.code)
+                    table_util.set_table_item_value(invoice_table, i, 12, invoice.custom.tax_id)
+                    table_util.set_table_item_value(invoice_table, i, 13, invoice.custom.addr)
+                    table_util.set_table_item_value(invoice_table, i, 14, invoice.custom.bank_account)
+            except Exception:
+                pass
 
     def ok_invoice_export_btn_clicked(self):
         file_name_qstr = QtGui.QFileDialog.getSaveFileName(None, 'Excel', '../', 'Excel File (*.xlsx)')
@@ -616,15 +623,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(invoice_detail_table, i, 0, invoice_detail.id)
             table_util.set_table_item_value(invoice_detail_table, i, 1, invoice_detail.product.code)
             table_util.set_table_item_value(invoice_detail_table, i, 2, invoice_detail.product.name)
-            table_util.set_table_item_value(invoice_detail_table, i, 3, invoice_detail.product.type)
-            table_util.set_table_item_value(invoice_detail_table, i, 4, invoice_detail.product.unit)
-            table_util.set_table_item_value(invoice_detail_table, i, 5, invoice_detail.product.unit_price)
-            table_util.set_table_item_value(invoice_detail_table, i, 6, invoice_detail.pro_num)
-            table_util.set_table_item_value(invoice_detail_table, i, 7, invoice_detail.product.tax_price)
-            table_util.set_table_item_value(invoice_detail_table, i, 8, invoice_detail.not_tax_price)
-            table_util.set_table_item_value(invoice_detail_table, i, 9, invoice_detail.product.tax)
-            table_util.set_table_item_value(invoice_detail_table, i, 10, invoice_detail.tax_price)
-            table_util.set_table_item_value(invoice_detail_table, i, 11, invoice_detail.contain_tax_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 3, invoice_detail.product.unit_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 4, invoice_detail.pro_num)
+            table_util.set_table_item_value(invoice_detail_table, i, 5, invoice_detail.contain_tax_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 6, invoice_detail.tax_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 7, invoice_detail.product.type)
+            table_util.set_table_item_value(invoice_detail_table, i, 8, invoice_detail.product.unit)
+            table_util.set_table_item_value(invoice_detail_table, i, 9, invoice_detail.product.tax_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 10, invoice_detail.not_tax_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 11, invoice_detail.product.tax)
+
 
     def custom_query_btn_clicked(self):
         custom_table = self.custom_table
