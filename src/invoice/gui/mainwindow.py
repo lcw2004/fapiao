@@ -103,7 +103,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         invoice_start_num = Settings.value_int(Settings.INVOICE_START_NUM)
         invoice_end_num = Settings.value_int(Settings.INVOICE_END_NUM)
 
-
         # --------------------------
         # 查询号段内的数据，并获取已使用数量
         # TODO 性能优化
@@ -145,7 +144,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def init_ui(self):
         self.setWindowTitle(config.PRODUCT_ALL_NAME)
-        self.tabWidget.setCurrentIndex(0)
 
         # 初始化时间查询条件
         self.init_time_edit(self.ok_invoice_start_time_edit)
@@ -163,6 +161,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         user = User.get(id=user_id)
         status += u"当前用户：" + user.name
         self.left_status_label.setText(status)
+        # =====================
+
+        # =====================
+        # 设置定位到开票页面
+        self.tabWidget.setCurrentIndex(1)
+        # 根据用户权限，控制是否显示“库存管理”
+        if not user.is_admin:
+            self.tabWidget.removeTab(5)
         # =====================
 
     def init_time_edit(self, time_edit):
