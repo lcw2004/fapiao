@@ -45,24 +45,37 @@
        <property name="margin">
         <number>0</number>
        </property>
-       <item row="3" column="3">
-        <widget class="QLineEdit" name="total_num_cn_lineEdit">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="dragEnabled">
-          <bool>true</bool>
-         </property>
-        </widget>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="invoice_num_lineEdit"/>
        </item>
-       <item row="3" column="2">
-        <widget class="QLabel" name="label_7">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>金额大写</string>
+          <string>发票号码</string>
          </property>
         </widget>
        </item>
        <item row="0" column="2">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>发票代码</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>合计金额</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QLineEdit" name="invoice_code_lineEdit"/>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="total_num_lineEdit"/>
+       </item>
+       <item row="3" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>客户名称</string>
@@ -70,29 +83,26 @@
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QLineEdit" name="total_num_lineEdit"/>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="invoice_num_lineEdit"/>
-       </item>
-       <item row="0" column="3">
         <widget class="QLineEdit" name="custom_name_lineEdit">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_3">
+       <item row="4" column="2">
+        <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>合计金额</string>
+          <string>金额大写</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>发票号码</string>
+       <item row="4" column="3">
+        <widget class="QLineEdit" name="total_num_cn_lineEdit">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="dragEnabled">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -190,14 +200,11 @@
  </widget>
  <tabstops>
   <tabstop>invoice_num_lineEdit</tabstop>
-  <tabstop>custom_name_lineEdit</tabstop>
-  <tabstop>total_num_lineEdit</tabstop>
   <tabstop>invoice_detail_tableWidget</tabstop>
   <tabstop>buttonBox</tabstop>
   <tabstop>drawer_lineEdit</tabstop>
   <tabstop>beneficiary_lineEdit</tabstop>
   <tabstop>reviewer_lineEdit</tabstop>
-  <tabstop>total_num_cn_lineEdit</tabstop>
  </tabstops>
  <resources/>
  <connections>

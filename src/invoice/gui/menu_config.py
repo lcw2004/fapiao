@@ -32,6 +32,7 @@ class MenuConfigDialog(QDialog, Ui_Dialog):
             table_util.save_data_setting(self.interface_temp_lineEdit, Settings.INTERFACE_TEMP_PATH)
             table_util.save_data_setting(self.beneficiary_lineEdit, Settings.BENEFICIARY_NAME)
             table_util.save_data_setting(self.reviewer_lineEdit, Settings.REVIEWER_NAME)
+            table_util.save_data_setting(self.invoice_code_lineEdit, Settings.INVOICE_CODE)
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.exception(u"报错客户信息出错！")
@@ -52,6 +53,7 @@ class MenuConfigDialog(QDialog, Ui_Dialog):
             table_util.load_data_setting(self.interface_temp_lineEdit, Settings.INTERFACE_TEMP_PATH)
             table_util.load_data_setting(self.beneficiary_lineEdit, Settings.BENEFICIARY_NAME)
             table_util.load_data_setting(self.reviewer_lineEdit, Settings.REVIEWER_NAME)
+            table_util.load_data_setting(self.invoice_code_lineEdit, Settings.INVOICE_CODE)
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.exception(u"程序出现异常")

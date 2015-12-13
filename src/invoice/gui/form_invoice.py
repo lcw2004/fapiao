@@ -43,6 +43,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         self.drawer_lineEdit.setText(user.name)
         self.beneficiary_lineEdit.setText(Settings.value_str(Settings.BENEFICIARY_NAME))
         self.reviewer_lineEdit.setText(Settings.value_str(Settings.REVIEWER_NAME))
+        self.invoice_code_lineEdit.setText(Settings.value_str(Settings.INVOICE_CODE))
         # --------------------------
 
         # --------------------------
@@ -85,6 +86,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             # 设置发票信息
             invoice = Invoice.get(id=data_id)
             self.invoice_num_lineEdit.setText(common_util.to_string_trim(invoice.invoice_num))
+            self.invoice_code_lineEdit.setText(common_util.to_string_trim(invoice.invoice_code))
             self.custom_name_lineEdit.setText(common_util.to_string_trim(invoice.custom.name))
             self.total_num_lineEdit.setText(common_util.to_string_trim(invoice.total_num))
             self.total_num_cn_lineEdit.setText(common_util.to_string_trim(invoice.total_num))
@@ -195,6 +197,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         :return:
         """
         invoice_num = table_util.get_edit_text(self.invoice_num_lineEdit)
+        invoice_code = table_util.get_edit_text(self.invoice_code_lineEdit)
         custom_name = table_util.get_edit_text(self.custom_name_lineEdit)
         total_num = table_util.get_edit_text_float(self.total_num_lineEdit)
         drawer = table_util.get_edit_text(self.drawer_lineEdit)
@@ -210,6 +213,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
 
         # 保存发票信息
         invoice = Invoice.create(invoice_num=invoice_num,
+                                 invoice_code=invoice_code,
                                  total_num=total_num,
                                  drawer=drawer,
                                  beneficiary=beneficiary,
@@ -243,6 +247,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         :return:
         """
         invoice_num = table_util.get_edit_text(self.invoice_num_lineEdit)
+        invoice_code = table_util.get_edit_text(self.invoice_code_lineEdit)
         custom_name = table_util.get_edit_text(self.custom_name_lineEdit)
         total_num = table_util.get_edit_text_float(self.total_num_lineEdit)
         drawer = table_util.get_edit_text(self.drawer_lineEdit)
@@ -258,6 +263,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
 
         # 保存发票信息
         q = Invoice.update(invoice_num=invoice_num,
+                           invoice_code=invoice_code,
                            total_num=total_num,
                            drawer=drawer,
                            beneficiary=beneficiary,

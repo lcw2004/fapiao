@@ -37,6 +37,7 @@ class Settings:
     # ============ 模板配置 ============
     BENEFICIARY_NAME = "beneficiary_name"
     REVIEWER_NAME = "reviewer_name"
+    INVOICE_CODE = "invoice_code"
     # ============ 模板配置 ============
 
     _settings = QSettings(os.path.join(os.path.expanduser("~"), 'invoice_helper.ini'), QSettings.IniFormat)

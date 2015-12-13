@@ -65,6 +65,7 @@ drawer               TEXT,
 beneficiary          TEXT,
 reviewer             TEXT,
 status               INTEGER,
+invoice_code         TEXT,
 primary key (id),
 foreign key (custom_id)
       references tbl_custom (id)
@@ -132,6 +133,7 @@ end_num              INTEGER,
 user_id              INTEGER,
 is_used              INTEGER,
 current_num          INTEGER,
+start_time           TEXT,
 primary key (ID),
 foreign key (user_id)
       references tbl_user (id)
