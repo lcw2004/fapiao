@@ -100,25 +100,35 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.right_status_label.setText(msg)
 
     def init_home_page(self):
-        invoice_start_num = Settings.value_str(Settings.INVOICE_START_NUM)
-        invoice_end_num = Settings.value_str(Settings.INVOICE_END_NUM)
+        invoice_start_num = Settings.value_int(Settings.INVOICE_START_NUM)
+        invoice_end_num = Settings.value_int(Settings.INVOICE_END_NUM)
 
-        invoice_list = Invoice.select(Invoice.invoice_num).where(Invoice.invoice_num.between(invoice_start_num, invoice_end_num)).order_by(Invoice.invoice_num.asc())
+
+        # --------------------------
+        # 查询号段内的数据，并获取已使用数量
+        # TODO 性能优化
+        invoice_list = Invoice.select(Invoice.invoice_num).where(
+            Invoice.invoice_num.between(invoice_start_num, invoice_end_num)).order_by(Invoice.invoice_num.asc())
         if invoice_list and len(invoice_list) > 0:
+            # 如果有值，则下一个为最大的一个
             invoice = list(invoice_list)[-1]
             invoice_current_num = invoice.invoice_num + 1
+            used_count = len(invoice_list)
         else:
-            invoice_current_num = 0
+            # 如果无值，则下一个为起始值
+            invoice_current_num = invoice_start_num
+            used_count = 0
+        # --------------------------
 
-        if invoice_start_num and len(invoice_start_num) > 0:
-
-            all_count = int(invoice_end_num) - int(invoice_start_num) + 1
-            used_count = int(invoice_current_num) - int(invoice_start_num)
-            last_count = int(invoice_end_num) - int(invoice_current_num) + 1
-
-            # 普通用户使用情况
+        # --------------------------
+        # 设置号段信息
+        if invoice_start_num > 0 and invoice_end_num > 0:
+            all_count = invoice_end_num - invoice_start_num + 1
+            last_count = all_count - used_count
             current_section = u"{0} -> {1} , 共计{2}张".format(invoice_start_num, invoice_end_num, all_count)
             self.home_page_current_section_lable.setText(current_section)
+
+            # 普通用户使用情况
             self.home_page_next_num_lable.setText(QString.number(invoice_current_num))
             self.home_page_used_count_lable.setText(QString.number(used_count))
             self.home_page_last_count_lable.setText(QString.number(last_count))
@@ -131,6 +141,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             section_use_status = u"当前号段：{0} -> {1} 共计 {2} 张 ".format(invoice_start_num, invoice_end_num, all_count)
             section_use_status += u" 已经分配 {0} 张，剩余 {1} 张发票".format(use_num, last_num)
             self.section_use_status_label.setText(section_use_status)
+        # --------------------------
 
     def init_ui(self):
         self.setWindowTitle(config.PRODUCT_ALL_NAME)
@@ -269,6 +280,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # TODO 文件路径写死了
         img_path = "D:\\123333.jpg"
         add_text_in_invoice.add_text_in_image(img_path, invoice_id, in_img_path=config.PATH_OF_INVOICE_TEMPLATE)
+        logger.info(u"生成图片成功，路径{0}".format(img_path))
 
         printer = QPrinter(QPrinter.HighResolution)
         preview = QPrintPreviewDialog(printer, self)
@@ -305,6 +317,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def plot_pic(self, printer):
         painter = QPainter(printer)
 
+        logger.info(u"打印预览开始加载图片")
         image = QtGui.QPixmap("D:\\123333.jpg")
         rect = painter.viewport()
 
@@ -313,6 +326,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         painter.setViewport(rect.x(), rect.y(), size.width(), size.height())
         painter.setWindow(image.rect())
         painter.drawPixmap(0, 0, image)
+        logger.info(u"成功加载图片成加载图片")
 
     def excel_select_file_btn_clicked(self):
         excel_path = QtGui.QFileDialog.getOpenFileName(None, 'Excel', '../', 'Excel File (*.xls)')

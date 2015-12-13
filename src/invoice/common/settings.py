@@ -57,21 +57,42 @@ class Settings:
     @staticmethod
     def value(key):
         val = Settings._settings.value(key)
-        logging.info("Get:" + str(key) + " -> " + str(val))
         return val
 
     @staticmethod
     def value_str(key):
-        return str(Settings.value(key).toString())
+        value = Settings.value(key)
+        if value.isNull():
+            return ""
+        else:
+            return value.toString()
 
     @staticmethod
     def value_bool(key):
-        return bool(Settings.value_str(key))
+        value = Settings.value(key)
+        if value.isNull():
+            return False
+        else:
+            return value.toBool()
 
     @staticmethod
     def value_int(key):
-        return int(Settings.value_str(key))
+        value = Settings.value(key)
+        if value.isNull():
+            return 0
+        else:
+            return value.toInt()[0]
 
     @staticmethod
     def value_long(key):
-        return long(Settings.value_str(key))
+        value = Settings.value(key)
+        if value.isNull():
+            return 0
+        else:
+            return value.toInt()
+
+if __name__ == "__main__":
+    print Settings.value_str(Settings.LOGIN_NAME)
+    print Settings.value_int(Settings.INVOICE_START_NUM)
+    print Settings.value_bool(Settings.AUTO_LOGIN)
+    print Settings.value_long(Settings.INVOICE_END_NUM)

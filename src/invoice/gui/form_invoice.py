@@ -36,23 +36,34 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         """'
         新建发票的时候，在系统中设置默认的数据
         """
+        # --------------------------
         # 将当前登录用户作为开票人
         user_id = Settings.value(Settings.USER_ID).toInt()[0]
         user = User.get(id=user_id)
         self.drawer_lineEdit.setText(user.name)
+        # --------------------------
 
-
+        # --------------------------
         # 设置发票号码
         # TODO 性能优化
-        invoice_start_num = Settings.value_str(Settings.INVOICE_START_NUM)
-        invoice_end_num = Settings.value_str(Settings.INVOICE_END_NUM)
-        invoice_list = Invoice.select(Invoice.invoice_num).where(Invoice.invoice_num.between(invoice_start_num, invoice_end_num)).order_by(Invoice.invoice_num.asc())
-        invoice = list(invoice_list)[-1]
-        next_num = invoice.invoice_num + 1
-        self.invoice_num_lineEdit.setText(str(next_num))
-        Settings.set_value(Settings.INVOICE_CURRENT_NUM, next_num)
+        invoice_start_num = Settings.value_int(Settings.INVOICE_START_NUM)
+        invoice_end_num = Settings.value_int(Settings.INVOICE_END_NUM)
+        # 查询号段内的数据，并获取已使用数量
+        invoice_list = Invoice.select(Invoice.invoice_num).where(
+            Invoice.invoice_num.between(invoice_start_num, invoice_end_num)).order_by(Invoice.invoice_num.asc())
+        if invoice_list and len(invoice_list) > 0:
+            # 如果有值，则下一个为最大的一个
+            invoice = list(invoice_list)[-1]
+            invoice_current_num = invoice.invoice_num + 1
+        else:
+            # 如果无值，则下一个为起始值
+            invoice_current_num = invoice_start_num
+        # 将最新值添加到输入框中
+        self.invoice_num_lineEdit.setText(str(invoice_current_num))
+        # --------------------------
 
-
+        # --------------------------
+        # 将明细添加到表格中
         table = self.invoice_detail_tableWidget
         row_count = table.rowCount()
         for i in range(row_count):
@@ -60,6 +71,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             # table_util.set_table_item_value_editable(table, i, 0, "", True)
             # TODO ID不可编辑
             # table_util.set_table_item_un_editable(table, i, 0)
+        # --------------------------
 
     def init_data(self, data_id):
         """
