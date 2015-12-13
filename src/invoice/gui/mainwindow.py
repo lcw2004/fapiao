@@ -512,18 +512,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(invoice_table, i, 5, invoice.drawer)
             table_util.set_table_item_value(invoice_table, i, 6, invoice.beneficiary)
             table_util.set_table_item_value(invoice_table, i, 7, invoice.reviewer)
-            table_util.set_table_item_value(invoice_table, i, 8, invoice.total_not_tax)
-            table_util.set_table_item_value(invoice_table, i, 9, invoice.total_tax)
-            table_util.set_table_item_value(invoice_table, i, 10, invoice.remark)
-            table_util.set_table_item_value(invoice_table, i, 14, invoice.serial_number)
+            table_util.set_table_item_value(invoice_table, i, 8, invoice.start_time)
+            table_util.set_table_item_value(invoice_table, i, 9, invoice.total_not_tax)
+            table_util.set_table_item_value(invoice_table, i, 10, invoice.total_tax)
+            table_util.set_table_item_value(invoice_table, i, 11, invoice.remark)
+            table_util.set_table_item_value(invoice_table, i, 15, invoice.serial_number)
 
             try:
                 if invoice.custom:
                     table_util.set_table_item_value(invoice_table, i, 3, invoice.custom.name)
-                    table_util.set_table_item_value(invoice_table, i, 11, invoice.custom.code)
-                    table_util.set_table_item_value(invoice_table, i, 12, invoice.custom.tax_id)
-                    table_util.set_table_item_value(invoice_table, i, 13, invoice.custom.addr)
-                    table_util.set_table_item_value(invoice_table, i, 14, invoice.custom.bank_account)
+                    table_util.set_table_item_value(invoice_table, i, 12, invoice.custom.code)
+                    table_util.set_table_item_value(invoice_table, i, 13, invoice.custom.tax_id)
+                    table_util.set_table_item_value(invoice_table, i, 14, invoice.custom.addr)
+                    table_util.set_table_item_value(invoice_table, i, 15, invoice.custom.bank_account)
             except Exception:
                 pass
 

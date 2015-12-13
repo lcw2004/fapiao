@@ -570,7 +570,7 @@
            <number>0</number>
           </property>
           <property name="columnCount">
-           <number>16</number>
+           <number>17</number>
           </property>
           <column>
            <property name="text">
@@ -610,6 +610,11 @@
           <column>
            <property name="text">
             <string>复核人</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>开票时间</string>
            </property>
           </column>
           <column>
