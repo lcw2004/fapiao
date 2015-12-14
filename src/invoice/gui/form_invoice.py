@@ -227,8 +227,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
                                  beneficiary=beneficiary,
                                  reviewer=reviewer,
                                  custom=custom_of_this)
-        id = invoice.save()
-        self.id = id
+        invoice.save()
+        self.id = invoice.id
 
         # 保存发票明细
         table = self.invoice_detail_tableWidget
@@ -350,13 +350,9 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             self.parent.print_invoice_pic(printer)
 
             # 此处无法监控到打印是否成功
-            # 修改合同状态和打印的时间
-            invoice = Invoice.get(id=invoice_id)
-            if invoice.status == 0:
-                # 如果合同是未开票状态，将其改为开票状态，并记录开票时间
-                q = Invoice.update(status=1, start_time=datetime.datetime.now()).where(Invoice.id == invoice_id)
-                q.execute()
-                self.parent.show_msg_at_rigth_label(u"已经开始打印，由于无法监控是否打印成功，如果打印失败，请重新补打！")
+            q = Invoice.update(status=1, start_time=datetime.datetime.now()).where(Invoice.id == invoice_id)
+            q.execute()
+            self.parent.show_msg_at_rigth_label(u"已经开始打印，由于无法监控是否打印成功，如果打印失败，请重新补打！")
 
             # 关闭Dialog
             self.accept()
