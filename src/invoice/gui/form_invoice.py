@@ -126,6 +126,10 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         初始产品下拉选择框
         :return:
         """
+        self.invoice_num_lineEdit.setDisabled(True)
+        self.invoice_code_lineEdit.setDisabled(True)
+        self.total_num_cn_lineEdit.setDisabled(True)
+
         combo_box = DBComboBoxDelegate(self.invoice_detail_tableWidget)
         self.invoice_detail_tableWidget.setItemDelegateForColumn(1, combo_box)
 
