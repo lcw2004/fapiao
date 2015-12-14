@@ -16,7 +16,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>编辑产品信息</string>
+   <string>编辑发票信息</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -45,9 +45,6 @@
        <property name="margin">
         <number>0</number>
        </property>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="invoice_num_lineEdit"/>
-       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
@@ -72,29 +69,11 @@
        <item row="0" column="3">
         <widget class="QLineEdit" name="invoice_code_lineEdit"/>
        </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="invoice_num_lineEdit"/>
+       </item>
        <item row="4" column="1">
         <widget class="QLineEdit" name="total_num_lineEdit"/>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>客户名称</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="custom_name_lineEdit">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>金额大写</string>
-         </property>
-        </widget>
        </item>
        <item row="4" column="3">
         <widget class="QLineEdit" name="total_num_cn_lineEdit">
@@ -105,6 +84,23 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>金额大写</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>客户名称</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="custom_name_comboBox"/>
        </item>
       </layout>
      </item>
@@ -204,7 +200,6 @@
  <tabstops>
   <tabstop>invoice_num_lineEdit</tabstop>
   <tabstop>invoice_code_lineEdit</tabstop>
-  <tabstop>custom_name_lineEdit</tabstop>
   <tabstop>total_num_lineEdit</tabstop>
   <tabstop>total_num_cn_lineEdit</tabstop>
   <tabstop>invoice_detail_tableWidget</tabstop>

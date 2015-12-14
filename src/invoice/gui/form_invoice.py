@@ -94,7 +94,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             invoice = Invoice.get(id=data_id)
             self.invoice_num_lineEdit.setText(common_util.to_string_trim(invoice.invoice_num))
             self.invoice_code_lineEdit.setText(common_util.to_string_trim(invoice.invoice_code))
-            self.custom_name_lineEdit.setText(common_util.to_string_trim(invoice.custom.name))
+            self.custom_name_comboBox.setEditText(common_util.to_string_trim(invoice.custom.name))
             self.total_num_lineEdit.setText(common_util.to_string_trim(invoice.total_num))
             self.total_num_cn_lineEdit.setText(common_util.to_string_trim(invoice.total_num))
             self.drawer_lineEdit.setText(common_util.to_string_trim(invoice.drawer))
@@ -128,6 +128,14 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         """
         combo_box = DBComboBoxDelegate(self.invoice_detail_tableWidget)
         self.invoice_detail_tableWidget.setItemDelegateForColumn(1, combo_box)
+
+        # 初始化客户数据
+        custom_name_combobox = self.custom_name_comboBox
+        custom_name_combobox.setEditable(True)
+        custom_list = Custom.select().where(Custom.status == 0).order_by(Custom.name)
+        for custom in custom_list:
+            custom_name_combobox.addItem(custom.name)
+        custom_name_combobox.setEditText("")
 
     def action_total_num_text_changed(self, string):
         """
@@ -192,7 +200,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         """
         invoice_num = table_util.get_edit_text(self.invoice_num_lineEdit)
         invoice_code = table_util.get_edit_text(self.invoice_code_lineEdit)
-        custom_name = table_util.get_edit_text(self.custom_name_lineEdit)
+        custom_name = self.custom_name_comboBox.currentText()
         total_num = table_util.get_edit_text_float(self.total_num_lineEdit)
         drawer = table_util.get_edit_text(self.drawer_lineEdit)
         beneficiary = table_util.get_edit_text(self.beneficiary_lineEdit)
@@ -243,7 +251,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         """
         invoice_num = table_util.get_edit_text(self.invoice_num_lineEdit)
         invoice_code = table_util.get_edit_text(self.invoice_code_lineEdit)
-        custom_name = table_util.get_edit_text(self.custom_name_lineEdit)
+        custom_name = self.custom_name_comboBox.currentText()
         total_num = table_util.get_edit_text_float(self.total_num_lineEdit)
         drawer = table_util.get_edit_text(self.drawer_lineEdit)
         beneficiary = table_util.get_edit_text(self.beneficiary_lineEdit)
