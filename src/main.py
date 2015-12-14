@@ -51,11 +51,11 @@ if __name__ == "__main__":
             app.installTranslator(qtTranslator)
 
         # 加载登录界面
-        login_dialog = LoginDialog()
-        login_dialog.show()
-        if login_dialog.exec_():
-            window = MainWindow()
-            window.show()
+        # login_dialog = LoginDialog()
+        # login_dialog.show()
+        # if login_dialog.exec_():
+        window = MainWindow()
+        window.show()
 
         sys.exit(app.exec_())
     except Exception as e:
