@@ -126,21 +126,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         初始产品下拉选择框
         :return:
         """
-        combo_model = QStandardItemModel(4, 3, self.invoice_detail_tableWidget)
-        combo_model.setHorizontalHeaderLabels([u'名称', u'ID', u'单价'])
-
-        product_list = list(Product.select().where(Product.status == 0))
-        row_count = len(product_list)
-        combo_model.setRowCount(row_count)
-
-        # 将数据加载到表格中
-        for i in range(row_count):
-            product = product_list[i]
-            combo_model.setData(combo_model.index(i, 0, QModelIndex()), QVariant(product.name))
-            combo_model.setData(combo_model.index(i, 1, QModelIndex()), QVariant(product.id))
-            combo_model.setData(combo_model.index(i, 2, QModelIndex()), QVariant(product.unit_price))
-
-        combo_box = DBComboBoxDelegate(combo_model, self.invoice_detail_tableWidget)
+        combo_box = DBComboBoxDelegate(self.invoice_detail_tableWidget)
         self.invoice_detail_tableWidget.setItemDelegateForColumn(1, combo_box)
 
     def action_total_num_text_changed(self, string):
