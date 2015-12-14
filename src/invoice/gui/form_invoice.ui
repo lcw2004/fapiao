@@ -194,17 +194,24 @@
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
+     <property name="centerButtons">
+      <bool>false</bool>
+     </property>
     </widget>
    </item>
   </layout>
  </widget>
  <tabstops>
   <tabstop>invoice_num_lineEdit</tabstop>
+  <tabstop>invoice_code_lineEdit</tabstop>
+  <tabstop>custom_name_lineEdit</tabstop>
+  <tabstop>total_num_lineEdit</tabstop>
+  <tabstop>total_num_cn_lineEdit</tabstop>
   <tabstop>invoice_detail_tableWidget</tabstop>
-  <tabstop>buttonBox</tabstop>
   <tabstop>drawer_lineEdit</tabstop>
   <tabstop>beneficiary_lineEdit</tabstop>
   <tabstop>reviewer_lineEdit</tabstop>
+  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
  <connections>

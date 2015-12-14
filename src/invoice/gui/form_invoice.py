@@ -29,8 +29,13 @@ class InvoiceDialog(QDialog, Ui_Dialog):
 
         # 绑定事件
         self.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), self.accepted)
-        self.connect(self.invoice_detail_tableWidget, QtCore.SIGNAL('cellChanged(int,int)'), self.cell_changed)
-        self.total_num_lineEdit.textChanged.connect(self.total_num_text_changed)
+        self.connect(self.invoice_detail_tableWidget, QtCore.SIGNAL('cellChanged(int,int)'), self.action_cell_changed)
+        self.total_num_lineEdit.textChanged.connect(self.action_total_num_text_changed)
+
+        # 添加打印并保存按钮
+        print_and_save_btn = QtGui.QPushButton(u"打印并保存")
+        self.buttonBox.addButton(print_and_save_btn, QtGui.QDialogButtonBox.ActionRole)
+        print_and_save_btn.clicked.connect(self.action_print_and_save)
 
     def init_default_data(self):
         """'
@@ -41,8 +46,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         user_id = Settings.value(Settings.USER_ID).toInt()[0]
         user = User.get(id=user_id)
         self.drawer_lineEdit.setText(user.name)
-        self.beneficiary_lineEdit.setText(Settings.value_str(Settings.BENEFICIARY_NAME))
-        self.reviewer_lineEdit.setText(Settings.value_str(Settings.REVIEWER_NAME))
+        self.beneficiary_lineEdit.setText(Settings.value_q_str(Settings.BENEFICIARY_NAME))
+        self.reviewer_lineEdit.setText(Settings.value_q_str(Settings.REVIEWER_NAME))
         self.invoice_code_lineEdit.setText(Settings.value_str(Settings.INVOICE_CODE))
         # --------------------------
 
@@ -136,9 +141,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         combo_box = DBComboBoxDelegate(combo_model, self.invoice_detail_tableWidget)
         self.invoice_detail_tableWidget.setItemDelegateForColumn(1, combo_box)
 
-
-
-    def total_num_text_changed(self, string):
+    def action_total_num_text_changed(self, string):
         """
         绑定数字金额修改事件
         :param string:数字金额
@@ -151,7 +154,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         except ValueError:
             QMessageBox.information(self.parentWidget(), u"错误", u'请输入数字金额！')
 
-    def cell_changed(self, row_num, col_num):
+    def action_cell_changed(self, row_num, col_num):
         """
         绑定表格中元素修改事件
         :param row_num:行数
@@ -171,10 +174,15 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             table_util.set_table_item_value(table, row_num, 2, product.name)
             table_util.set_table_item_value(table, row_num, 4, product.unit_price)
 
+        # 如果是单价和数量更新，则重新计算总金额
         if col_num == 3 or col_num == 4:
             self.caculate_price()
 
     def caculate_price(self):
+        """
+        根据表格中的元素计算总金额
+        :return:
+        """
         table = self.invoice_detail_tableWidget
         row_count = table.rowCount()
 
@@ -185,11 +193,9 @@ class InvoiceDialog(QDialog, Ui_Dialog):
 
             product_price = pro_num * product_unit_price
             table_util.set_table_item_value(table, i, 5, str(product_price))
-
-            total_num+=product_price
+            total_num += product_price
 
         self.total_num_lineEdit.setText(str(total_num))
-
 
     def add_invoice(self):
         """
@@ -311,3 +317,6 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             logger.exception(u"报错客户信息出错！")
             logger.error(e)
 
+    def action_print_and_save(self):
+        print "start"
+        self.accept()
