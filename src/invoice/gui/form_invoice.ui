@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>655</width>
-    <height>392</height>
+    <height>371</height>
    </rect>
   </property>
   <property name="font">
@@ -105,43 +105,86 @@
       </layout>
      </item>
      <item>
-      <widget class="QTableWidget" name="invoice_detail_tableWidget">
-       <property name="rowCount">
-        <number>2</number>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>0</number>
        </property>
-       <row/>
-       <row/>
-       <column>
-        <property name="text">
-         <string>ID</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>商品代码</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>品名</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>数量</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>单价</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>金额</string>
-        </property>
-       </column>
-      </widget>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QTableWidget" name="invoice_detail_tableWidget">
+         <property name="rowCount">
+          <number>1</number>
+         </property>
+         <row/>
+         <column>
+          <property name="text">
+           <string>ID</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>商品代码</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>品名</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>数量</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>单价</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>金额</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="add_invoice_detail_btn">
+           <property name="text">
+            <string>添加一列</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="del_invoice_detail_btn">
+           <property name="text">
+            <string>删除</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </item>
      <item>
       <layout class="QGridLayout" name="gridLayout_2">
@@ -198,15 +241,16 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>invoice_num_lineEdit</tabstop>
-  <tabstop>invoice_code_lineEdit</tabstop>
-  <tabstop>total_num_lineEdit</tabstop>
-  <tabstop>total_num_cn_lineEdit</tabstop>
+  <tabstop>custom_name_comboBox</tabstop>
   <tabstop>invoice_detail_tableWidget</tabstop>
   <tabstop>drawer_lineEdit</tabstop>
   <tabstop>beneficiary_lineEdit</tabstop>
   <tabstop>reviewer_lineEdit</tabstop>
   <tabstop>buttonBox</tabstop>
+  <tabstop>invoice_num_lineEdit</tabstop>
+  <tabstop>invoice_code_lineEdit</tabstop>
+  <tabstop>total_num_cn_lineEdit</tabstop>
+  <tabstop>total_num_lineEdit</tabstop>
  </tabstops>
  <resources/>
  <connections>

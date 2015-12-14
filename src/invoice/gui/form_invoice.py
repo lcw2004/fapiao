@@ -30,14 +30,24 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             self.init_default_data()
 
         # 绑定事件
-        self.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), self.accepted)
+        self.buttonBox.accepted.connect(self.accepted)
         self.connect(self.invoice_detail_tableWidget, QtCore.SIGNAL('cellChanged(int,int)'), self.action_cell_changed)
         self.total_num_lineEdit.textChanged.connect(self.action_total_num_text_changed)
+        self.add_invoice_detail_btn.clicked.connect(self.action_add_invoice_detail)
+        self.del_invoice_detail_btn.clicked.connect(self.action_del_invoice_detail)
 
         # 添加打印并保存按钮
         print_and_save_btn = QtGui.QPushButton(u"打印并保存")
         self.buttonBox.addButton(print_and_save_btn, QtGui.QDialogButtonBox.ActionRole)
         print_and_save_btn.clicked.connect(self.action_print_and_save)
+
+    def action_add_invoice_detail(self):
+        pass
+        print "action_add_invoice_detail"
+
+    def action_del_invoice_detail(self):
+        pass
+        print "action_add_invoice_detail"
 
     def init_default_data(self):
         """'
@@ -96,7 +106,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             self.invoice_code_lineEdit.setText(common_util.to_string_trim(invoice.invoice_code))
             self.custom_name_comboBox.setEditText(common_util.to_string_trim(invoice.custom.name))
             self.total_num_lineEdit.setText(common_util.to_string_trim(invoice.total_num))
-            self.total_num_cn_lineEdit.setText(common_util.to_string_trim(invoice.total_num))
+            total_num_cn = money_convert.to_rmb_upper(invoice.total_num)
+            self.total_num_cn_lineEdit.setText(common_util.to_string_trim(total_num_cn))
             self.drawer_lineEdit.setText(common_util.to_string_trim(invoice.drawer))
             self.beneficiary_lineEdit.setText(common_util.to_string_trim(invoice.beneficiary))
             self.reviewer_lineEdit.setText(common_util.to_string_trim(invoice.reviewer))
