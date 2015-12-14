@@ -2,7 +2,7 @@
 import logging
 
 from PyQt4.QtCore import QModelIndex, QVariant
-from PyQt4.QtGui import QDialog, QStandardItemModel, QMessageBox
+from PyQt4.QtGui import QDialog, QStandardItemModel, QMessageBox, QPrinter
 
 from form_invoice_ui import *
 from invoice.bean.beans import *
@@ -11,7 +11,9 @@ from invoice.common import table_util
 from invoice.common import money_convert
 from invoice.common.settings import Settings
 from invoice.gui.common_ui import DBComboBoxDelegate
+from invoice.image import add_text_in_invoice
 
+logger = logging.getLogger(__name__)
 
 class InvoiceDialog(QDialog, Ui_Dialog):
     def __init__(self, parent=None, id=None):
@@ -225,7 +227,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
                                  beneficiary=beneficiary,
                                  reviewer=reviewer,
                                  custom=custom_of_this)
-        invoice.save()
+        id = invoice.save()
+        self.id = id
 
         # 保存发票明细
         table = self.invoice_detail_tableWidget
@@ -304,6 +307,9 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         确定按钮事件
         :return:
         """
+        self.save_or_update()
+
+    def save_or_update(self):
         try:
             if self.id:
                 self.update_invoice()
@@ -318,5 +324,29 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             logger.error(e)
 
     def action_print_and_save(self):
-        print "start"
-        self.accept()
+        """
+        确定按钮事件
+        :return:
+        """
+        self.save_or_update()
+        self.print_by_id()
+
+    def print_by_id(self):
+        invoice_id = self.id
+
+        # 将合同信息填充到模板中
+        # TODO 文件路径写死了
+        img_path = "D:\\123333.jpg"
+        add_text_in_invoice.add_text_in_image(img_path, invoice_id, in_img_path=config.PATH_OF_INVOICE_TEMPLATE)
+        logger.info(u"生成图片成功，路径{0}".format(img_path))
+
+        # TODO 处理打印失败的情况
+        # 弹出打印框
+        printer = QPrinter(QPrinter.HighResolution)
+        print_dialog = QtGui.QPrintDialog(printer, self)
+        print_dialog.setWindowTitle("打印发票")
+
+        if print_dialog.exec_() == QtGui.QDialog.Accepted:
+            # 如果在弹出的打印界面中选择了打印
+            self.parent.print_invoice_pic(printer)
+        del print_dialog

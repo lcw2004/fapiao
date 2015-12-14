@@ -11,7 +11,9 @@ from invoice.image import image_util
 def add_text_in_image(out_img_path, invoice_id, in_img_path=config.PATH_OF_INVOICE_TEMPLATE):
     invoice = Invoice.get(id=invoice_id)
     invoice_detail_list = list(Invoice.get(id=invoice_id).invoiceDetails)
+    add_text_in_image_by_invoice(out_img_path, invoice, invoice_detail_list, in_img_path)
 
+def add_text_in_image_by_invoice(out_img_path, invoice, invoice_detail_list, in_img_path=config.PATH_OF_INVOICE_TEMPLATE):
     # 打开图片
     im = Image.open(in_img_path)
 
