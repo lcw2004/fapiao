@@ -54,7 +54,8 @@ primary key (id)
 create table tbl_invoice (
 id                   INTEGER                        not null,
 custom_id            INTEGER,
-invoice_num          TEXT,
+invoice_num          INTEGER,
+invoice_code         INTEGER,
 remark               TEXT,
 start_time           TEXT,
 total_not_tax        INTEGER,
@@ -65,7 +66,6 @@ drawer               TEXT,
 beneficiary          TEXT,
 reviewer             TEXT,
 status               INTEGER,
-invoice_code         TEXT,
 primary key (id),
 foreign key (custom_id)
       references tbl_custom (id)
