@@ -187,7 +187,7 @@ def load_data_setting(line_edit, set_key):
     :param set_key:键
     :return:
     """
-    value = common_util.to_string_trim(Settings.value_str(set_key))
+    value = common_util.to_string_trim(Settings.value_q_str(set_key))
     line_edit.setText(value)
 
 

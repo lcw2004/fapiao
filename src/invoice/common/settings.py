@@ -62,6 +62,10 @@ class Settings:
 
     @staticmethod
     def value_str(key):
+        return str(Settings.value_q_str(key))
+
+    @staticmethod
+    def value_q_str(key):
         value = Settings.value(key)
         if value.isNull():
             return ""
@@ -90,10 +94,10 @@ class Settings:
         if value.isNull():
             return 0
         else:
-            return value.toInt()
+            return value.toInt()[0]
 
 if __name__ == "__main__":
-    print Settings.value_str(Settings.LOGIN_NAME)
-    print Settings.value_int(Settings.INVOICE_START_NUM)
-    print Settings.value_bool(Settings.AUTO_LOGIN)
-    print Settings.value_long(Settings.INVOICE_END_NUM)
+    print Settings.value_str(Settings.LOGIN_NAME), type(Settings.value_str(Settings.LOGIN_NAME))
+    print Settings.value_int(Settings.INVOICE_START_NUM), type(Settings.value_int(Settings.INVOICE_START_NUM))
+    print Settings.value_bool(Settings.AUTO_LOGIN), type(Settings.value_bool(Settings.AUTO_LOGIN))
+    print Settings.value_long(Settings.INVOICE_END_NUM), type(Settings.value_long(Settings.INVOICE_END_NUM))
