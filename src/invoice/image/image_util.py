@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import ImageEnhance
+import datetime
 from PIL import Image, ImageFont
 
 from invoice.common import common_util
@@ -24,6 +25,10 @@ def add_text_in_image(draw, text_name, text_value, up_offset=0):
     fnt = ImageFont.truetype(font_name, font_size)
 
     text_value_str = common_util.to_string_trim(text_value)
+
+    # 处理时间格式
+    if isinstance(text_value, datetime.datetime):
+        text_value_str = common_util.time_to_str(text_value, format="%Y-%m-%d")
 
     draw.text((x_pos, y_pos), text_value_str, font=fnt, fill=font_color)
 

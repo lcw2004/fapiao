@@ -101,10 +101,10 @@ def mkdir(file_path):
         os.makedirs(file_path)
 
 
-def time_to_str(time):
+def time_to_str(time, format="%Y-%m-%d %H:%M:%S"):
     """
     将时间按指定的格式转为字符串
     :param time: 时间
     :return:
     """
-    return time.strftime("%Y-%m-%d %H:%M:%S")
+    return time.strftime(format)
