@@ -11,6 +11,7 @@ from invoice.gui.form_custom import CustomDialog
 from invoice.gui.form_invoice import InvoiceDialog
 from invoice.gui.form_product import ProductDialog
 from invoice.gui.form_section import SectionDialog
+from invoice.gui.form_user import UserDialog
 from invoice.gui.menu_config import MenuConfigDialog
 from invoice.image import add_text_in_invoice
 from mainwindow_ui import Ui_MainWindow
@@ -80,6 +81,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.section_add_btn, QtCore.SIGNAL("clicked()"), self.section_add_btn_clicked)
         self.connect(self.section_update_btn, QtCore.SIGNAL("clicked()"), self.section_update_btn_clicked)
         self.connect(self.section_delete_btn, QtCore.SIGNAL("clicked()"), self.section_delete_btn_clicked)
+        # =====================
+
+        # =====================
+        # 用户管理表（管理员）
+        self.connect(self.user_query_btn, QtCore.SIGNAL("clicked()"), self.user_query_btn_clicked)
+        self.connect(self.user_add_btn, QtCore.SIGNAL("clicked()"), self.user_add_btn_clicked)
+        self.connect(self.user_update_btn, QtCore.SIGNAL("clicked()"), self.user_update_btn_clicked)
+        self.connect(self.user_delete_btn, QtCore.SIGNAL("clicked()"), self.user_delete_btn_clicked)
         # =====================
 
         # =====================
@@ -847,3 +856,62 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             # 重新加载表格
             self.section_query_btn_clicked()
+
+    def user_query_btn_clicked(self):
+        table = self.user_table
+
+        # 设置整行选中
+        table.setSelectionBehavior(QAbstractItemView.SelectRows)
+        # 设置不可编辑
+        table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+
+        # 查询数据
+        data_list = list(User.select())
+        row_count = len(data_list)
+        table.setRowCount(row_count)
+
+        # 将数据加载到表格中
+        for i in range(row_count):
+            user = data_list[i]
+            table_util.set_table_item_value(table, i, 0, user.id)
+            table_util.set_table_item_value(table, i, 1, user.name)
+            table_util.set_table_item_value(table, i, 2, user.login_name)
+            if user.is_admin:
+                table_util.set_table_item_value(table, i, 3, u"管理员用户")
+            else:
+                table_util.set_table_item_value(table, i, 3, u"普通用户")
+
+    def user_add_btn_clicked(self):
+        dialog = UserDialog(self)
+        dialog.show()
+
+    def user_update_btn_clicked(self):
+        table = self.user_table
+        selected_rows = table_util.get_selected_row_number_list(table)
+
+        if len(selected_rows) != 1:
+            QMessageBox.information(self.parentWidget(), "Information", u'请选择一条数据进行修改！')
+            return
+
+        id = table_util.str_to_unicode_str(table.item(selected_rows[0], 0).text())
+        dialog = UserDialog(self, id)
+        dialog.show()
+
+    def user_delete_btn_clicked(self):
+        reply = QMessageBox.question(self.parentWidget(), u'提示', u'确定要删除所选记录吗？', QMessageBox.Yes | QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            table = self.user_table
+            selected_rows = table_util.get_selected_row_number_list(table)
+
+            # 获取所有需要删除的行的ID
+            id_list = []
+            for row_count in selected_rows:
+                id = table_util.str_to_unicode_str(table.item(row_count, 0).text())
+                id_list.append(id)
+
+            # 删除数据
+            q = User.delete().where(User.id << id_list)
+            q.execute()
+
+            # 重新加载表格
+            self.user_query_btn_clicked()
