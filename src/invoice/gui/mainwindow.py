@@ -179,6 +179,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 根据用户权限，控制是否显示“库存管理”
         if not user.is_admin:
             self.tabWidget.removeTab(5)
+            self.tabWidget.removeTab(5)
         # =====================
 
     def init_time_edit(self, time_edit):
