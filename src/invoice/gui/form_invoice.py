@@ -195,7 +195,11 @@ class InvoiceDialog(QDialog, Ui_Dialog):
 
         # 如果是单价和数量更新，则重新计算总金额
         if col_num == 3 or col_num == 4:
-            self.caculate_price()
+            self.caclulate_product_price(row_num)
+
+        # 如果是单个产品金额更新，则
+        if col_num == 5:
+            self.caclulate_all_product_price()
 
     def action_print_and_save(self):
         """
@@ -225,6 +229,33 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         selected_rows = table_util.get_selected_row_number_list(table)
         for row_count in selected_rows:
             table.removeRow(row_count)
+
+    def caclulate_product_price(self, row_num):
+        """
+        计算本行数据的总金额
+        :param row_num:行数
+        :return:
+        """
+        table = self.invoice_detail_tableWidget
+        pro_num = table_util.get_item_value_int(table, row_num, 3)
+        product_unit_price = table_util.get_item_value_float(table, row_num, 4)
+
+        product_price = pro_num * product_unit_price
+        table_util.set_table_item_value(table, row_num, 5, str(product_price))
+
+    def caclulate_all_product_price(self):
+        """
+        将所有行的总金额加起来
+        :return:
+        """
+        table = self.invoice_detail_tableWidget
+        row_count = table.rowCount()
+
+        total_num = 0
+        for i in range(row_count):
+            product_price = table_util.get_item_value_float(table, i, 5)
+            total_num += product_price
+        self.total_num_lineEdit.setText(str(total_num))
 
     def caculate_price(self):
         """
