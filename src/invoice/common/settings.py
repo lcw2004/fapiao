@@ -15,6 +15,7 @@ class Settings:
     SAVE_PASSWORD = "save_password"
     LOGIN_NAME = 'login_name'
     PASSWORD = 'password'
+    REGISTER_INFO = 'register_info'
     # ============ 登录配置 ============
 
     # ============ 模板配置 ============

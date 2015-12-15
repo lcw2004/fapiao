@@ -1,25 +1,26 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from PyQt4.QtCore import Qt, QString, QSize, QSizeF
-from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView, QPrinter, QPrintPreviewDialog, QPainter
 from PyQt4 import QtCore
 from PyQt4 import QtGui
+from PyQt4.QtCore import Qt, QString, QSizeF
+from PyQt4.QtGui import QMainWindow, QMessageBox, QAbstractItemView, QPrinter, QPrintPreviewDialog, QPainter
 
+from invoice.bean.beans import *
+from invoice.common import excel_parser
+from invoice.common import table_util
 from invoice.common.excel_writer import InvoiceElsxExporter
+from invoice.common.settings import Settings
 from invoice.gui.form_custom import CustomDialog
 from invoice.gui.form_invoice import InvoiceDialog
 from invoice.gui.form_product import ProductDialog
 from invoice.gui.form_section import SectionDialog
 from invoice.gui.form_user import UserDialog
 from invoice.gui.menu_config import MenuConfigDialog
+from invoice.gui.menu_register import RegisterDialog
 from invoice.image import add_text_in_invoice
-from mainwindow_ui import Ui_MainWindow
 from invoice.sys import invoice_exporter
-from invoice.common import excel_parser
-from invoice.common import table_util
-from invoice.common.settings import Settings
-from invoice.bean.beans import *
+from mainwindow_ui import Ui_MainWindow
 
 logger = logging.getLogger(__name__)
 
@@ -95,6 +96,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 号段管理表（管理员）
         self.actionAbout.triggered.connect(self.action_about)
         self.actionConfig.triggered.connect(self.action_config)
+        self.actionRegist.triggered.connect(self.action_register)
         # =====================
 
     def action_config(self):
@@ -105,6 +107,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         QtGui.QMessageBox.about(self, u"关于",
                 config.PRODUCT_ALL_NAME + "\n" +
                 "Copyright " + config.PRODUCT_COMPANY)
+
+    def action_register(self):
+        dialog = RegisterDialog(self)
+        dialog.show()
 
     def show_msg_at_rigth_label(self, msg):
         self.right_status_label.setText(msg)
@@ -600,6 +606,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dialog.show()
 
     def invoice_add_btn_clicked(self):
+        # 坚持注册信息
+        register_info = Settings.value_bool(Settings.REGISTER_INFO)
+        if not register_info:
+            QMessageBox.information(self.parentWidget(), "Information", u'系统初始失败，请重新注册！')
+            return
+
         dialog = InvoiceDialog(self)
         dialog.show()
 
