@@ -106,10 +106,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         row_count = table.rowCount()
         for i in range(row_count):
             table_util.set_table_item_value(table, i, 3, "1")
-            # table_util.set_table_item_value_editable(table, i, 0, "", True)
-            # TODO ID不可编辑
-            # table_util.set_table_item_un_editable(table, i, 0)
-            # --------------------------
+            table_util.set_table_item_blank_value(table, i, 0)
+            table_util.set_table_item_un_editable(table, i, 0)
 
     def init_data(self, data_id):
         """
@@ -147,7 +145,6 @@ class InvoiceDialog(QDialog, Ui_Dialog):
                 table_util.set_table_item_value(invoice_detail_table, i, 4, invoice_detail.product.unit_price)
                 table_util.set_table_item_value(invoice_detail_table, i, 5, invoice_detail.contain_tax_price)
         except Invoice.DoesNotExist:
-            logger = logging.getLogger(__name__)
             logger.exception(u"程序出现异常")
 
     def accepted(self):
@@ -216,6 +213,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         table = self.invoice_detail_tableWidget
         row_count = table.rowCount()
         table.insertRow(row_count)
+        table_util.set_table_item_blank_value(table, row_count, 0)
+        table_util.set_table_item_un_editable(table, row_count, 0)
 
     def action_del_invoice_detail(self):
         """

@@ -96,13 +96,20 @@ def set_table_item_value(table_widget, row_num, col_num, input_str):
     else:
         item_text = str(input_str)
 
-    # import logging
-    # logger = logging.getLogger(__name__)
-    # logger.info(str(input_str) + "[" + str(type(input_str)) + "] --> " + item_text)
-
     if input_str:
         item = QTableWidgetItem(item_text)
         table_widget.setItem(row_num, col_num, item)
+
+def set_table_item_blank_value(table_widget, row_num, col_num):
+    """
+    往表格里面填空值
+    :param table_widget:表格
+    :param row_num:行号
+    :param col_num:列号
+    :return:
+    """
+    item = QTableWidgetItem("")
+    table_widget.setItem(row_num, col_num, item)
 
 def set_table_item_value_editable(table_widget, row_num, col_num, input_str, editable):
     """
