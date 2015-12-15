@@ -209,8 +209,6 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         self.print_by_id()
         self.parent.invoice_filter_btn_clicked()
 
-
-
     def action_add_invoice_detail(self):
         """
         添加一个空白列
