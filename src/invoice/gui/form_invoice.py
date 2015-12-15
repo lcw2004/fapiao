@@ -49,7 +49,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
 
         # 初始化表格中的选择框
         combo_box = MyComboBox(self.invoice_detail_tableWidget)
-        self.invoice_detail_tableWidget.setItemDelegateForColumn(2, combo_box)
+        self.invoice_detail_tableWidget.setItemDelegateForColumn(1, combo_box)
 
         # 初始化客户下拉选择框
         custom_name_combobox = self.custom_name_comboBox
@@ -139,8 +139,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
                 invoice_detail = invoice_detail_list[i]
 
                 table_util.set_table_item_value_editable(invoice_detail_table, i, 0, invoice_detail.id, True)
-                table_util.set_table_item_value(invoice_detail_table, i, 1, invoice_detail.product.code)
-                table_util.set_table_item_value(invoice_detail_table, i, 2, invoice_detail.product.name)
+                table_util.set_table_item_value(invoice_detail_table, i, 1, invoice_detail.product.name)
+                table_util.set_table_item_value(invoice_detail_table, i, 2, invoice_detail.product.code)
                 table_util.set_table_item_value(invoice_detail_table, i, 3, invoice_detail.pro_num)
                 table_util.set_table_item_value(invoice_detail_table, i, 4, invoice_detail.product.unit_price)
                 table_util.set_table_item_value(invoice_detail_table, i, 5, invoice_detail.contain_tax_price)
@@ -178,7 +178,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         table = self.invoice_detail_tableWidget
 
         # 如果产品编码更新
-        if col_num == 2:
+        if col_num == 1:
             product_name = table.item(row_num, col_num).text()
             product_name = str(product_name).decode("GBK")
 
@@ -190,7 +190,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
 
             # 更新表格
             if product:
-                table_util.set_table_item_value(table, row_num, 1, product.code)
+                table_util.set_table_item_value(table, row_num, 2, product.code)
                 table_util.set_table_item_value(table, row_num, 4, product.unit_price)
 
         # 如果是单价和数量更新，则重新计算总金额
@@ -213,6 +213,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         table = self.invoice_detail_tableWidget
         row_count = table.rowCount()
         table.insertRow(row_count)
+        table_util.set_table_item_value(table, row_count, 3, "1")
         table_util.set_table_item_blank_value(table, row_count, 0)
         table_util.set_table_item_un_editable(table, row_count, 0)
 

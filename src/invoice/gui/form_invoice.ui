@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>655</width>
-    <height>371</height>
+    <width>657</width>
+    <height>384</height>
    </rect>
   </property>
   <property name="font">
@@ -125,12 +125,12 @@
          </column>
          <column>
           <property name="text">
-           <string>商品代码</string>
+           <string>商品名称</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>品名</string>
+           <string>商品代码</string>
           </property>
          </column>
          <column>
@@ -215,13 +215,6 @@
        <item row="0" column="4">
         <widget class="QLineEdit" name="beneficiary_lineEdit"/>
        </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>开票人</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="3">
         <widget class="QLabel" name="label_6">
          <property name="text">
@@ -237,7 +230,21 @@
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QComboBox" name="drawer_comboBox"/>
+        <widget class="QComboBox" name="drawer_comboBox">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>开票人</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
