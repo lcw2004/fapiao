@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>759</width>
-    <height>474</height>
+    <height>498</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,7 +31,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -263,169 +263,172 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="invoice_table">
-          <property name="sortingEnabled">
-           <bool>true</bool>
+         <widget class="QSplitter" name="splitter">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
           </property>
-          <property name="rowCount">
-           <number>0</number>
-          </property>
-          <property name="columnCount">
-           <number>16</number>
-          </property>
-          <column>
-           <property name="text">
-            <string>ID</string>
+          <widget class="QTableWidget" name="invoice_table">
+           <property name="sortingEnabled">
+            <bool>true</bool>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>发票号码</string>
+           <property name="rowCount">
+            <number>0</number>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>发票代码</string>
+           <property name="columnCount">
+            <number>16</number>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>客户名称</string>
+           <column>
+            <property name="text">
+             <string>ID</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>发票号码</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>发票代码</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>客户名称</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>价税合计</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>开票人</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>收款人</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>复核人</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>总税额</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>总不含税金额</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>备注</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>客户代码</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>客户税号</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>客户地址</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>客户开户行账号</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>系统流水号</string>
+            </property>
+           </column>
+          </widget>
+          <widget class="QTableWidget" name="invoice_detail_table">
+           <property name="sortingEnabled">
+            <bool>true</bool>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>价税合计</string>
+           <property name="rowCount">
+            <number>0</number>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>开票人</string>
+           <property name="columnCount">
+            <number>12</number>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>收款人</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>复核人</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>总税额</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>总不含税金额</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>备注</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>客户代码</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>客户税号</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>客户地址</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>客户开户行账号</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>系统流水号</string>
-           </property>
-          </column>
-         </widget>
-        </item>
-        <item>
-         <widget class="QTableWidget" name="invoice_detail_table">
-          <property name="sortingEnabled">
-           <bool>true</bool>
-          </property>
-          <property name="rowCount">
-           <number>0</number>
-          </property>
-          <property name="columnCount">
-           <number>12</number>
-          </property>
-          <column>
-           <property name="text">
-            <string>ID</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>产品代码</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>产品名称</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>产品单价</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>产品数量</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>含税金额</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>产品型号</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>产品单位</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>含税单价</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>不含税金额</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>税率</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>税额</string>
-           </property>
-          </column>
+           <column>
+            <property name="text">
+             <string>ID</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>产品代码</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>产品名称</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>产品单价</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>产品数量</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>含税金额</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>产品型号</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>产品单位</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>含税单价</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>不含税金额</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>税率</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>税额</string>
+            </property>
+           </column>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -436,7 +439,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <property name="spacing">
-         <number>6</number>
+         <number>0</number>
         </property>
         <property name="margin">
          <number>0</number>
@@ -595,177 +598,180 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="ok_invoice_table">
-          <property name="autoScrollMargin">
-           <number>15</number>
+         <widget class="QSplitter" name="splitter">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
           </property>
-          <property name="sortingEnabled">
-           <bool>true</bool>
-          </property>
-          <property name="rowCount">
-           <number>0</number>
-          </property>
-          <property name="columnCount">
-           <number>17</number>
-          </property>
-          <column>
-           <property name="text">
-            <string>ID</string>
+          <widget class="QTableWidget" name="ok_invoice_table">
+           <property name="autoScrollMargin">
+            <number>15</number>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>发票号码</string>
+           <property name="sortingEnabled">
+            <bool>true</bool>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>发票代码</string>
+           <property name="rowCount">
+            <number>0</number>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>客户名称</string>
+           <property name="columnCount">
+            <number>17</number>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>价税合计</string>
+           <column>
+            <property name="text">
+             <string>ID</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>发票号码</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>发票代码</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>客户名称</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>价税合计</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>开票人</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>收款人</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>复核人</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>开票时间</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>总税额</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>总不含税金额</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>备注</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>客户代码</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>客户税号</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>客户地址</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>客户开户行账号</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>系统流水号</string>
+            </property>
+           </column>
+          </widget>
+          <widget class="QTableWidget" name="ok_invoice_detail_table">
+           <property name="sortingEnabled">
+            <bool>true</bool>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>开票人</string>
+           <property name="rowCount">
+            <number>0</number>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>收款人</string>
+           <property name="columnCount">
+            <number>12</number>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>复核人</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>开票时间</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>总税额</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>总不含税金额</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>备注</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>客户代码</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>客户税号</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>客户地址</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>客户开户行账号</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>系统流水号</string>
-           </property>
-          </column>
-         </widget>
-        </item>
-        <item>
-         <widget class="QTableWidget" name="ok_invoice_detail_table">
-          <property name="sortingEnabled">
-           <bool>true</bool>
-          </property>
-          <property name="rowCount">
-           <number>0</number>
-          </property>
-          <property name="columnCount">
-           <number>12</number>
-          </property>
-          <column>
-           <property name="text">
-            <string>ID</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>产品代码</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>产品名称</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>产品单价</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>产品数量</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>含税金额</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>产品型号</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>产品单位</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>含税单价</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>不含税金额</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>税率</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>税额</string>
-           </property>
-          </column>
+           <column>
+            <property name="text">
+             <string>ID</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>产品代码</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>产品名称</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>产品单价</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>产品数量</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>含税金额</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>产品型号</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>产品单位</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>含税单价</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>不含税金额</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>税率</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>税额</string>
+            </property>
+           </column>
+          </widget>
          </widget>
         </item>
        </layout>
