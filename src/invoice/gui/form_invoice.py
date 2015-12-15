@@ -21,7 +21,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.parent = parent
         self.id = id
-        self.init_product_combo_data()
+        self.init_ui()
 
         # 初始化数据
         if id:
@@ -41,22 +41,34 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         self.buttonBox.addButton(print_and_save_btn, QtGui.QDialogButtonBox.ActionRole)
         print_and_save_btn.clicked.connect(self.action_print_and_save)
 
-    def action_add_invoice_detail(self):
-        """
-        添加一个空白列
-        """
-        table = self.invoice_detail_tableWidget
-        row_count = table.rowCount()
-        table.insertRow(row_count)
+    def init_ui(self):
+        # 将发票号码，发票代码，金额大写改为不可编辑
+        self.invoice_num_lineEdit.setDisabled(True)
+        self.invoice_code_lineEdit.setDisabled(True)
+        self.total_num_cn_lineEdit.setDisabled(True)
 
-    def action_del_invoice_detail(self):
-        """
-        删除选中的列
-        """
-        table = self.invoice_detail_tableWidget
-        selected_rows = table_util.get_selected_row_number_list(table)
-        for row_count in selected_rows:
-            table.removeRow(row_count)
+        # 初始化表格中的选择框
+        combo_box = MyComboBox(self.invoice_detail_tableWidget)
+        self.invoice_detail_tableWidget.setItemDelegateForColumn(2, combo_box)
+
+        # 初始化客户下拉选择框
+        custom_name_combobox = self.custom_name_comboBox
+        custom_name_combobox.setEditable(True)
+        custom_list = Custom.select().where(Custom.status == 0).order_by(Custom.name)
+        for custom in custom_list:
+            custom_name_combobox.addItem(custom.name)
+        custom_name_combobox.setEditText("")
+
+        # 初始化开票人下拉选择框
+        drawer_combobox = self.drawer_comboBox
+        drawer_combobox.setEditable(True)
+        user_list = User.select().order_by(User.name)
+        for user in user_list:
+            drawer_combobox.addItem(user.name)
+        # 默认值为当前用户
+        user_id = Settings.value_int(Settings.USER_ID)
+        user = User.get(id=user_id)
+        drawer_combobox.setEditText(user.name)
 
     def init_default_data(self):
         """'
@@ -97,7 +109,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             # table_util.set_table_item_value_editable(table, i, 0, "", True)
             # TODO ID不可编辑
             # table_util.set_table_item_un_editable(table, i, 0)
-        # --------------------------
+            # --------------------------
 
     def init_data(self, data_id):
         """
@@ -138,36 +150,13 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             logger = logging.getLogger(__name__)
             logger.exception(u"程序出现异常")
 
-    def init_product_combo_data(self):
+    def accepted(self):
         """
-        初始产品下拉选择框
+        确定按钮事件
         :return:
         """
-        self.invoice_num_lineEdit.setDisabled(True)
-        self.invoice_code_lineEdit.setDisabled(True)
-        self.total_num_cn_lineEdit.setDisabled(True)
-
-        combo_box = MyComboBox(self.invoice_detail_tableWidget)
-        self.invoice_detail_tableWidget.setItemDelegateForColumn(2, combo_box)
-
-        # 初始化客户数据
-        custom_name_combobox = self.custom_name_comboBox
-        custom_name_combobox.setEditable(True)
-        custom_list = Custom.select().where(Custom.status == 0).order_by(Custom.name)
-        for custom in custom_list:
-            custom_name_combobox.addItem(custom.name)
-        custom_name_combobox.setEditText("")
-
-        # 初始化开票人数据
-        drawer_comboBox = self.drawer_comboBox
-        drawer_comboBox.setEditable(True)
-        user_List = User.select().order_by(User.name)
-        for user in user_List:
-            drawer_comboBox.addItem(user.name)
-        # 默认值为当前用户
-        user_id = Settings.value_int(Settings.USER_ID)
-        user = User.get(id=user_id)
-        drawer_comboBox.setEditText(user.name)
+        self.save_or_update()
+        self.parent.invoice_filter_btn_clicked()
 
     def action_total_num_text_changed(self, string):
         """
@@ -211,6 +200,34 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         if col_num == 3 or col_num == 4:
             self.caculate_price()
 
+    def action_print_and_save(self):
+        """
+        确定按钮事件
+        :return:
+        """
+        self.save_or_update()
+        self.print_by_id()
+        self.parent.invoice_filter_btn_clicked()
+
+
+
+    def action_add_invoice_detail(self):
+        """
+        添加一个空白列
+        """
+        table = self.invoice_detail_tableWidget
+        row_count = table.rowCount()
+        table.insertRow(row_count)
+
+    def action_del_invoice_detail(self):
+        """
+        删除选中的列
+        """
+        table = self.invoice_detail_tableWidget
+        selected_rows = table_util.get_selected_row_number_list(table)
+        for row_count in selected_rows:
+            table.removeRow(row_count)
+
     def caculate_price(self):
         """
         根据表格中的元素计算总金额
@@ -229,14 +246,6 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             total_num += product_price
 
         self.total_num_lineEdit.setText(str(total_num))
-
-    def accepted(self):
-        """
-        确定按钮事件
-        :return:
-        """
-        self.save_or_update()
-        self.parent.invoice_filter_btn_clicked()
 
     def save_or_update(self):
         try:
@@ -290,15 +299,6 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             logger = logging.getLogger(__name__)
             logger.exception(u"报错客户信息出错！")
             logger.error(e)
-
-    def action_print_and_save(self):
-        """
-        确定按钮事件
-        :return:
-        """
-        self.save_or_update()
-        self.print_by_id()
-        self.parent.invoice_filter_btn_clicked()
 
     def print_by_id(self):
         invoice_id = self.id
