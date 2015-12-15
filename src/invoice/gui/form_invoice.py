@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from PyQt4.QtCore import QModelIndex, QVariant
-from PyQt4.QtGui import QDialog, QStandardItemModel, QMessageBox, QPrinter
+from PyQt4.QtGui import QDialog, QMessageBox, QPrinter
 
 from form_invoice_ui import *
 from invoice.bean.beans import *
@@ -42,12 +41,21 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         print_and_save_btn.clicked.connect(self.action_print_and_save)
 
     def action_add_invoice_detail(self):
-        pass
-        print "action_add_invoice_detail"
+        """
+        添加一个空白列
+        """
+        table = self.invoice_detail_tableWidget
+        row_count = table.rowCount()
+        table.insertRow(row_count)
 
     def action_del_invoice_detail(self):
-        pass
-        print "action_add_invoice_detail"
+        """
+        删除选中的列
+        """
+        table = self.invoice_detail_tableWidget
+        selected_rows = table_util.get_selected_row_number_list(table)
+        for row_count in selected_rows:
+            table.removeRow(row_count)
 
     def init_default_data(self):
         """'
