@@ -307,8 +307,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             row_count = table.rowCount()
             for i in range(row_count):
                 detail_id = table_util.get_item_value(table, i, 0)
-                product_code = table_util.get_item_value(table, i, 1)
-                product_name = table_util.get_item_value(table, i, 2)
+                product_name = table_util.get_item_value(table, i, 1)
+                product_code = table_util.get_item_value(table, i, 2)
                 pro_num = table_util.get_item_value_float(table, i, 3)
                 product_unit_price = table_util.get_item_value_float(table, i, 4)
                 contain_tax_price = table_util.get_item_value_float(table, i, 5)

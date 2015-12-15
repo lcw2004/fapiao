@@ -18,7 +18,7 @@ class MyComboBox(QItemDelegate):
         combo_box.setEditable(True)
 
         # 将数据加载到表格中
-        product_list = list(Product.select().where(Product.status == 0 and Product.name.is_null(False)))
+        product_list = list(Product.select().where(Product.status == 0, Product.name.is_null(False)))
         for product in product_list:
             combo_box.addItem(product.name)
 
