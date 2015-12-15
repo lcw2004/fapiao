@@ -55,9 +55,6 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         """
         # --------------------------
         # 将当前登录用户作为开票人
-        user_id = Settings.value(Settings.USER_ID).toInt()[0]
-        user = User.get(id=user_id)
-        self.drawer_lineEdit.setText(user.name)
         self.beneficiary_lineEdit.setText(Settings.value_q_str(Settings.BENEFICIARY_NAME))
         self.reviewer_lineEdit.setText(Settings.value_q_str(Settings.REVIEWER_NAME))
         self.invoice_code_lineEdit.setText(Settings.value_str(Settings.INVOICE_CODE))
@@ -108,7 +105,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             self.total_num_lineEdit.setText(common_util.to_string_trim(invoice.total_num))
             total_num_cn = money_convert.to_rmb_upper(invoice.total_num)
             self.total_num_cn_lineEdit.setText(common_util.to_string_trim(total_num_cn))
-            self.drawer_lineEdit.setText(common_util.to_string_trim(invoice.drawer))
+            self.drawer_comboBox.setEditText(common_util.to_string_trim(invoice.drawer))
             self.beneficiary_lineEdit.setText(common_util.to_string_trim(invoice.beneficiary))
             self.reviewer_lineEdit.setText(common_util.to_string_trim(invoice.reviewer))
 
@@ -151,6 +148,17 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         for custom in custom_list:
             custom_name_combobox.addItem(custom.name)
         custom_name_combobox.setEditText("")
+
+        # 初始化开票人数据
+        drawer_comboBox = self.drawer_comboBox
+        drawer_comboBox.setEditable(True)
+        user_List = User.select().order_by(User.name)
+        for user in user_List:
+            drawer_comboBox.addItem(user.name)
+        # 默认值为当前用户
+        user_id = Settings.value_int(Settings.USER_ID)
+        user = User.get(id=user_id)
+        drawer_comboBox.setEditText(user.name)
 
     def action_total_num_text_changed(self, string):
         """
@@ -217,7 +225,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         invoice_code = table_util.get_edit_text(self.invoice_code_lineEdit)
         custom_name = self.custom_name_comboBox.currentText()
         total_num = table_util.get_edit_text_float(self.total_num_lineEdit)
-        drawer = table_util.get_edit_text(self.drawer_lineEdit)
+        drawer = self.drawer_comboBox.currentText()
         beneficiary = table_util.get_edit_text(self.beneficiary_lineEdit)
         reviewer = table_util.get_edit_text(self.reviewer_lineEdit)
 
@@ -268,7 +276,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         invoice_code = table_util.get_edit_text(self.invoice_code_lineEdit)
         custom_name = self.custom_name_comboBox.currentText()
         total_num = table_util.get_edit_text_float(self.total_num_lineEdit)
-        drawer = table_util.get_edit_text(self.drawer_lineEdit)
+        drawer = self.drawer_comboBox.currentText()
         beneficiary = table_util.get_edit_text(self.beneficiary_lineEdit)
         reviewer = table_util.get_edit_text(self.reviewer_lineEdit)
 

@@ -191,8 +191,18 @@
        <property name="margin">
         <number>0</number>
        </property>
-       <item row="0" column="2">
-        <widget class="QLineEdit" name="drawer_lineEdit"/>
+       <item row="0" column="6">
+        <widget class="QLineEdit" name="reviewer_lineEdit"/>
+       </item>
+       <item row="0" column="4">
+        <widget class="QLineEdit" name="beneficiary_lineEdit"/>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>开票人</string>
+         </property>
+        </widget>
        </item>
        <item row="0" column="3">
         <widget class="QLabel" name="label_6">
@@ -208,18 +218,8 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>开票人</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="4">
-        <widget class="QLineEdit" name="beneficiary_lineEdit"/>
-       </item>
-       <item row="0" column="6">
-        <widget class="QLineEdit" name="reviewer_lineEdit"/>
+       <item row="0" column="2">
+        <widget class="QComboBox" name="drawer_comboBox"/>
        </item>
       </layout>
      </item>
@@ -243,7 +243,6 @@
  <tabstops>
   <tabstop>custom_name_comboBox</tabstop>
   <tabstop>invoice_detail_tableWidget</tabstop>
-  <tabstop>drawer_lineEdit</tabstop>
   <tabstop>beneficiary_lineEdit</tabstop>
   <tabstop>reviewer_lineEdit</tabstop>
   <tabstop>buttonBox</tabstop>
