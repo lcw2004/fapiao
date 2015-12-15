@@ -466,6 +466,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>到</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QLineEdit" name="ok_invoice_end_num_edit">
               <property name="baseSize">
                <size>
@@ -499,9 +506,29 @@
              <widget class="QDateEdit" name="ok_invoice_start_time_edit"/>
             </item>
             <item>
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>到</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QDateEdit" name="ok_invoice_end_time_edit"/>
             </item>
            </layout>
+          </item>
+          <item row="0" column="2">
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </item>
