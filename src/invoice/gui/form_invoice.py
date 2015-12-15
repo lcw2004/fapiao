@@ -9,7 +9,7 @@ from invoice.common import common_util
 from invoice.common import table_util
 from invoice.common import money_convert
 from invoice.common.settings import Settings
-from invoice.gui.common_ui import DBComboBoxDelegate
+from invoice.gui.common_ui import DBComboBoxDelegate, MyComboBox
 from invoice.image import add_text_in_invoice
 
 logger = logging.getLogger(__name__)
@@ -146,8 +146,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         self.invoice_code_lineEdit.setDisabled(True)
         self.total_num_cn_lineEdit.setDisabled(True)
 
-        combo_box = DBComboBoxDelegate(self.invoice_detail_tableWidget)
-        self.invoice_detail_tableWidget.setItemDelegateForColumn(1, combo_box)
+        combo_box = MyComboBox(self.invoice_detail_tableWidget)
+        self.invoice_detail_tableWidget.setItemDelegateForColumn(2, combo_box)
 
         # 初始化客户数据
         custom_name_combobox = self.custom_name_comboBox
@@ -191,15 +191,18 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         table = self.invoice_detail_tableWidget
 
         # 如果产品编码更新
-        if col_num == 1:
-            product_code = table.item(row_num, col_num).text()
+        if col_num == 2:
+            product_name = table.item(row_num, col_num).text()
+            product_name = str(product_name).decode("GBK")
 
             # 查询数据
-            product = Product.get(code=product_code)
+            product_list = Product.select().where(Product.name == product_name)
 
             # 更新表格
-            table_util.set_table_item_value(table, row_num, 2, product.name)
-            table_util.set_table_item_value(table, row_num, 4, product.unit_price)
+            if product_list and len(product_list) > 0:
+                product = product_list[0]
+                table_util.set_table_item_value(table, row_num, 1, product.code)
+                table_util.set_table_item_value(table, row_num, 4, product.unit_price)
 
         # 如果是单价和数量更新，则重新计算总金额
         if col_num == 3 or col_num == 4:

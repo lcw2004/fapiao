@@ -5,6 +5,29 @@ from PyQt4.QtGui import QItemDelegate, QTableView, QAbstractItemView, QComboBox,
 from invoice.bean.beans import Product
 
 
+class MyComboBox(QItemDelegate):
+    def __init__(self, parent=None):
+        QItemDelegate.__init__(self, parent)
+        self.parent = parent
+
+    def createEditor(self, parent, option, index):
+        """
+        重写父类的方法
+        """
+        print "---------------------"
+        print "createEditor"
+        combo_box = QComboBox(parent)
+        combo_box.setEditable(True)
+
+        # 将数据加载到表格中
+        product_list = list(Product.select().where(Product.status == 0 and Product.name.is_null(False)))
+        for product in product_list:
+            combo_box.addItem(product.name)
+
+        combo_box.editTextChanged.connect(self.editTextChanged)
+        print "---------------------"
+        return combo_box
+
 class DBComboBoxDelegate(QItemDelegate):
     """
     下拉框表格
