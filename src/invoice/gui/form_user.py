@@ -56,8 +56,8 @@ class UserDialog(QDialog, Ui_Dialog):
                                    is_admin=is_admin)
                 user.save()
 
-                # 刷新父窗体
-                self.parent.user_query_btn_clicked()
+            # 刷新父窗体
+            self.parent.user_query_btn_clicked()
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.exception(u"保存用户信息出错！")
@@ -73,6 +73,8 @@ class UserDialog(QDialog, Ui_Dialog):
             user = User.get(id=id)
             self.name_lineEdit.setText(common_util.to_string_trim(user.name))
             self.login_name_lineEdit.setText(common_util.to_string_trim(user.login_name))
+            self.password_lineEdit.setText(common_util.to_string_trim(user.password))
+            self.password_again_lineEdit.setText(common_util.to_string_trim(user.password))
             self.is_admin_checkBox.setChecked(user.is_admin == 1)
         except NoSection.DoesNotExist:
             logger = logging.getLogger(__name__)
