@@ -28,6 +28,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         self.init_ui()
+        self.showMaximized()
 
         # =====================
         # Excel导入
@@ -157,7 +158,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # =====================
         # 状态栏信息
         status = ""
-        user_id = Settings.value(Settings.USER_ID).toInt()[0]
+        user_id = Settings.value_int(Settings.USER_ID)
         user = User.get(id=user_id)
         status += u"当前用户：" + user.name
         self.left_status_label.setText(status)
