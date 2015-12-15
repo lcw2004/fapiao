@@ -11,6 +11,7 @@ class SectionDialog(QDialog, Ui_Dialog):
     def __init__(self, parent=None, id=None):
         super(SectionDialog, self).__init__(parent)
         self.setupUi(self)
+        self.init_ui()
         self.parent = parent
         self.id = id
 
@@ -21,6 +22,14 @@ class SectionDialog(QDialog, Ui_Dialog):
         # 绑定事件
         self.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), self.accepted)
 
+    def init_ui(self):
+        user_name_combobox = self.user_name_comboBox
+        user_name_combobox.setEditable(True)
+        user_list = User.select().order_by(User.name)
+        user_name_combobox.addItem("")
+        for user in user_list:
+            user_name_combobox.addItem(user.name)
+
     def accepted(self):
         """
         确定按钮事件
@@ -29,7 +38,7 @@ class SectionDialog(QDialog, Ui_Dialog):
         try:
             start_num = table_util.get_edit_text(self.start_num_LineEdit)
             end_num = table_util.get_edit_text(self.end_num_LineEdit)
-            user_name = table_util.get_edit_text(self.user_name_LineEdit)
+            user_name = self.user_name_comboBox.currentText()
 
             if self.id:
                 # 修改
@@ -62,7 +71,7 @@ class SectionDialog(QDialog, Ui_Dialog):
             no_section = NoSection.get(id=id)
             self.start_num_LineEdit.setText(common_util.to_string_trim(no_section.start_num))
             self.end_num_LineEdit.setText(common_util.to_string_trim(no_section.end_num))
-            self.user_name_LineEdit.setText(common_util.to_string_trim(no_section.user_name))
+            self.user_name_comboBox.setEditText(common_util.to_string_trim(no_section.user_name))
         except NoSection.DoesNotExist:
             logger = logging.getLogger(__name__)
             logger.exception(u"程序出现异常")
