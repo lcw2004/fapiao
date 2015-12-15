@@ -14,8 +14,6 @@ class MyComboBox(QItemDelegate):
         """
         重写父类的方法
         """
-        print "---------------------"
-        print "createEditor"
         combo_box = QComboBox(parent)
         combo_box.setEditable(True)
 
@@ -24,9 +22,8 @@ class MyComboBox(QItemDelegate):
         for product in product_list:
             combo_box.addItem(product.name)
 
-        combo_box.editTextChanged.connect(self.editTextChanged)
-        print "---------------------"
         return combo_box
+
 
 class DBComboBoxDelegate(QItemDelegate):
     """

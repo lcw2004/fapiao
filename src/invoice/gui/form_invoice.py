@@ -196,11 +196,10 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             product_name = str(product_name).decode("GBK")
 
             # 查询数据
-            product_list = Product.select().where(Product.name == product_name)
+            product = Product.get(Product.name == product_name)
 
             # 更新表格
-            if product_list and len(product_list) > 0:
-                product = product_list[0]
+            if product:
                 table_util.set_table_item_value(table, row_num, 1, product.code)
                 table_util.set_table_item_value(table, row_num, 4, product.unit_price)
 
