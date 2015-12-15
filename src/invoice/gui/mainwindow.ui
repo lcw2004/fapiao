@@ -31,7 +31,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -264,6 +264,9 @@
         </item>
         <item>
          <widget class="QTableWidget" name="invoice_table">
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
           <property name="rowCount">
            <number>0</number>
           </property>
@@ -354,6 +357,9 @@
         </item>
         <item>
          <widget class="QTableWidget" name="invoice_detail_table">
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
           <property name="rowCount">
            <number>0</number>
           </property>
@@ -593,6 +599,9 @@
           <property name="autoScrollMargin">
            <number>15</number>
           </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
           <property name="rowCount">
            <number>0</number>
           </property>
@@ -688,6 +697,9 @@
         </item>
         <item>
          <widget class="QTableWidget" name="ok_invoice_detail_table">
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
           <property name="rowCount">
            <number>0</number>
           </property>
@@ -835,6 +847,9 @@
         </item>
         <item>
          <widget class="QTableWidget" name="product_table">
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
           <column>
            <property name="text">
             <string>ID</string>
@@ -973,6 +988,9 @@
          <widget class="QTableWidget" name="custom_table">
           <property name="lineWidth">
            <number>2</number>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
           </property>
           <property name="rowCount">
            <number>0</number>
@@ -1113,6 +1131,9 @@
          <widget class="QTableWidget" name="section_table">
           <property name="lineWidth">
            <number>2</number>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
           </property>
           <property name="rowCount">
            <number>0</number>
