@@ -43,6 +43,9 @@ class TextInfoFactory:
         self.text_info_map["unit_price"] = TextInfo(default_font_name, default_font_size, default_font_color, 1323, 540)
         self.text_info_map["contain_tax_price"] = TextInfo(default_font_name, default_font_size, default_font_color, 1640, 540)
 
+        # 作废字样
+        self.text_info_map["zuofei"] = TextInfo(default_font_name, 100, default_font_color, 950, 620)
+
 
 if __name__ == "__main__":
     factory = TextInfoFactory()

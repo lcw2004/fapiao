@@ -39,12 +39,13 @@ def add_text_in_image_by_invoice(out_img_path, invoice, invoice_detail_list, in_
         up_offset += 60
 
     if invoice.status == -1:
-        im_zuofei = Image.open(config.PATH_OF_ZUOFEI_IMG)
-        im_width, im_height = im.size
-        im_zuofei_width, im_zuofei_height = im_zuofei.size
-        zuofei_pos_x = (im_width - im_zuofei_width) / 2
-        zuofei_pos_y = (im_height - im_zuofei_height) / 2
-        im = image_util.add_watermark(im, im_zuofei, zuofei_pos_x, zuofei_pos_y, opacity=0.7)
+        image_util.add_text_in_image(draw, "zuofei", u"作废")
+        # im_zuofei = Image.open(config.PATH_OF_ZUOFEI_IMG)
+        # im_width, im_height = im.size
+        # im_zuofei_width, im_zuofei_height = im_zuofei.size
+        # zuofei_pos_x = (im_width - im_zuofei_width) / 2
+        # zuofei_pos_y = (im_height - im_zuofei_height) / 2
+        # im = image_util.add_watermark(im, im_zuofei, zuofei_pos_x, zuofei_pos_y, opacity=0.7)
 
     # 显示
     # im.show()
