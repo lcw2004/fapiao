@@ -39,7 +39,7 @@ def add_text_in_image_by_invoice(out_img_path, invoice, invoice_detail_list, in_
         up_offset += 60
 
     if invoice.status == -1:
-        image_util.add_text_in_image(draw, "zuofei", u"作废")
+        image_util.add_text_in_image(draw, "zuofei", u"作 废")
         # im_zuofei = Image.open(config.PATH_OF_ZUOFEI_IMG)
         # im_width, im_height = im.size
         # im_zuofei_width, im_zuofei_height = im_zuofei.size
