@@ -313,10 +313,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # 如果在弹出的打印界面中选择了打印
             self.print_invoice_pic(printer)
 
-            # 此处无法监控到打印是否成功
-            q = Invoice.update(status=1, start_time=datetime.datetime.now()).where(Invoice.id == invoice_id)
-            q.execute()
-            self.show_msg_at_rigth_label(u"已经开始打印，由于无法监控是否打印成功，如果打印失败，请重新补打！")
+            # 打印成功
+            # 修改合同状态和打印的时间
+            invoice = Invoice.get(id=invoice_id)
+            if invoice.status == 0:
+                # 如果合同是未开票状态，将其改为开票状态，并记录开票时间
+                q = Invoice.update(status=1, start_time=datetime.datetime.now()).where(Invoice.id == invoice_id)
+                q.execute()
+                self.show_msg_at_rigth_label(u"已经开始打印，由于无法监控是否打印成功，如果打印失败，请重新补打！")
+            elif invoice.status == -1 or invoice.status == 1:
+                # 如果合同是作废状态或者开票状态，状态不变
+                self.show_msg_at_rigth_label(u"已经开始打印，由于无法监控是否打印成功，如果打印失败，请重新补打！")
+
         del print_dialog
 
     def print_preview_select_invoice(self, invoice_table):
