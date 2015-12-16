@@ -683,8 +683,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(invoice_detail_table, i, 7, invoice_detail.product.type)
             table_util.set_table_item_value(invoice_detail_table, i, 8, invoice_detail.product.unit)
             table_util.set_table_item_value(invoice_detail_table, i, 9, invoice_detail.product.tax_price)
-            table_util.set_table_item_value(invoice_detail_table, i, 10, invoice_detail.not_tax_price)
-            table_util.set_table_item_value(invoice_detail_table, i, 11, invoice_detail.product.tax)
+            table_util.set_table_item_value(invoice_detail_table, i, 10, invoice_detail.product.tax)
+            table_util.set_table_item_value(invoice_detail_table, i, 11, invoice_detail.not_tax_price)
+
 
 
     def custom_query_btn_clicked(self):
