@@ -21,7 +21,7 @@ def add_text_in_image_by_invoice(out_img_path, invoice, invoice_detail_list, in_
     draw = ImageDraw.Draw(im)
     image_util.add_text_in_image(draw, "custom_name", invoice.custom.name)
     image_util.add_text_in_image(draw, "start_time", invoice.start_time)
-    image_util.add_text_in_image(draw, "invoice_num", invoice.invoice_num)
+    # image_util.add_text_in_image(draw, "invoice_num", invoice.invoice_num)
     image_util.add_text_in_image(draw, "drawer", invoice.drawer)
     image_util.add_text_in_image(draw, "beneficiary", invoice.beneficiary)
     image_util.add_text_in_image(draw, "reviewer", invoice.reviewer)
