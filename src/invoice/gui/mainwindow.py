@@ -620,6 +620,35 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.information(self.parentWidget(), "Information", u'系统初始失败，请重新注册！')
             return
 
+        invoice_start_num = Settings.value_int(Settings.INVOICE_START_NUM)
+        invoice_end_num = Settings.value_int(Settings.INVOICE_END_NUM)
+
+        # 判断是否设置号段
+        if invoice_start_num == 0 or invoice_end_num == 0:
+            QMessageBox.information(self.parentWidget(), "Information", u'未设置号段，请设置后再使用！')
+            return
+
+        # --------------------------
+        # 查询号段内的数据，并获取已使用数量
+        # TODO 性能优化
+        invoice_list = Invoice.select(Invoice.invoice_num).where(
+            Invoice.invoice_num.between(invoice_start_num, invoice_end_num)).order_by(Invoice.invoice_num.asc())
+        if invoice_list and len(invoice_list) > 0:
+            # 如果有值，则下一个为最大的一个
+            invoice = list(invoice_list)[-1]
+            invoice_current_num = invoice.invoice_num + 1
+        else:
+            # 如果无值，则下一个为起始值
+            invoice_current_num = invoice_start_num
+            used_count = 0
+
+        if invoice_current_num > invoice_end_num:
+            QMessageBox.information(self.parentWidget(), "Information", u'发票已经用完，请重新设置后再使用！')
+            return
+        # --------------------------
+
+
+
         dialog = InvoiceDialog(self)
         dialog.show()
 
