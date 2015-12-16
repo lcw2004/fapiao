@@ -3,7 +3,7 @@
 # ============ 程序基础配置 ============
 PRODUCT_COMPANY = u"长沙瑞财信息科技有限公司"
 PRODUCT_NAME = u"发票助手"
-PRODUCT_VERSION = u"2.0"
+PRODUCT_VERSION = u"2.1.1"
 PRODUCT_ALL_NAME = PRODUCT_NAME + " " + PRODUCT_VERSION
 # ============ 程序基础配置 ============
 
