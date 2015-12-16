@@ -58,6 +58,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connect(self.ok_invoice_table, QtCore.SIGNAL('itemClicked(QTableWidgetItem*)'),self.ok_invoice_table_item_clicked)
         self.connect(self.ok_invoice_export_btn, QtCore.SIGNAL("clicked()"), self.ok_invoice_export_btn_clicked)
         self.connect(self.ok_invoice_print_btn, QtCore.SIGNAL("clicked()"), self.ok_invoice_print_btn_clicked)
+        self.connect(self.ok_invoice_delete_btn, QtCore.SIGNAL("clicked()"), self.ok_invoice_delete_btn_clicked)
+
         # =====================
 
         # =====================
@@ -647,16 +649,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
         # --------------------------
 
-
-
         dialog = InvoiceDialog(self)
         dialog.show()
 
     def invoice_delete_btn_clicked(self):
-        reply = QMessageBox.question(self.parentWidget(), u'提示', u'确定要删除所选记录吗？', QMessageBox.Yes | QMessageBox.No)
-        if reply == QMessageBox.Yes:
-            invoice_table = self.invoice_table
+        self.delete_invoiced(self.invoice_table)
+        self.invoice_filter_btn_clicked()
 
+    def ok_invoice_delete_btn_clicked(self):
+        self.delete_invoiced(self.ok_invoice_table)
+        self.ok_invoice_filter_btn_clicked()
+
+    def delete_invoiced(self, invoice_table):
+        reply = QMessageBox.question(self.parentWidget(), u'提示', u'确定要作废所选记录吗？', QMessageBox.Yes | QMessageBox.No)
+        if reply == QMessageBox.Yes:
             # 获取所有需要删除的行的ID
             id_list = []
             remove_rows = table_util.get_selected_row_number_list(invoice_table)
@@ -667,9 +673,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # 删除数据
             q = Invoice.update(status=-1).where(Invoice.id << id_list)
             q.execute()
-
-            # 重新加载表格
-            self.invoice_filter_btn_clicked()
 
     def invoice_import_xml_btn_clicked(self):
         invoice_list = list(Invoice.select(Invoice.status == 0))

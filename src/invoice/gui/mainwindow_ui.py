@@ -287,6 +287,10 @@ class Ui_MainWindow(object):
         self.ok_invoice_print_btn.setIcon(icon5)
         self.ok_invoice_print_btn.setObjectName(_fromUtf8("ok_invoice_print_btn"))
         self.horizontalLayout_5.addWidget(self.ok_invoice_print_btn)
+        self.ok_invoice_delete_btn = QtGui.QPushButton(self.tab_2)
+        self.ok_invoice_delete_btn.setIcon(icon4)
+        self.ok_invoice_delete_btn.setObjectName(_fromUtf8("ok_invoice_delete_btn"))
+        self.horizontalLayout_5.addWidget(self.ok_invoice_delete_btn)
         spacerItem3 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem3)
         self.verticalLayout_8.addLayout(self.horizontalLayout_5)
@@ -681,7 +685,7 @@ class Ui_MainWindow(object):
         self.menuBar.addAction(self.menu_help.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(6)
+        self.tabWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -766,6 +770,7 @@ class Ui_MainWindow(object):
         self.ok_invoice_filter_btn.setText(_translate("MainWindow", "查询", None))
         self.ok_invoice_export_btn.setText(_translate("MainWindow", "导出", None))
         self.ok_invoice_print_btn.setText(_translate("MainWindow", "打印", None))
+        self.ok_invoice_delete_btn.setText(_translate("MainWindow", "作废", None))
         self.ok_invoice_table.setSortingEnabled(True)
         item = self.ok_invoice_table.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "ID", None))
