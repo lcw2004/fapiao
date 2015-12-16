@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import logging
-from PyQt4.QtGui import QDialog, QFont
-from invoice.common import common_util
+
+from PyQt4.QtGui import QDialog
+
+from invoice.bean.beans import User
 from invoice.common import table_util
 from invoice.common.settings import Settings
 from menu_config_ui import *
@@ -13,6 +15,14 @@ class MenuConfigDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.parent = parent
         self.init_data()
+
+        user_id = Settings.value_int(Settings.USER_ID)
+        user = User.get(id=user_id)
+        # 根据用户权限，控制是否显示“库存管理”
+        if not user.is_admin:
+            self.invoice_code_lineEdit.setDisabled(True)
+            self.start_num_lineEdit.setDisabled(True)
+            self.end_num_lineEdit.setDisabled(True)
 
         # 绑定事件
         self.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), self.accepted)
