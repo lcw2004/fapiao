@@ -22,7 +22,7 @@ class InvoiceElsxExporter:
         for i in range(row_count):
             row_num = i + 1
             invoice = invoice_list[i]
-            worksheet.write(row_num, 0, invoice.invoice_num)
+            worksheet.write_string(row_num, 0, str(invoice.invoice_num))
             worksheet.write(row_num, 1, invoice.custom.name)
             worksheet.write_datetime(row_num, 2, invoice.start_time, self.datetime_format)
             worksheet.write(row_num, 3, invoice.total_num, self.money)
