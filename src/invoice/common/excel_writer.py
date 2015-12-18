@@ -23,19 +23,20 @@ class InvoiceElsxExporter:
             row_num = i + 1
             invoice = invoice_list[i]
             worksheet.write_string(row_num, 0, str(invoice.invoice_num))
-            worksheet.write(row_num, 1, invoice.custom.name)
-            worksheet.write_datetime(row_num, 2, invoice.start_time, self.datetime_format)
-            worksheet.write(row_num, 3, invoice.total_num, self.money)
-            worksheet.write(row_num, 4, invoice.drawer)
-            worksheet.write(row_num, 5, invoice.beneficiary)
-            worksheet.write(row_num, 6, invoice.reviewer)
+            worksheet.write_string(row_num, 1, str(invoice.invoice_code))
+            worksheet.write(row_num, 2, invoice.custom.name)
+            worksheet.write_datetime(row_num, 3, invoice.start_time, self.datetime_format)
+            worksheet.write(row_num, 4, invoice.total_num, self.money)
+            worksheet.write(row_num, 5, invoice.drawer)
+            worksheet.write(row_num, 6, invoice.beneficiary)
+            worksheet.write(row_num, 7, invoice.reviewer)
 
     def close(self):
         self.workbook.close()
 
     def add_headers(self, worksheet):
         # 标题文本
-        headers = [u"发票号码", u"客户名称", u"开票日期", u"金额", u"开票人", u"收款人", u"复核人"]
+        headers = [u"发票号码", u"发票代码", u"客户名称", u"开票日期", u"金额", u"开票人", u"收款人", u"复核人"]
 
         # 添加标题到Excel中
         header_count = len(headers)
