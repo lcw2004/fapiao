@@ -585,17 +585,53 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 pass
 
     def ok_invoice_export_btn_clicked(self):
+        # 获取保存路径
         file_name_qstr = QtGui.QFileDialog.getSaveFileName(None, 'Excel', '../', 'Excel File (*.xlsx)')
-
         if not file_name_qstr:
             return
-
         file_name = str(file_name_qstr)
         if not file_name.endswith('.xlsx'):
             file_name += '.xlsx'
 
-        invoice_list = list(Invoice.select().where(Invoice.status == 1))
-        zuofei_invoice_list = list(Invoice.select().where(Invoice.status == 0))
+        # 获取查询条件
+        start_num = self.ok_invoice_start_num_edit.text()
+        end_num = self.ok_invoice_end_num_edit.text()
+        start_time = self.ok_invoice_start_time_edit.date().toPyDate()
+        end_time = self.ok_invoice_end_time_edit.date().toPyDate()
+        logging.info("start_num:" + start_num)
+        logging.info("end_num:" + end_num)
+
+        # 查询数据
+        if start_num.isEmpty() and not end_num.isEmpty():
+            invoice_list = list(Invoice.select().where(Invoice.status == 1,
+                                                       Invoice.start_time.between(start_time, end_time),
+                                                       Invoice.invoice_num <= end_num))
+            zuofei_invoice_list = list(Invoice.select().where(Invoice.status == -1,
+                                                              Invoice.start_time.between(start_time, end_time),
+                                                              Invoice.invoice_num <= end_num))
+            logging.info(u"查询")
+        elif not start_num.isEmpty() and end_num.isEmpty():
+            invoice_list = list(Invoice.select().where(Invoice.status == 1,
+                                                       Invoice.start_time.between(start_time, end_time),
+                                                       Invoice.invoice_num >= start_num))
+            zuofei_invoice_list = list(Invoice.select().where(Invoice.status == -1,
+                                                              Invoice.start_time.between(start_time, end_time),
+                                                              Invoice.invoice_num >= start_num))
+            logging.info(u"查询")
+        elif start_num.isEmpty() and end_num.isEmpty():
+            invoice_list = list(Invoice.select().where(Invoice.status == 1,
+                                                       Invoice.start_time.between(start_time, end_time)))
+            zuofei_invoice_list = list(Invoice.select().where(Invoice.status == -1,
+                                                              Invoice.start_time.between(start_time, end_time)))
+            logging.info(u"查询")
+        else:
+            invoice_list = list(Invoice.select().where(Invoice.status == 1,
+                                                       Invoice.start_time.between(start_time, end_time),
+                                                       Invoice.invoice_num.between(start_num, end_num)))
+            zuofei_invoice_list = list(Invoice.select().where(Invoice.status == -1,
+                                                              Invoice.start_time.between(start_time, end_time),
+                                                              Invoice.invoice_num.between(start_num, end_num)))
+            logging.info(u"查询")
 
         elxs_exporter = InvoiceElsxExporter(file_name)
         elxs_exporter.add_invoice_sheet(u"已开发票", invoice_list)

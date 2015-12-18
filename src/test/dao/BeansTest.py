@@ -20,8 +20,22 @@ def testDict():
         printObject(dict)
 
 def testInvoice():
-    invoice_start_num = Settings.value_str(Settings.INVOICE_START_NUM)
-    invoice_end_num = Settings.value_str(Settings.INVOICE_END_NUM)
+    # invoice = Invoice.get(id=1)
+    # print invoice.invoice_num
+    #
+    # for i in range(1000):
+    #     invoice_num = 2000 + i
+    #     invoice_new = Invoice.create(invoice_num=invoice_num,
+    #                              invoice_code=invoice.invoice_code,
+    #                              total_num=invoice.total_num,
+    #                              drawer=invoice.drawer,
+    #                              beneficiary=invoice.beneficiary,
+    #                              reviewer=invoice.reviewer,
+    #                              custom=invoice.custom)
+    #     invoice_new.save()
+
+    invoice_start_num = 1000
+    invoice_end_num = 3000
     invoice_list = Invoice.select(Invoice.invoice_num).where(Invoice.invoice_num.between(invoice_start_num, invoice_end_num)).order_by(Invoice.invoice_num.asc())
     printObject( list(invoice_list)[-1])
     for invoice in invoice_list:
