@@ -527,21 +527,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if start_num.isEmpty() and not end_num.isEmpty():
             invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1),
                                                        Invoice.start_time.between(start_time, end_time),
-                                                       Invoice.invoice_num <= end_num))
+                                                       Invoice.invoice_num <= end_num).order_by(Invoice.invoice_num.asc()))
             logging.info(u"查询")
         elif not start_num.isEmpty() and end_num.isEmpty():
             invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1),
                                                        Invoice.start_time.between(start_time, end_time),
-                                                       Invoice.invoice_num >= start_num))
+                                                       Invoice.invoice_num >= start_num).order_by(Invoice.invoice_num.asc()))
             logging.info(u"查询")
         elif start_num.isEmpty() and end_num.isEmpty():
             invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1),
-                                                       Invoice.start_time.between(start_time, end_time)))
+                                                       Invoice.start_time.between(start_time, end_time)).order_by(Invoice.invoice_num.asc()))
             logging.info(u"查询")
         else:
             invoice_list = list(Invoice.select().where((Invoice.status == 1) | (Invoice.status == -1),
                                                        Invoice.start_time.between(start_time, end_time),
-                                                       Invoice.invoice_num.between(start_num, end_num)))
+                                                       Invoice.invoice_num.between(start_num, end_num)).order_by(Invoice.invoice_num.asc()))
             logging.info(u"查询")
         invoice_table = self.ok_invoice_table
 
@@ -604,18 +604,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 查询数据
         if start_num.isEmpty() and not end_num.isEmpty():
             invoice_list = list(Invoice.select().where(Invoice.start_time.between(start_time, end_time),
-                                                       Invoice.invoice_num <= end_num))
+                                                       Invoice.invoice_num <= end_num).order_by(Invoice.invoice_num.asc()))
             logging.info(u"查询")
         elif not start_num.isEmpty() and end_num.isEmpty():
             invoice_list = list(Invoice.select().where(Invoice.start_time.between(start_time, end_time),
-                                                       Invoice.invoice_num >= start_num))
+                                                       Invoice.invoice_num >= start_num).order_by(Invoice.invoice_num.asc()))
             logging.info(u"查询")
         elif start_num.isEmpty() and end_num.isEmpty():
-            invoice_list = list(Invoice.select().where(Invoice.start_time.between(start_time, end_time)))
+            invoice_list = list(Invoice.select().where(Invoice.start_time.between(start_time, end_time)).order_by(Invoice.invoice_num.asc()))
             logging.info(u"查询")
         else:
             invoice_list = list(Invoice.select().where(Invoice.start_time.between(start_time, end_time),
-                                                       Invoice.invoice_num.between(start_num, end_num)))
+                                                       Invoice.invoice_num.between(start_num, end_num)).order_by(Invoice.invoice_num.asc()))
             logging.info(u"查询")
 
         elxs_exporter = InvoiceElsxExporter(file_name)
