@@ -31,12 +31,15 @@ class InvoiceElsxExporter:
             worksheet.write(row_num, 6, invoice.beneficiary)
             worksheet.write(row_num, 7, invoice.reviewer)
 
+            if invoice.status == -1:
+                worksheet.write(row_num, 8, u"已作废")
+
     def close(self):
         self.workbook.close()
 
     def add_headers(self, worksheet):
         # 标题文本
-        headers = [u"发票号码", u"发票代码", u"客户名称", u"开票日期", u"金额", u"开票人", u"收款人", u"复核人"]
+        headers = [u"发票号码", u"发票代码", u"客户名称", u"开票日期", u"金额", u"开票人", u"收款人", u"复核人", u"作废标志"]
 
         # 添加标题到Excel中
         header_count = len(headers)

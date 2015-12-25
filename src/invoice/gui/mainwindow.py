@@ -603,39 +603,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # 查询数据
         if start_num.isEmpty() and not end_num.isEmpty():
-            invoice_list = list(Invoice.select().where(Invoice.status == 1,
-                                                       Invoice.start_time.between(start_time, end_time),
+            invoice_list = list(Invoice.select().where(Invoice.start_time.between(start_time, end_time),
                                                        Invoice.invoice_num <= end_num))
-            zuofei_invoice_list = list(Invoice.select().where(Invoice.status == -1,
-                                                              Invoice.start_time.between(start_time, end_time),
-                                                              Invoice.invoice_num <= end_num))
             logging.info(u"查询")
         elif not start_num.isEmpty() and end_num.isEmpty():
-            invoice_list = list(Invoice.select().where(Invoice.status == 1,
-                                                       Invoice.start_time.between(start_time, end_time),
+            invoice_list = list(Invoice.select().where(Invoice.start_time.between(start_time, end_time),
                                                        Invoice.invoice_num >= start_num))
-            zuofei_invoice_list = list(Invoice.select().where(Invoice.status == -1,
-                                                              Invoice.start_time.between(start_time, end_time),
-                                                              Invoice.invoice_num >= start_num))
             logging.info(u"查询")
         elif start_num.isEmpty() and end_num.isEmpty():
-            invoice_list = list(Invoice.select().where(Invoice.status == 1,
-                                                       Invoice.start_time.between(start_time, end_time)))
-            zuofei_invoice_list = list(Invoice.select().where(Invoice.status == -1,
-                                                              Invoice.start_time.between(start_time, end_time)))
+            invoice_list = list(Invoice.select().where(Invoice.start_time.between(start_time, end_time)))
             logging.info(u"查询")
         else:
-            invoice_list = list(Invoice.select().where(Invoice.status == 1,
-                                                       Invoice.start_time.between(start_time, end_time),
+            invoice_list = list(Invoice.select().where(Invoice.start_time.between(start_time, end_time),
                                                        Invoice.invoice_num.between(start_num, end_num)))
-            zuofei_invoice_list = list(Invoice.select().where(Invoice.status == -1,
-                                                              Invoice.start_time.between(start_time, end_time),
-                                                              Invoice.invoice_num.between(start_num, end_num)))
             logging.info(u"查询")
 
         elxs_exporter = InvoiceElsxExporter(file_name)
         elxs_exporter.add_invoice_sheet(u"已开发票", invoice_list)
-        elxs_exporter.add_invoice_sheet(u"作废发票", zuofei_invoice_list)
         elxs_exporter.close()
         self.show_msg_at_rigth_label(u"导出成功，文件路径：" + file_name)
 
