@@ -60,15 +60,19 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         custom_name_combobox.setEditText("")
 
         # 初始化开票人下拉选择框
-        drawer_combobox = self.drawer_comboBox
-        drawer_combobox.setEditable(True)
+        self.drawer_comboBox.setEditable(True)
+        self.beneficiary_comboBox.setEditable(True)
+        self.reviewer_comboBox.setEditable(True)
         user_list = User.select().order_by(User.name)
         for user in user_list:
-            drawer_combobox.addItem(user.name)
+            self.drawer_comboBox.addItem(user.name)
+            self.beneficiary_comboBox.addItem(user.name)
+            self.reviewer_comboBox.addItem(user.name)
+
         # 默认值为当前用户
         user_id = Settings.value_int(Settings.USER_ID)
         user = User.get(id=user_id)
-        drawer_combobox.setEditText(user.name)
+        self.drawer_comboBox.setEditText(user.name)
 
     def init_default_data(self):
         """'
@@ -76,8 +80,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         """
         # --------------------------
         # 将当前登录用户作为开票人
-        self.beneficiary_lineEdit.setText(Settings.value_q_str(Settings.BENEFICIARY_NAME))
-        self.reviewer_lineEdit.setText(Settings.value_q_str(Settings.REVIEWER_NAME))
+        self.beneficiary_comboBox.setEditText(Settings.value_q_str(Settings.BENEFICIARY_NAME))
+        self.reviewer_comboBox.setEditText(Settings.value_q_str(Settings.REVIEWER_NAME))
         self.invoice_code_lineEdit.setText(Settings.value_str(Settings.INVOICE_CODE))
         # --------------------------
 
@@ -125,8 +129,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             total_num_cn = money_convert.to_rmb_upper(invoice.total_num)
             self.total_num_cn_lineEdit.setText(common_util.to_string_trim(total_num_cn))
             self.drawer_comboBox.setEditText(common_util.to_string_trim(invoice.drawer))
-            self.beneficiary_lineEdit.setText(common_util.to_string_trim(invoice.beneficiary))
-            self.reviewer_lineEdit.setText(common_util.to_string_trim(invoice.reviewer))
+            self.beneficiary_comboBox.setEditText(common_util.to_string_trim(invoice.beneficiary))
+            self.reviewer_comboBox.setEditText(common_util.to_string_trim(invoice.reviewer))
 
             # 根据ID查询明细
             invoice_detail_list = list(Invoice.get(id=data_id).invoiceDetails)
@@ -283,8 +287,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             custom_name = self.custom_name_comboBox.currentText()
             total_num = table_util.get_edit_text_float(self.total_num_lineEdit)
             drawer = self.drawer_comboBox.currentText()
-            beneficiary = table_util.get_edit_text(self.beneficiary_lineEdit)
-            reviewer = table_util.get_edit_text(self.reviewer_lineEdit)
+            beneficiary = self.beneficiary_comboBox.currentText()
+            reviewer = self.reviewer_comboBox.currentText()
 
             # 保存用户信息
             custom_of_this = save_or_update_custom(custom_name)
