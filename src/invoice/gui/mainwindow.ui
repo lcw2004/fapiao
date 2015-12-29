@@ -31,7 +31,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -385,7 +385,7 @@
            </column>
            <column>
             <property name="text">
-             <string>产品单价</string>
+             <string>产品标准单价</string>
             </property>
            </column>
            <column>
@@ -400,7 +400,7 @@
            </column>
            <column>
             <property name="text">
-             <string>产品型号</string>
+             <string>明细单价</string>
             </property>
            </column>
            <column>
@@ -739,7 +739,7 @@
            </column>
            <column>
             <property name="text">
-             <string>产品单价</string>
+             <string>产品标准单价</string>
             </property>
            </column>
            <column>
@@ -754,7 +754,7 @@
            </column>
            <column>
             <property name="text">
-             <string>产品型号</string>
+             <string>明细单价</string>
             </property>
            </column>
            <column>

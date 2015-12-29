@@ -49,6 +49,7 @@ def save_or_update_invoice_detail(invoice_detail):
     if invoice_detail.id:
         q = InvoiceDetail.update(pro_num=invoice_detail.pro_num,
                                  contain_tax_price=invoice_detail.contain_tax_price,
+                                 tax_price=invoice_detail.tax_price,
                                  product=invoice_detail.product,
                                  invoice=invoice_detail.invoice).where(InvoiceDetail.id == invoice_detail.id)
         q.execute()
@@ -56,6 +57,7 @@ def save_or_update_invoice_detail(invoice_detail):
         invoice_detail = InvoiceDetail.create(
             pro_num=invoice_detail.pro_num,
             contain_tax_price=invoice_detail.contain_tax_price,
+            tax_price=invoice_detail.tax_price,
             product=invoice_detail.product,
             invoice=invoice_detail.invoice
         )

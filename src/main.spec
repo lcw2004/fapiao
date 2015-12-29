@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['D:\\GitHub\\fapiao\\src'],
+             pathex=['E:\\PythonWorkSpace\\fapiao\\src'],
              binaries=None,
              datas=None,
              hiddenimports=[],

@@ -147,6 +147,7 @@ class InvoiceDetail(BaseModel):
     # 不含税金额（Excel中的金额）
     not_tax_price = FloatField(default=0)
     # 税额（不含税金额 * 税率）
+    # 万家丽项目中，将税额作为产品单价
     tax_price = FloatField(default=0)
     # 含税金额（不含税金额 + 税额）
     contain_tax_price = FloatField(default=0)
