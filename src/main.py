@@ -19,6 +19,10 @@ def init():
     reload(sys)
     sys.setdefaultencoding('GBK')
 
+    import os
+    program_path = os.getcwd()
+    config.PROGRAM_PATH = program_path
+
     # 加载日志配置文件
     logging_set.setup_logging(config.PATH_OF_LOGGING)
 

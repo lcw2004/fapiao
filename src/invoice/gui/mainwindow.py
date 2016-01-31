@@ -301,7 +301,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 将合同信息填充到模板中
         # TODO 文件路径写死了
         img_path = "D:\\123333.jpg"
-        add_text_in_invoice.add_text_in_image(img_path, invoice_id, in_img_path=config.PATH_OF_INVOICE_TEMPLATE_BLANK)
+        in_img_path = config.PROGRAM_PATH + "\\" + config.PATH_OF_INVOICE_TEMPLATE_BLANK
+        add_text_in_invoice.add_text_in_image(img_path, invoice_id, in_img_path=in_img_path)
         logger.info(u"生成图片成功，路径{0}".format(img_path))
 
         # TODO 处理打印失败的情况
@@ -339,7 +340,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 将合同信息填充到模板中
         # TODO 文件路径写死了
         img_path = "D:\\123333.jpg"
-        add_text_in_invoice.add_text_in_image(img_path, invoice_id, in_img_path=config.PATH_OF_INVOICE_TEMPLATE_BLANK)
+        in_img_path = config.PROGRAM_PATH + "\\" + config.PATH_OF_INVOICE_TEMPLATE_BLANK
+        add_text_in_invoice.add_text_in_image(img_path, invoice_id, in_img_path=in_img_path)
         logger.info(u"生成图片成功，路径{0}".format(img_path))
 
         # 生成打印预览界面
@@ -379,6 +381,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         printer.setFullPage(False)
 
         # 构建Qpainter对象，用于将图片传到打印机上
+        # TODO 再次打印的时候，这行代码回导致找不到图片
         painter = QPainter(printer)
         rect = painter.viewport()
         image = QtGui.QPixmap(img_path)

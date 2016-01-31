@@ -7,6 +7,9 @@ PRODUCT_VERSION = u"2.1.2"
 PRODUCT_ALL_NAME = PRODUCT_NAME + " " + PRODUCT_VERSION
 # ============ 程序基础配置 ============
 
+# 程序运行目录
+PROGRAM_PATH = ""
+
 # ============ 程序基础配置 ============
 # 日志配置文件路径
 PATH_OF_LOGGING = "resources/logging.json"

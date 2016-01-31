@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import logging
 from PIL import Image, ImageDraw
 
 from invoice.bean.beans import Invoice
@@ -8,12 +8,16 @@ from invoice.common import money_convert
 from invoice.image import image_util
 
 
+logger = logging.getLogger(__name__)
+
 def add_text_in_image(out_img_path, invoice_id, in_img_path=config.PATH_OF_INVOICE_TEMPLATE_BLANK):
     invoice = Invoice.get(id=invoice_id)
     invoice_detail_list = list(Invoice.get(id=invoice_id).invoiceDetails)
     add_text_in_image_by_invoice(out_img_path, invoice, invoice_detail_list, in_img_path)
 
 def add_text_in_image_by_invoice(out_img_path, invoice, invoice_detail_list, in_img_path=config.PATH_OF_INVOICE_TEMPLATE_BLANK):
+    logging.info(u"图片模板:" + in_img_path)
+
     # 打开图片
     im = Image.open(in_img_path)
 
