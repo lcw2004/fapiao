@@ -270,6 +270,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         selected_rows = table_util.get_selected_row_number_list(table)
         for row_count in selected_rows:
             table.removeRow(row_count)
+            self.caclulate_all_product_price()
 
     def caclulate_product_price(self, row_num):
         """
