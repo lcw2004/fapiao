@@ -275,7 +275,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         for row_count in selected_rows:
             detail_id = table_util.get_item_value(table, row_count, 0)
             table.removeRow(row_count)
-            if detail_id is not None:
+            if detail_id is not None and len(detail_id) > 0:
                 self.del_id_list.append(detail_id)
             self.caclulate_all_product_price()
 
