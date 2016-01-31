@@ -211,8 +211,32 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         :return:
         """
         self.save_or_update()
-        self.print_by_id()
+        if self.check_invoice():
+            self.print_by_id()
         self.parent.invoice_filter_btn_clicked()
+
+
+    def check_invoice(self):
+        data_id = self.id
+        table_util.check_invoice(data_id)
+
+        # 总金额
+        invoice = Invoice.get(id=data_id)
+        total_num = invoice.total_num
+
+        # 汇总金额
+        total_num_all = 0
+        invoice_detail_list = list(Invoice.get(id=data_id).invoiceDetails)
+        for invoice_detail in invoice_detail_list:
+            contain_tax_price = invoice_detail.contain_tax_price
+            total_num_all += contain_tax_price
+
+        if total_num_all != total_num:
+            QMessageBox.information(self.parentWidget(), "Information", u'总金额[{0}]与明细汇总金额[{1}]不一致！'.format(total_num, total_num_all))
+            self.close()
+            return False
+        else:
+            return True
 
     def action_add_invoice_detail(self):
         """
