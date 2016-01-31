@@ -729,6 +729,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row_count = len(invoice_detail_list)
         invoice_detail_table.setRowCount(row_count)
 
+        table_row_count = invoice_detail_table.rowCount()
+        for i in range(table_row_count):
+            invoice_detail_table.removeRow(table_row_count)
+
         # 将数据加载到表格中
         for i in range(row_count):
             invoice_detail = invoice_detail_list[i]
