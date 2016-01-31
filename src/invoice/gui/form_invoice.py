@@ -215,10 +215,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             self.print_by_id()
         self.parent.invoice_filter_btn_clicked()
 
-
     def check_invoice(self):
         data_id = self.id
-        table_util.check_invoice(data_id)
 
         # 总金额
         invoice = Invoice.get(id=data_id)
@@ -226,17 +224,32 @@ class InvoiceDialog(QDialog, Ui_Dialog):
 
         # 汇总金额
         total_num_all = 0
+        tatal_product_id = {}
         invoice_detail_list = list(Invoice.get(id=data_id).invoiceDetails)
         for invoice_detail in invoice_detail_list:
+            # 总金额
             contain_tax_price = invoice_detail.contain_tax_price
             total_num_all += contain_tax_price
+
+            # 产品出现次数
+            product_id = invoice_detail.product.id
+            if tatal_product_id.has_key(product_id):
+                current_num = tatal_product_id[product_id] + 1
+                tatal_product_id[product_id] = current_num
+            else:
+                tatal_product_id[product_id] = 1
 
         if total_num_all != total_num:
             QMessageBox.information(self.parentWidget(), "Information", u'总金额[{0}]与明细汇总金额[{1}]不一致！'.format(total_num, total_num_all))
             self.close()
             return False
-        else:
-            return True
+
+        for key in tatal_product_id:
+            if tatal_product_id[key] > 1:
+                QMessageBox.information(self.parentWidget(), "Information", u'明细中存在两条相同的产品！')
+                return False
+
+        return True
 
     def action_add_invoice_detail(self):
         """
