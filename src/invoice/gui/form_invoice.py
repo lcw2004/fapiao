@@ -21,6 +21,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.parent = parent
         self.id = id
+        self.del_id_list = []
         self.init_ui()
 
         # 初始化数据
@@ -269,7 +270,9 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         table = self.invoice_detail_tableWidget
         selected_rows = table_util.get_selected_row_number_list(table)
         for row_count in selected_rows:
+            detail_id = table_util.get_item_value(table, row_count, 0)
             table.removeRow(row_count)
+            self.del_id_list.append(detail_id)
             self.caclulate_all_product_price()
 
     def caclulate_product_price(self, row_num):
@@ -343,6 +346,9 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             invoice.custom = custom_of_this
             invoice = save_or_update_invoice(invoice)
             self.id = invoice.id
+
+            q = InvoiceDetail.delete().where(InvoiceDetail.id << self.del_id_list)
+            q.execute()
 
             # 保存发票明细
             table = self.invoice_detail_tableWidget
