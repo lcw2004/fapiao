@@ -229,3 +229,7 @@ def get_item_value_int(table, row_num, col_num):
         return 0
     else:
         return int(value)
+
+def clear_table(table):
+    while table.rowCount() > 0:
+        table.removeRow(0)

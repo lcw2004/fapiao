@@ -479,6 +479,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # TODO 导入成功之后清空数据
 
     def invoice_filter_btn_clicked(self):
+        table_util.clear_table(self.invoice_table)
+        table_util.clear_table(self.invoice_detail_table)
+
         invoice_list = list(Invoice.select().where(Invoice.status == 0))
         invoice_table = self.invoice_table
 
@@ -517,6 +520,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 pass
 
     def ok_invoice_filter_btn_clicked(self):
+        table_util.clear_table(self.ok_invoice_table)
+        table_util.clear_table(self.ok_invoice_detail_table)
+
         # 获取查询条件
         start_num = self.ok_invoice_start_num_edit.text()
         end_num = self.ok_invoice_end_num_edit.text()
@@ -708,11 +714,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def invoice_table_item_clicked(self, item):
         invoice_detail_table = self.invoice_detail_table
         invoice_table = self.invoice_table
+        table_util.clear_table(invoice_detail_table)
         self.show_invoice_detail_in_table(item, invoice_table, invoice_detail_table)
 
     def ok_invoice_table_item_clicked(self, item):
         invoice_detail_table = self.ok_invoice_detail_table
         invoice_table = self.ok_invoice_table
+        table_util.clear_table(invoice_detail_table)
         self.show_invoice_detail_in_table(item, invoice_table, invoice_detail_table)
 
     def show_invoice_detail_in_table(self, item, invoice_table, invoice_detail_table):
@@ -724,10 +732,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # 获取选中行的ID
         invoice_id = invoice_table.item(item.row(), 0).text()
-
-        # 清空表格
-        while invoice_detail_table.rowCount() > 0:
-            invoice_detail_table.removeRow(0)
 
         # 根据ID查询明细
         invoice_detail_list = list(Invoice.get(id=invoice_id).invoiceDetails)
@@ -750,8 +754,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(invoice_detail_table, i, 9, invoice_detail.product.tax_price)
             table_util.set_table_item_value(invoice_detail_table, i, 10, invoice_detail.product.tax)
             table_util.set_table_item_value(invoice_detail_table, i, 11, "")
-
-
 
     def custom_query_btn_clicked(self):
         custom_table = self.custom_table
