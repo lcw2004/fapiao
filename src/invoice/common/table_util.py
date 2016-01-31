@@ -96,7 +96,7 @@ def set_table_item_value(table_widget, row_num, col_num, input_str):
     else:
         item_text = str(input_str)
 
-    if input_str:
+    if input_str is not None:
         item = QTableWidgetItem(item_text)
         table_widget.setItem(row_num, col_num, item)
 
@@ -133,7 +133,7 @@ def set_table_item_value_editable(table_widget, row_num, col_num, input_str, edi
     logger = logging.getLogger(__name__)
     logger.info(str(input_str) + "[" + str(type(input_str)) + "] --> " + item_text)
 
-    if input_str:
+    if input_str is not None:
         item = QTableWidgetItem(item_text)
         table_widget.setItem(row_num, col_num, item)
 

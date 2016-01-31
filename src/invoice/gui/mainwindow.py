@@ -725,15 +725,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 获取选中行的ID
         invoice_id = invoice_table.item(item.row(), 0).text()
 
+        # 清空表格
+        while invoice_detail_table.rowCount() > 0:
+            invoice_detail_table.removeRow(0)
+
         # 根据ID查询明细
         invoice_detail_list = list(Invoice.get(id=invoice_id).invoiceDetails)
-
         row_count = len(invoice_detail_list)
         invoice_detail_table.setRowCount(row_count)
-
-        table_row_count = invoice_detail_table.rowCount()
-        for i in range(table_row_count):
-            invoice_detail_table.removeRow(table_row_count)
 
         # 将数据加载到表格中
         for i in range(row_count):
