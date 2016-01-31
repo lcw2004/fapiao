@@ -23,6 +23,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         self.id = id
         self.del_id_list = []
         self.init_ui()
+        self.is_saved = False
 
         # 初始化数据
         if id:
@@ -38,9 +39,9 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         self.del_invoice_detail_btn.clicked.connect(self.action_del_invoice_detail)
 
         # 添加打印并保存按钮
-        print_and_save_btn = QtGui.QPushButton(u"打印并保存")
-        self.buttonBox.addButton(print_and_save_btn, QtGui.QDialogButtonBox.ActionRole)
-        print_and_save_btn.clicked.connect(self.action_print_and_save)
+        self.print_and_save_btn = QtGui.QPushButton(u"打印并保存")
+        self.buttonBox.addButton(self.print_and_save_btn, QtGui.QDialogButtonBox.ActionRole)
+        self.print_and_save_btn.clicked.connect(self.action_print_and_save)
 
     def init_ui(self):
         # 将发票号码，发票代码，金额大写改为不可编辑
@@ -211,15 +212,13 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         确定按钮事件
         :return:
         """
-        self.save_or_update()
-
-        self.parent.invoice_filter_btn_clicked()
-
-        if self.check_invoice():
+        if not self.is_saved:
+            self.is_saved = True
+            self.print_and_save_btn.setDisabled(True)
+            self.save_or_update()
             self.print_by_id()
-        else:
+            self.parent.invoice_filter_btn_clicked()
             self.close()
-
 
     def check_invoice(self):
         data_id = self.id
