@@ -212,9 +212,14 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         :return:
         """
         self.save_or_update()
+
+        self.parent.invoice_filter_btn_clicked()
+
         if self.check_invoice():
             self.print_by_id()
-        self.parent.invoice_filter_btn_clicked()
+        else:
+            self.close()
+
 
     def check_invoice(self):
         data_id = self.id
@@ -242,7 +247,6 @@ class InvoiceDialog(QDialog, Ui_Dialog):
 
         if total_num_all != total_num:
             QMessageBox.information(self.parentWidget(), "Information", u'总金额[{0}]与明细汇总金额[{1}]不一致！'.format(total_num, total_num_all))
-            self.close()
             return False
 
         for key in tatal_product_id:
@@ -272,7 +276,8 @@ class InvoiceDialog(QDialog, Ui_Dialog):
         for row_count in selected_rows:
             detail_id = table_util.get_item_value(table, row_count, 0)
             table.removeRow(row_count)
-            self.del_id_list.append(detail_id)
+            if detail_id is not None:
+                self.del_id_list.append(detail_id)
             self.caclulate_all_product_price()
 
     def caclulate_product_price(self, row_num):
@@ -347,8 +352,9 @@ class InvoiceDialog(QDialog, Ui_Dialog):
             invoice = save_or_update_invoice(invoice)
             self.id = invoice.id
 
-            q = InvoiceDetail.delete().where(InvoiceDetail.id << self.del_id_list)
-            q.execute()
+            if len(self.del_id_list) > 0:
+                q = InvoiceDetail.delete().where(InvoiceDetail.id << self.del_id_list)
+                q.execute()
 
             # 保存发票明细
             table = self.invoice_detail_tableWidget
