@@ -148,7 +148,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
                 table_util.set_table_item_value(invoice_detail_table, i, 1, invoice_detail.product.name)
                 table_util.set_table_item_value(invoice_detail_table, i, 2, invoice_detail.product.code)
                 table_util.set_table_item_value(invoice_detail_table, i, 3, invoice_detail.pro_num)
-                table_util.set_table_item_value(invoice_detail_table, i, 4, invoice_detail.product.unit_price)
+                table_util.set_table_item_value(invoice_detail_table, i, 4, invoice_detail.not_tax_price)
                 table_util.set_table_item_value(invoice_detail_table, i, 5, invoice_detail.contain_tax_price)
         except Invoice.DoesNotExist:
             logger.exception(u"程序出现异常")
@@ -373,6 +373,7 @@ class InvoiceDialog(QDialog, Ui_Dialog):
                     invoice_detail = InvoiceDetail()
                     invoice_detail.id = detail_id
                     invoice_detail.pro_num = pro_num
+                    invoice_detail.not_tax_price = product_unit_price
                     invoice_detail.contain_tax_price = contain_tax_price
                     invoice_detail.product = product_of_this
                     invoice_detail.invoice = invoice

@@ -38,7 +38,7 @@ def add_text_in_image_by_invoice(out_img_path, invoice, invoice_detail_list, in_
         image_util.add_text_in_image(draw, "code", invoice_detail.product.code, up_offset)
         image_util.add_text_in_image(draw, "name", invoice_detail.product.name, up_offset)
         image_util.add_text_in_image(draw, "pro_num", invoice_detail.pro_num, up_offset)
-        image_util.add_text_in_image(draw, "unit_price", invoice_detail.product.unit_price, up_offset)
+        image_util.add_text_in_image(draw, "unit_price", invoice_detail.not_tax_price, up_offset)
         image_util.add_text_in_image(draw, "contain_tax_price", invoice_detail.contain_tax_price, up_offset)
         up_offset += 60
 

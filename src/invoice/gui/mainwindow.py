@@ -742,7 +742,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(invoice_detail_table, i, 0, invoice_detail.id)
             table_util.set_table_item_value(invoice_detail_table, i, 1, invoice_detail.product.code)
             table_util.set_table_item_value(invoice_detail_table, i, 2, invoice_detail.product.name)
-            table_util.set_table_item_value(invoice_detail_table, i, 3, invoice_detail.product.unit_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 3, invoice_detail.not_tax_price)
             table_util.set_table_item_value(invoice_detail_table, i, 4, invoice_detail.pro_num)
             table_util.set_table_item_value(invoice_detail_table, i, 5, invoice_detail.contain_tax_price)
             table_util.set_table_item_value(invoice_detail_table, i, 6, invoice_detail.tax_price)
@@ -750,7 +750,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_util.set_table_item_value(invoice_detail_table, i, 8, invoice_detail.product.unit)
             table_util.set_table_item_value(invoice_detail_table, i, 9, invoice_detail.product.tax_price)
             table_util.set_table_item_value(invoice_detail_table, i, 10, invoice_detail.product.tax)
-            table_util.set_table_item_value(invoice_detail_table, i, 11, invoice_detail.not_tax_price)
+            table_util.set_table_item_value(invoice_detail_table, i, 11, "")
 
 
 

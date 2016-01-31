@@ -145,6 +145,7 @@ class InvoiceDetail(BaseModel):
     # 产品数量
     pro_num = IntegerField(default=0)
     # 不含税金额（Excel中的金额）
+    # TODO 暂时用作当前产品单价
     not_tax_price = FloatField(default=0)
     # 税额（不含税金额 * 税率）
     tax_price = FloatField(default=0)
